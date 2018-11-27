@@ -1,43 +1,321 @@
 package presentacion;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-public class UI_Login {
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JSeparator;
+import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.JFormattedTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextArea;
+import java.awt.TextArea;
+import javax.swing.JPasswordField;
 
-    private JFrame frame;
+public class UI_Login extends JFrame {
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-	    public void run() {
-		try {
-		    UI_Login window = new UI_Login();
-		    window.frame.setVisible(true);
-		} catch (Exception e) {
-		    e.printStackTrace();
+    private JPanel contentPane;
+    private JPanel panIcon;
+    private JPanel panAut;
+    private JPanel panAccesi;
+    private JLabel lblLogo;
+    private JLabel lblRestauranteLaJosefina;
+    private JSeparator separator;
+    private JLabel lblUsuario;
+    private JLabel lblContrasea;
+    private JButton btnEntrar;
+    private JTextField txtUsuario;
+
+    /* - - - - - Constantes - - - - - - */
+    private String fuente = "SansSerif";
+    private JPasswordField txtContra;
+    private JLabel lblRecuperar;
+    private JLabel lblIntern;
+    private String[] Users = { "Edu", "Lu", "Ponce" };
+    private String[] Pass = { "1234", "2345", "3456" };
+    private JLabel lblAvisouser;
+    private JLabel lblAvisoPass;
+
+    public UI_Login() {
+	setTitle("Restaurante La Josefina - Acceso a Personal");
+	setMaximumSize(new Dimension(1050, 750));
+	setMinimumSize(new Dimension(880, 630));
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setBounds(100, 100, 990, 689);
+	contentPane = new JPanel();
+	contentPane.setBackground(new Color(0, 155, 158));
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	setContentPane(contentPane);
+	GridBagLayout gbl_contentPane = new GridBagLayout();
+	gbl_contentPane.columnWidths = new int[] { 43, 523, 0, 481, 37, 0 };
+	gbl_contentPane.rowHeights = new int[] { 598, 69, 0 };
+	gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+	gbl_contentPane.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+	contentPane.setLayout(gbl_contentPane);
+	{
+	    panIcon = new JPanel();
+	    panIcon.setOpaque(false);
+	    GridBagConstraints gbc_panIcon = new GridBagConstraints();
+	    gbc_panIcon.insets = new Insets(0, 0, 5, 5);
+	    gbc_panIcon.fill = GridBagConstraints.BOTH;
+	    gbc_panIcon.gridx = 1;
+	    gbc_panIcon.gridy = 0;
+	    contentPane.add(panIcon, gbc_panIcon);
+	    GridBagLayout gbl_panIcon = new GridBagLayout();
+	    gbl_panIcon.columnWidths = new int[] { 0, 0 };
+	    gbl_panIcon.rowHeights = new int[] { 480, 88, 0 };
+	    gbl_panIcon.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+	    gbl_panIcon.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+	    panIcon.setLayout(gbl_panIcon);
+	    {
+		lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/logo.png")));
+		GridBagConstraints gbc_lblLogo = new GridBagConstraints();
+		gbc_lblLogo.anchor = GridBagConstraints.SOUTH;
+		gbc_lblLogo.insets = new Insets(0, 0, 5, 0);
+		gbc_lblLogo.gridx = 0;
+		gbc_lblLogo.gridy = 0;
+		panIcon.add(lblLogo, gbc_lblLogo);
+	    }
+	    {
+		lblRestauranteLaJosefina = new JLabel("Restaurante La Josefina");
+		lblRestauranteLaJosefina.setFont(new Font(fuente, Font.PLAIN, 25));
+		lblRestauranteLaJosefina.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblRestauranteLaJosefina = new GridBagConstraints();
+		gbc_lblRestauranteLaJosefina.anchor = GridBagConstraints.NORTH;
+		gbc_lblRestauranteLaJosefina.gridx = 0;
+		gbc_lblRestauranteLaJosefina.gridy = 1;
+		panIcon.add(lblRestauranteLaJosefina, gbc_lblRestauranteLaJosefina);
+	    }
+	}
+	{
+	    separator = new JSeparator();
+	    separator.setBackground(new Color(0, 0, 102));
+	    separator.setForeground(new Color(0, 102, 102));
+	    separator.setPreferredSize(new Dimension(2, 19498));
+	    separator.setMaximumSize(new Dimension(2, 19998));
+	    separator.setMinimumSize(new Dimension(2, 2));
+	    separator.setOrientation(SwingConstants.VERTICAL);
+	    GridBagConstraints gbc_separator = new GridBagConstraints();
+	    gbc_separator.fill = GridBagConstraints.VERTICAL;
+	    gbc_separator.insets = new Insets(0, 0, 5, 5);
+	    gbc_separator.gridx = 2;
+	    gbc_separator.gridy = 0;
+	    contentPane.add(separator, gbc_separator);
+	}
+	{
+	    panAut = new JPanel();
+	    panAut.setOpaque(false);
+	    GridBagConstraints gbc_panAut = new GridBagConstraints();
+	    gbc_panAut.insets = new Insets(0, 0, 5, 5);
+	    gbc_panAut.fill = GridBagConstraints.BOTH;
+	    gbc_panAut.gridx = 3;
+	    gbc_panAut.gridy = 0;
+	    contentPane.add(panAut, gbc_panAut);
+	    GridBagLayout gbl_panAut = new GridBagLayout();
+	    gbl_panAut.columnWidths = new int[] { 127, 289, 69, 0 };
+	    gbl_panAut.rowHeights = new int[] { 125, -60, 0, -232, -188, 120, 116, 0 };
+	    gbl_panAut.columnWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
+	    gbl_panAut.rowWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+	    panAut.setLayout(gbl_panAut);
+	    {
+		lblUsuario = new JLabel("Usuario");
+		lblUsuario.setFont(new Font("SansSerif", Font.BOLD, 19));
+		GridBagConstraints gbc_lblUsuario = new GridBagConstraints();
+		gbc_lblUsuario.anchor = GridBagConstraints.SOUTH;
+		gbc_lblUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUsuario.gridx = 0;
+		gbc_lblUsuario.gridy = 1;
+		panAut.add(lblUsuario, gbc_lblUsuario);
+	    }
+	    {
+		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new TxtUsuarioKeyListener());
+		txtUsuario.setFont(new Font("SansSerif", Font.PLAIN, 19));
+		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
+		gbc_txtUsuario.anchor = GridBagConstraints.SOUTH;
+		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUsuario.gridx = 1;
+		gbc_txtUsuario.gridy = 1;
+		panAut.add(txtUsuario, gbc_txtUsuario);
+		txtUsuario.setColumns(10);
+	    }
+	    {
+		lblAvisouser = new JLabel("");
+		lblAvisouser.setFont(new Font("SansSerif", Font.ITALIC, 12));
+		GridBagConstraints gbc_lblAvisouser = new GridBagConstraints();
+		gbc_lblAvisouser.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAvisouser.gridx = 1;
+		gbc_lblAvisouser.gridy = 2;
+		panAut.add(lblAvisouser, gbc_lblAvisouser);
+	    }
+	    {
+		lblContrasea = new JLabel("Contrase\u00F1a");
+		lblContrasea.setFont(new Font("SansSerif", Font.BOLD, 19));
+		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
+		gbc_lblContrasea.anchor = GridBagConstraints.SOUTH;
+		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
+		gbc_lblContrasea.gridx = 0;
+		gbc_lblContrasea.gridy = 3;
+		panAut.add(lblContrasea, gbc_lblContrasea);
+	    }
+	    {
+		txtContra = new JPasswordField();
+		txtContra.setVerifyInputWhenFocusTarget(false);
+		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 19));
+		txtContra.setMaximumSize(new Dimension(0, 0));
+
+		GridBagConstraints gbc_txtContra = new GridBagConstraints();
+		gbc_txtContra.anchor = GridBagConstraints.SOUTH;
+		gbc_txtContra.insets = new Insets(0, 0, 5, 5);
+		gbc_txtContra.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtContra.gridx = 1;
+		gbc_txtContra.gridy = 3;
+		panAut.add(txtContra, gbc_txtContra);
+	    }
+	    {
+		btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new BtnEntrarActionListener());
+		{
+		    lblAvisoPass = new JLabel("");
+		    lblAvisoPass.setFont(new Font("SansSerif", Font.ITALIC, 12));
+		    GridBagConstraints gbc_lblAvisoPass = new GridBagConstraints();
+		    gbc_lblAvisoPass.anchor = GridBagConstraints.NORTH;
+		    gbc_lblAvisoPass.insets = new Insets(0, 0, 5, 5);
+		    gbc_lblAvisoPass.gridx = 1;
+		    gbc_lblAvisoPass.gridy = 4;
+		    panAut.add(lblAvisoPass, gbc_lblAvisoPass);
+		}
+		btnEntrar.setFont(new Font("SansSerif", Font.BOLD, 33));
+		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
+		gbc_btnEntrar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnEntrar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEntrar.gridx = 1;
+		gbc_btnEntrar.gridy = 5;
+		panAut.add(btnEntrar, gbc_btnEntrar);
+	    }
+	}
+	{
+	    panAccesi = new JPanel();
+	    panAccesi.setOpaque(false);
+	    GridBagConstraints gbc_panAccesi = new GridBagConstraints();
+	    gbc_panAccesi.insets = new Insets(0, 0, 0, 5);
+	    gbc_panAccesi.gridwidth = 3;
+	    gbc_panAccesi.fill = GridBagConstraints.BOTH;
+	    gbc_panAccesi.gridx = 1;
+	    gbc_panAccesi.gridy = 1;
+	    contentPane.add(panAccesi, gbc_panAccesi);
+	    GridBagLayout gbl_panAccesi = new GridBagLayout();
+	    gbl_panAccesi.columnWidths = new int[] { 139, 527, 186, 0 };
+	    gbl_panAccesi.rowHeights = new int[] { 44, 0 };
+	    gbl_panAccesi.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
+	    gbl_panAccesi.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+	    panAccesi.setLayout(gbl_panAccesi);
+	    {
+		lblIntern = new JLabel("");
+		lblIntern.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/idioma.png")));
+		GridBagConstraints gbc_lblIntern = new GridBagConstraints();
+		gbc_lblIntern.anchor = GridBagConstraints.WEST;
+		gbc_lblIntern.insets = new Insets(0, 0, 0, 5);
+		gbc_lblIntern.gridx = 0;
+		gbc_lblIntern.gridy = 0;
+		panAccesi.add(lblIntern, gbc_lblIntern);
+	    }
+	    {
+		lblRecuperar = new JLabel("Recuperar Contrase\u00F1a");
+		lblRecuperar.setFont(new Font("SansSerif", Font.ITALIC, 16));
+		GridBagConstraints gbc_lblRecuperar = new GridBagConstraints();
+		gbc_lblRecuperar.anchor = GridBagConstraints.EAST;
+		gbc_lblRecuperar.gridx = 2;
+		gbc_lblRecuperar.gridy = 0;
+		panAccesi.add(lblRecuperar, gbc_lblRecuperar);
+	    }
+	}
+    }
+
+    private class BtnEntrarActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+
+	}
+    }
+
+    private class TxtUsuarioKeyListener extends KeyAdapter {
+	@Override
+	public void keyPressed(KeyEvent k) {
+	    if (k.getKeyCode() == 10) {// Si se pulsa intro
+		txtContra.requestFocus();
+	    }
+	}
+    }
+
+    private class TxtContraKeyListener extends KeyAdapter {
+	@Override
+	public void keyPressed(KeyEvent k) {
+	    if (k.getKeyCode() == 10) {// Si se pulsa intro
+		if (comprobLogin()) {
+		    System.out.println("Login correcta ");
+		} else {
+		    System.out.println("Login INcorrecta ");
+
 		}
 	    }
-	});
+	}
     }
 
-    /**
-     * Create the application.
-     */
-    public UI_Login() {
-	initialize();
-    }
+    private boolean comprobLogin() {
+	boolean valido = false;
+	boolean UserV = false;
+	String userLog = txtUsuario.getText();
+	String passLog = txtContra.getText();
+	System.out.println(passLog);
+	for (int i = 0; i < Users.length && !UserV; i++) {
+	    if (Users[i].equalsIgnoreCase(userLog)) {// Si el usuario esta en la base de datos
+		System.out.println("Usu correcta ");
+		UserV = true;
+		for (int j = 0; j < Pass.length && !valido; j++) {
+		    if (Pass[i].equals(passLog) && (i == j)) {// Si la contraseña se encuentra almacenada y esta en eel mismo indice que el User
+			lblAvisouser.setText("");
+			lblAvisoPass.setText("");
+			txtUsuario.setBorder(null);
+			txtUsuario.setBackground(null);
+			txtContra.setBorder(null);
+			txtContra.setBackground(null);
+			valido = true;
+		    } else {
+			lblAvisoPass.setText("Contraseña Incorrecta");
+			lblAvisouser.setText("");
+			txtUsuario.setBorder(null);
+			txtUsuario.setBackground(null);
+			txtContra.setBorder(new LineBorder(Color.RED));
+			txtContra.setBackground(new Color(253, 215, 214));
+		    }
+		}
+	    } else {
+		lblAvisouser.setText("Usuario incorrecto");
+		lblAvisoPass.setText("");
+		txtUsuario.setBorder(new LineBorder(Color.RED));
+		txtUsuario.setBackground(new Color(253, 215, 214));
+	    }
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
-	frame = new JFrame();
-	frame.setBounds(100, 100, 450, 300);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	return valido;
     }
-
 }
