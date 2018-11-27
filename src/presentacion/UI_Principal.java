@@ -21,14 +21,13 @@ import java.awt.Dimension;
 import javax.swing.JTextArea;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
-
-import presentacion.EjemploArbol.TreeTreeSelectionListener;
-
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class UI_Principal {
 
-    private JFrame frmRestauranteLaJosefina;
+    public JFrame frame;
     private JPanel panUser;
     private JPanel panNav;
     private JSplitPane splitPane;
@@ -48,7 +47,7 @@ public class UI_Principal {
 	    public void run() {
 		try {
 		    UI_Principal window = new UI_Principal();
-		    window.frmRestauranteLaJosefina.setVisible(true);
+		    window.frame.setVisible(true);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
@@ -67,34 +66,25 @@ public class UI_Principal {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-	frmRestauranteLaJosefina = new JFrame();
-	frmRestauranteLaJosefina.setTitle("Restaurante La Josefina - Menu de Empleado");
-	frmRestauranteLaJosefina.setBounds(100, 100, 974, 665);
-	frmRestauranteLaJosefina.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frmRestauranteLaJosefina.getContentPane().setLayout(new BorderLayout(0, 0));
+	frame = new JFrame();
+	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
+	frame.setBounds(100, 100, 974, 665);
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.getContentPane().setLayout(new BorderLayout(0, 0));
 	{
-	    panUser = new JPanel();
-	    panUser.setPreferredSize(new Dimension(10, 85));
-	    panUser.setMinimumSize(new Dimension(10, 150));
-	    panUser.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-	    frmRestauranteLaJosefina.getContentPane().add(panUser, BorderLayout.NORTH);
+	    panUser = new panelUser();
+	    panUser.setPreferredSize(new Dimension(90, 115));
+	    frame.getContentPane().add(panUser, BorderLayout.NORTH);
 	    GridBagLayout gbl_panUser = new GridBagLayout();
 	    gbl_panUser.columnWidths = new int[] { 0, 0 };
 	    gbl_panUser.rowHeights = new int[] { 0, 0 };
 	    gbl_panUser.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 	    gbl_panUser.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-	    panUser.setLayout(gbl_panUser);
-	    {
-		btnLl = new JButton("ll");
-		GridBagConstraints gbc_btnLl = new GridBagConstraints();
-		gbc_btnLl.gridx = 0;
-		gbc_btnLl.gridy = 0;
-		panUser.add(btnLl, gbc_btnLl);
-	    }
+	    
 	}
 	{
 	    panNav = new JPanel();
-	    frmRestauranteLaJosefina.getContentPane().add(panNav, BorderLayout.CENTER);
+	    frame.getContentPane().add(panNav, BorderLayout.CENTER);
 	    panNav.setLayout(new BorderLayout(0, 0));
 	    {
 		splitPane = new JSplitPane();
@@ -102,28 +92,35 @@ public class UI_Principal {
 		{
 		    pnlArb = new JPanel();
 		    pnlArb.setPreferredSize(new Dimension(150, 10));
-		    pnlArb.setMinimumSize(new Dimension(250, 10));
+		    pnlArb.setMinimumSize(new Dimension(270, 10));
 		    splitPane.setLeftComponent(pnlArb);
 		    pnlArb.setLayout(new BorderLayout(0, 0));
 		    {
 			tree = new JTree();
+			tree.setBackground(new Color(255,255,255));
+			tree.setRootVisible(false);
 			tree.setCellRenderer(new RenderMenu());
 			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("JTree") {
-			    {
-				DefaultMutableTreeNode node_1;
-				add(new DefaultMutableTreeNode("Gesti\u00F3n de Pedidos"));
-				add(new DefaultMutableTreeNode("Listado de Clientes"));
-				node_1 = new DefaultMutableTreeNode("Carta");
-				node_1.add(new DefaultMutableTreeNode("Men\u00FA"));
-				node_1.add(new DefaultMutableTreeNode("Platos Individuales"));
-				node_1.add(new DefaultMutableTreeNode("Bebidas"));
-				node_1.add(new DefaultMutableTreeNode("Postres"));
-				node_1.add(new DefaultMutableTreeNode("Ofertas"));
-				add(node_1);
-			    }
-			}));
+			tree.setModel(new DefaultTreeModel(
+				new DefaultMutableTreeNode("Inicio") {
+					{
+						DefaultMutableTreeNode node_1;
+						add(new DefaultMutableTreeNode("Gesti\u00F3n de Pedidos"));
+						add(new DefaultMutableTreeNode("Listado de Clientes"));
+						node_1 = new DefaultMutableTreeNode("Carta");
+							node_1.add(new DefaultMutableTreeNode("Men\u00FAs"));
+							node_1.add(new DefaultMutableTreeNode("Platos Individuales"));
+							node_1.add(new DefaultMutableTreeNode("Bebidas"));
+							node_1.add(new DefaultMutableTreeNode("Postres"));
+							node_1.add(new DefaultMutableTreeNode("Ofertas"));
+						add(node_1);
+					}
+				}
+			));
 			pnlArb.add(tree);
+			for (int i = 0; i < tree.getRowCount(); i++) {
+			    tree.expandRow(i);
+			}
 		    }
 		}
 		{

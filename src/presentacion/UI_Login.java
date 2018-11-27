@@ -60,7 +60,7 @@ public class UI_Login extends JFrame {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 990, 689);
 	contentPane = new JPanel();
-	contentPane.setBackground(new Color(0, 155, 158));
+	contentPane.setBackground(new Color(0, 180, 188));
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	setContentPane(contentPane);
 	GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -253,6 +253,11 @@ public class UI_Login extends JFrame {
 
     private class BtnEntrarActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+	    UI_Principal prin = new UI_Principal();
+	    dispose();
+	    prin.frame.setVisible(true);
+	    prin.frame.setLocationRelativeTo(null);
+	    prin.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 	}
     }
