@@ -55,4 +55,9 @@ public class Agente {
 
     }
 
+    public void EliminarTarea(Usuario usuario) {
+
+	
+    }
+
 }

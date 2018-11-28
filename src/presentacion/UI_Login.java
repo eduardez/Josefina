@@ -295,19 +295,18 @@ public class UI_Login extends JFrame {
     }
 
     private class TxtContraKeyListener extends KeyAdapter {
-	/*
-	 * @Override //Esto es para cuando esta en el area de la contra y pulsa enter
-	 * public void keyPressed(KeyEvent k) {
-	 * if (k.getKeyCode() == 10) {// Si se pulsa intro
-	 * if (comprobLogin()) {
-	 * initPrincipal();
-	 * } else {
-	 * System.out.println("Login INcorrecta ");
-	 * 
-	 * }
-	 * }
-	 * }
-	 */
+
+	@Override // Esto es para cuando esta en el area de la contra y pulsa enter
+	public void keyPressed(KeyEvent k) {
+	    if (k.getKeyCode() == 10) {// Si se pulsa intro se simula un click en el boton de entrar
+		if (comprobLogin()) {
+		    btnEntrar.doClick();
+		} else {
+		    System.out.println("Login INcorrecta ");
+
+		}
+	    }
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
