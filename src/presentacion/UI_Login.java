@@ -164,8 +164,10 @@ public class UI_Login extends JFrame {
 	    }
 	    {
 		txtUsuario = new JTextField();
+		txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		txtUsuario.addKeyListener(new TxtUsuarioKeyListener());
 		txtUsuario.setFont(new Font("SansSerif", Font.PLAIN, 19));
+		txtUsuario.setMinimumSize(new Dimension(6, 38));
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.anchor = GridBagConstraints.SOUTH;
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -188,7 +190,6 @@ public class UI_Login extends JFrame {
 		lblContrasea = new JLabel("Contrase\u00F1a");
 		lblContrasea.setFont(new Font("SansSerif", Font.BOLD, 19));
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
-		gbc_lblContrasea.anchor = GridBagConstraints.SOUTH;
 		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
 		gbc_lblContrasea.gridx = 0;
 		gbc_lblContrasea.gridy = 3;
@@ -196,13 +197,13 @@ public class UI_Login extends JFrame {
 	    }
 	    {
 		txtContra = new JPasswordField();
+		txtContra.setHorizontalAlignment(SwingConstants.CENTER);
+		txtContra.setMinimumSize(new Dimension(6, 38));
 		txtContra.addKeyListener(new TxtContraKeyListener());
 		txtContra.setVerifyInputWhenFocusTarget(false);
-		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 19));
-		txtContra.setMaximumSize(new Dimension(0, 0));
+		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 23));
 
 		GridBagConstraints gbc_txtContra = new GridBagConstraints();
-		gbc_txtContra.anchor = GridBagConstraints.SOUTH;
 		gbc_txtContra.insets = new Insets(0, 0, 5, 5);
 		gbc_txtContra.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtContra.gridx = 1;
@@ -224,6 +225,7 @@ public class UI_Login extends JFrame {
 		}
 		btnEntrar.setFont(new Font("SansSerif", Font.BOLD, 33));
 		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
+		gbc_btnEntrar.anchor = GridBagConstraints.NORTH;
 		gbc_btnEntrar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnEntrar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEntrar.gridx = 1;

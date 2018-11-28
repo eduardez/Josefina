@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import javax.swing.JOptionPane;
+
 import dominio.Usuario;
 import recursos.*;
 
@@ -24,7 +26,7 @@ public class Agente {
 	try {
 	    System.out.println("Leyendo Usuarios...");
 
-	    File f = new File("src/recursos/usuarios.txt");
+	    File f = new File("usuarios.txt");
 	    Scanner datos = new Scanner(f);
 	    datos.useDelimiter(",");
 	    ArrayList<Usuario> arrUsers = new ArrayList<Usuario>();
@@ -46,6 +48,7 @@ public class Agente {
 	    this.users = arrUsers.toArray(new Usuario[arrUsers.size()]);
 
 	} catch (Exception e) {
+	    JOptionPane.showMessageDialog(null, "Base de datos no encontrada o dañada.");
 	    System.out.println("Error en la lectura.");
 	    e.printStackTrace();
 	}
