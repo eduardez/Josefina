@@ -8,12 +8,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import dominio.Usuario;
+import persistencia.*;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.Dimension;
@@ -43,20 +49,31 @@ public class UI_Login extends JFrame {
     private JButton btnEntrar;
     private JTextField txtUsuario;
 
-    /* - - - - - Constantes - - - - - - */
+    /* - - - - - Variables del Programa - - - - - - */
     private String fuente = "SansSerif";
     private JPasswordField txtContra;
     private JLabel lblRecuperar;
     private JLabel lblIntern;
-    private String[] Users = { "Edu", "Lu", "Ponce" };
-    private String[] Pass = { "1234", "2345", "3456" };
+    private Agente ag = new Agente();
+    private Usuario[] users = ag.getUsers();
+    private int userIndex;
     private JLabel lblAvisouser;
     private JLabel lblAvisoPass;
 
     public UI_Login() {
+	for (int i = 0; i < users.length; i++) {
+	    System.out.println(users[i].toString());
+	}
 	setTitle("Restaurante La Josefina - Acceso a Personal");
 	setMaximumSize(new Dimension(1050, 750));
 	setMinimumSize(new Dimension(880, 630));
+	// ---------- CAMBIAR LOOK AND FEEL ----------
+	try {
+	    // Set cross-platform Java L&F (also called "Metal")
+	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
+	} catch (Exception e) {
+	    System.out.println("ERROR en L&F");
+	}
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 990, 689);
 	contentPane = new JPanel();
@@ -179,6 +196,7 @@ public class UI_Login extends JFrame {
 	    }
 	    {
 		txtContra = new JPasswordField();
+		txtContra.addKeyListener(new TxtContraKeyListener());
 		txtContra.setVerifyInputWhenFocusTarget(false);
 		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 19));
 		txtContra.setMaximumSize(new Dimension(0, 0));
@@ -253,12 +271,9 @@ public class UI_Login extends JFrame {
 
     private class BtnEntrarActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    UI_Principal prin = new UI_Principal();
-	    dispose();
-	    prin.frame.setVisible(true);
-	    prin.frame.setLocationRelativeTo(null);
-	    prin.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+	    if (comprobLogin()) {
+		initPrincipal();
+	    }
 	}
     }
 
@@ -269,46 +284,70 @@ public class UI_Login extends JFrame {
 		txtContra.requestFocus();
 	    }
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	    txtUsuario.setBorder(null);
+	    txtUsuario.setBackground(Color.white);
+	}
     }
 
     private class TxtContraKeyListener extends KeyAdapter {
-	@Override
-	public void keyPressed(KeyEvent k) {
-	    if (k.getKeyCode() == 10) {// Si se pulsa intro
-		if (comprobLogin()) {
-		    System.out.println("Login correcta ");
-		} else {
-		    System.out.println("Login INcorrecta ");
+	/*
+	 * @Override //Esto es para cuando esta en el area de la contra y pulsa enter
+	 * public void keyPressed(KeyEvent k) {
+	 * if (k.getKeyCode() == 10) {// Si se pulsa intro
+	 * if (comprobLogin()) {
+	 * initPrincipal();
+	 * } else {
+	 * System.out.println("Login INcorrecta ");
+	 * 
+	 * }
+	 * }
+	 * }
+	 */
 
-		}
-	    }
+	@Override
+	public void keyTyped(KeyEvent e) {
+	    txtContra.setBorder(null);
+	    txtContra.setBackground(Color.white);
 	}
+    }
+
+    private void initPrincipal() {
+	dispose();
+
+	UI_Principal prin = new UI_Principal(users[userIndex]);
+	prin.frame.setVisible(true);
+	prin.frame.setLocationRelativeTo(null);
+	prin.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     private boolean comprobLogin() {
 	boolean valido = false;
 	boolean UserV = false;
 	String userLog = txtUsuario.getText();
-	String passLog = txtContra.getText();
+	String passLog = String.valueOf(txtContra.getPassword());
 	System.out.println(passLog);
-	for (int i = 0; i < Users.length && !UserV; i++) {
-	    if (Users[i].equalsIgnoreCase(userLog)) {// Si el usuario esta en la base de datos
+	for (int i = 0; i < users.length && !UserV; i++) {
+	    if (users[i].getUser().equalsIgnoreCase(userLog)) {// Si el usuario esta en la base de datos
 		System.out.println("Usu correcta ");
 		UserV = true;
-		for (int j = 0; j < Pass.length && !valido; j++) {
-		    if (Pass[i].equals(passLog) && (i == j)) {// Si la contraseña se encuentra almacenada y esta en eel mismo indice que el User
+		for (int j = 0; j < users.length && !valido; j++) {
+		    if (users[i].getPass().equals(passLog) && (i == j)) {// Si la contraseña se encuentra almacenada y esta en eel mismo indice que el User
 			lblAvisouser.setText("");
 			lblAvisoPass.setText("");
 			txtUsuario.setBorder(null);
-			txtUsuario.setBackground(null);
+			txtUsuario.setBackground(Color.white);
 			txtContra.setBorder(null);
-			txtContra.setBackground(null);
+			txtContra.setBackground(Color.white);
+			userIndex = i;// Esto es para pasar luego a la siguiente ventana el usuario que se ha autenticado
 			valido = true;
 		    } else {
 			lblAvisoPass.setText("Contraseña Incorrecta");
 			lblAvisouser.setText("");
 			txtUsuario.setBorder(null);
-			txtUsuario.setBackground(null);
+			txtUsuario.setBackground(Color.white);
 			txtContra.setBorder(new LineBorder(Color.RED));
 			txtContra.setBackground(new Color(253, 215, 214));
 		    }
@@ -316,6 +355,8 @@ public class UI_Login extends JFrame {
 	    } else {
 		lblAvisouser.setText("Usuario incorrecto");
 		lblAvisoPass.setText("");
+		txtContra.setBorder(null);
+		txtContra.setBackground(Color.white);
 		txtUsuario.setBorder(new LineBorder(Color.RED));
 		txtUsuario.setBackground(new Color(253, 215, 214));
 	    }

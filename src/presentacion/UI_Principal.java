@@ -1,29 +1,24 @@
 package presentacion;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.border.BevelBorder;
 import java.awt.Insets;
 import java.awt.Dimension;
 import javax.swing.JTextArea;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
+
+import dominio.Usuario;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
 
 public class UI_Principal {
 
@@ -38,27 +33,10 @@ public class UI_Principal {
     private JPanel pnlInfo;
     private JPanel pnlProductos;
     private JTextArea txtrInfo;
+    private Usuario user;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-	    public void run() {
-		try {
-		    UI_Principal window = new UI_Principal();
-		    window.frame.setVisible(true);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	});
-    }
-
-    /**
-     * Create the application.
-     */
-    public UI_Principal() {
+    public UI_Principal(Usuario us) {
+	user = us;
 	initialize();
     }
 
@@ -72,7 +50,7 @@ public class UI_Principal {
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(new BorderLayout(0, 0));
 	{
-	    panUser = new panelUser();
+	    panUser = new panelUser(user);
 	    panUser.setPreferredSize(new Dimension(90, 115));
 	    frame.getContentPane().add(panUser, BorderLayout.NORTH);
 	    GridBagLayout gbl_panUser = new GridBagLayout();
@@ -80,7 +58,7 @@ public class UI_Principal {
 	    gbl_panUser.rowHeights = new int[] { 0, 0 };
 	    gbl_panUser.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 	    gbl_panUser.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-	    
+
 	}
 	{
 	    panNav = new JPanel();
@@ -97,30 +75,29 @@ public class UI_Principal {
 		    pnlArb.setLayout(new BorderLayout(0, 0));
 		    {
 			tree = new JTree();
-			tree.setBackground(new Color(255,255,255));
+			tree.setBackground(new Color(255, 255, 255));
 			tree.setRootVisible(false);
 			tree.setCellRenderer(new RenderMenu());
 			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-			tree.setModel(new DefaultTreeModel(
-				new DefaultMutableTreeNode("Inicio") {
-					{
-						DefaultMutableTreeNode node_1;
-						add(new DefaultMutableTreeNode("Gesti\u00F3n de Pedidos"));
-						add(new DefaultMutableTreeNode("Listado de Clientes"));
-						node_1 = new DefaultMutableTreeNode("Carta");
-							node_1.add(new DefaultMutableTreeNode("Men\u00FAs"));
-							node_1.add(new DefaultMutableTreeNode("Platos Individuales"));
-							node_1.add(new DefaultMutableTreeNode("Bebidas"));
-							node_1.add(new DefaultMutableTreeNode("Postres"));
-							node_1.add(new DefaultMutableTreeNode("Ofertas"));
-						add(node_1);
-					}
-				}
-			));
+			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Inicio") {
+			    {
+				DefaultMutableTreeNode node_1;
+				add(new DefaultMutableTreeNode("Gesti\u00F3n de Pedidos"));
+				add(new DefaultMutableTreeNode("Listado de Clientes"));
+				node_1 = new DefaultMutableTreeNode("Carta");
+				node_1.add(new DefaultMutableTreeNode("Men\u00FAs"));
+				node_1.add(new DefaultMutableTreeNode("Platos Individuales"));
+				node_1.add(new DefaultMutableTreeNode("Bebidas"));
+				node_1.add(new DefaultMutableTreeNode("Postres"));
+				node_1.add(new DefaultMutableTreeNode("Ofertas"));
+				add(node_1);
+			    }
+			}));
 			pnlArb.add(tree);
-			for (int i = 0; i < tree.getRowCount(); i++) {
+			for (int i = 0; i < tree.getRowCount(); i++) {//Expandir todos los nodos
 			    tree.expandRow(i);
 			}
+			tree.putClientProperty("JTree.lineStyle", "Horizontal");
 		    }
 		}
 		{
