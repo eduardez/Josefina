@@ -5,11 +5,15 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
 import java.awt.Insets;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import dominio.Usuario;
+import dominio.util;
+import persistencia.Agente;
 
 import javax.swing.JSeparator;
 import java.awt.Dimension;
@@ -33,13 +37,17 @@ public class panelUser extends JPanel {
     private JLabel lblLogout;
     private JLabel lblGestUsuarios;
     private Usuario user1;
+    private util ut=new util();
+    private JFrame frame1;
 
     /**
      * Create the panel.
      * 
      * @param user
+     * @param frame 
      */
-    public panelUser(Usuario user) {
+    public panelUser(Usuario user, JFrame frame) {
+	frame1=frame;
 	user1=user;
 	setBackground(new Color(38, 38, 38));
 	GridBagLayout gridBagLayout = new GridBagLayout();
@@ -52,6 +60,7 @@ public class panelUser extends JPanel {
 	setLayout(gridBagLayout);
 	{
 	    lblCamarero = new JLabel("");
+	    lblCamarero.setToolTipText("Imagen de Perfil");
 	    lblCamarero.setIcon(new ImageIcon(panelUser.class.getResource("/recursos/panelUser/camarero.png")));
 	    GridBagConstraints gbc_lblCamarero = new GridBagConstraints();
 	    gbc_lblCamarero.insets = new Insets(0, 0, 0, 5);
@@ -166,6 +175,7 @@ public class panelUser extends JPanel {
 	}
 	{
 	    lblGestUsuarios = new JLabel("");
+	    lblGestUsuarios.setToolTipText("Gestion de Usuarios ");
 	    lblGestUsuarios.addMouseListener(new LblGestUsuariosMouseListener());
 	    lblGestUsuarios
 		    .setIcon(new ImageIcon(panelUser.class.getResource("/recursos/panelUser/manejoUsuarios.png")));
@@ -181,6 +191,7 @@ public class panelUser extends JPanel {
 	}
 	{
 	    lblConfig = new JLabel("");
+	    lblConfig.setToolTipText("Configuraci\u00F3n");
 	    lblConfig.setIcon(new ImageIcon(panelUser.class.getResource("/recursos/panelUser/icons8-ajustes-68.png")));
 	    GridBagConstraints gbc_lblConfig = new GridBagConstraints();
 	    gbc_lblConfig.gridheight = 2;
@@ -191,6 +202,8 @@ public class panelUser extends JPanel {
 	}
 	{
 	    lblLogout = new JLabel("");
+	    lblLogout.setToolTipText("Cerrar Sesi\u00F3n");
+	    lblLogout.addMouseListener(new LblLogoutMouseListener());
 	    lblLogout.setIcon(new ImageIcon(panelUser.class.getResource("/recursos/panelUser/icons8-apagar-85.png")));
 	    GridBagConstraints gbc_lblLogout = new GridBagConstraints();
 	    gbc_lblLogout.gridheight = 2;
@@ -211,7 +224,7 @@ public class panelUser extends JPanel {
 	    add(lblFechaDeUltimo, gbc_lblFechaDeUltimo);
 	}
 	{
-	    lblMarEnero = new JLabel("Martes " + user.getUltAcc() + " | 18:00:12");
+	    lblMarEnero = new JLabel(user.getUltAcc());
 	    lblMarEnero.setForeground(Color.WHITE);
 	    lblMarEnero.setHorizontalAlignment(SwingConstants.LEFT);
 	    lblMarEnero.setFont(new Font("SansSerif", Font.PLAIN, 17));
@@ -233,5 +246,20 @@ public class panelUser extends JPanel {
 		gest.setVisible(true);
 	    }
 	}
+    }
+    private class LblLogoutMouseListener extends MouseAdapter {
+    	@Override
+    	public void mouseClicked(MouseEvent arg0) {
+    	    Agente ag=new Agente();
+    	    Usuario [] uwu = ag.leerUsuarios();
+    	    for(int i = 0;i<uwu.length;i++) {
+    		if(uwu[i].getUser().equals(user1))uwu[i].setUltAcc(ut.genFecha());
+    	    }
+    	    ag.escribirUsuarios(uwu);
+    	    frame1.dispose();
+    	    UI_Login ui=new UI_Login();
+    	    ui.setVisible(true);
+    	    ui.setLocationRelativeTo(null);
+    	}
     }
 }

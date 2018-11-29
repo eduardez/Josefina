@@ -1,3 +1,4 @@
-admin,admin,Administrador,17 - 05 - 2018
-edu,1234,Eduardo Garcia Aparicio,12 - 12 - 12
-ana,12345,Anita Valero,23 - 4 - 19
+admin,admin,Administrador,Jue 29 - 11 - 2018 | 19:53:5
+edu,1234,Eduardo Garcia Aparicio,Jue 29 - 11 - 2018 | 19:53:5
+luces,9876,Lucia Afonso Garcia,Jue 29 - 11 - 2018 | 19:53:5
+pru,1234,prueba,Jue 29 - 11 - 2018 | 19:53:5

@@ -1,6 +1,7 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -20,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import dominio.Usuario;
+import dominio.util;
 import persistencia.Agente;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -32,35 +34,26 @@ public class gestUsuarios extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JButton okButton;
     private JLabel lblUsersSelec;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-	try {
-	    gestUsuarios dialog = new gestUsuarios();
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	    dialog.setVisible(true);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
+    private Agente ag = new Agente();
+    private Usuario[] users = ag.leerUsuarios();
 
     /**
      * Create the dialog.
      */
 
     public gestUsuarios() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(gestUsuarios.class.getResource("/recursos/logo.png")));
 	setMaximumSize(new Dimension(682, 736));
 	setMinimumSize(new Dimension(470, 300));
-	Agente ag = new Agente();
-	Usuario[] users = ag.getUsers();
 	setTitle("Gestor Usuarios");
-	// setIconImage(Toolkit.getDefaultToolkit().getImage(gestUsuarios.class.getResource("/org/hsqldb/util/RedCircle.gif")));
+	setModal(true);
+	setAlwaysOnTop(true);
 	setBounds(100, 100, 638, 487);
+	setLocationRelativeTo(null);
 	DefaultListModel<String> model = new DefaultListModel<>();
 	getContentPane().setLayout(new BorderLayout());
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+	contentPanel.setBackground(new Color(0, 180, 188));
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	GridBagLayout gbl_contentPanel = new GridBagLayout();
 	gbl_contentPanel.columnWidths = new int[] { 182, 220, 0 };
@@ -70,6 +63,8 @@ public class gestUsuarios extends JDialog {
 	contentPanel.setLayout(gbl_contentPanel);
 
 	JList<String> listUsers = new JList<>(model);
+	listUsers.setBackground(new Color(200, 240, 248));
+	listUsers.setFont(new Font("SansSerif", Font.PLAIN, 19));
 	GridBagConstraints gbc_listUsers = new GridBagConstraints();
 	gbc_listUsers.fill = GridBagConstraints.BOTH;
 	gbc_listUsers.insets = new Insets(0, 0, 5, 0);
@@ -96,7 +91,7 @@ public class gestUsuarios extends JDialog {
 	gbc_lblUsersSelec.gridx = 1;
 	gbc_lblUsersSelec.gridy = 1;
 	contentPanel.add(lblUsersSelec, gbc_lblUsersSelec);
-	mostTareas(model, users, lblUsersSelec);
+	mostrarUser(model, users, lblUsersSelec);
 
 	listUsers.addListSelectionListener(new ListSelectionListener() {
 	    public void valueChanged(ListSelectionEvent arg0) {
@@ -113,23 +108,27 @@ public class gestUsuarios extends JDialog {
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
+	    buttonPane.setBackground(new Color(38, 38, 38));
 	    {
 		okButton = new JButton("Eliminar Usuario");
+		okButton.setVerifyInputWhenFocusTarget(false);
 		okButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 			int opt = JOptionPane.showConfirmDialog(null,
-				"¿Eliminar " + listUsers.getSelectedIndices().length + " tarea(s)?", "Atencion",
+				"¿Eliminar " + listUsers.getSelectedIndices().length + " usuario(s)?", "Atencion",
 				JOptionPane.YES_NO_OPTION);
 			if (opt == 0) {
-			    elimUser(listUsers, users);
+			    for(int j=0;j<listUsers.getSelectedIndices().length;j++)ag.EliminarUsuario(users[listUsers.getSelectedIndices()[j]]);
 			    dispose();
 			}
 		    }
 		});
 		
 		JButton btnAnadir = new JButton("A\u00F1adir Usuario");
+		btnAnadir.setActionCommand("add");
+		btnAnadir.addActionListener(new BtnAnadirActionListener());
 		buttonPane.add(btnAnadir);
-		okButton.setActionCommand("OK");
+		okButton.setActionCommand("delete");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 	    }
@@ -146,28 +145,23 @@ public class gestUsuarios extends JDialog {
 	}
     }
 
-    protected void elimUser(JList<String> listUsers, Usuario[] users) {
-	try {
-	    int[] elimPos = listUsers.getSelectedIndices();
-	    for (int i = 0; i < elimPos.length; i++) {
-		Agente ag = new Agente();
-		ag.EliminarTarea(users[i]);
-	    }
-	} catch (Exception e) {
 
-	}
-
-    }
-
-    private void mostTareas(DefaultListModel<String> model, Usuario[] users, JLabel lblTareas) {
-	if (users.length == 1) {
+    private void mostrarUser(DefaultListModel<String> model, Usuario[] users, JLabel lblTareas) {
+	if (users.length < 1) {
 	    lblTareas.setText("No existen usuarios.");
 	} else {
 	    for (int i = 0; i < users.length; i++) {
-		model.add(i, users[i].getNombre());
+		model.add(i, users[i].getNombre()+" | user: "+users[i].getUser()+", pass: "+users[i].getPass());
 	    }
 	    lblTareas.setText("0");
 	}
 
     }
+	private class BtnAnadirActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		    dispose();
+		    addUser au=new addUser();
+		    au.setVisible(true);
+		}
+	}
 }

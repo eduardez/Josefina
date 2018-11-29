@@ -55,7 +55,7 @@ public class UI_Login extends JFrame {
     private JLabel lblRecuperar;
     private JLabel lblIntern;
     private Agente ag = new Agente();
-    private Usuario[] users = ag.getUsers();
+    public Usuario[] users = ag.leerUsuarios();;
     private int userIndex;
     private JLabel lblAvisouser;
     private JLabel lblAvisoPass;

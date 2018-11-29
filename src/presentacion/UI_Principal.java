@@ -47,10 +47,12 @@ public class UI_Principal {
 	frame = new JFrame();
 	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
 	frame.setBounds(100, 100, 974, 665);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	frame.setUndecorated(true);
+	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	{
-	    panUser = new panelUser(user);
+	    panUser = new panelUser(user,frame);
+	    
 	    panUser.setPreferredSize(new Dimension(90, 115));
 	    frame.getContentPane().add(panUser, BorderLayout.NORTH);
 	    GridBagLayout gbl_panUser = new GridBagLayout();
