@@ -76,7 +76,7 @@ public class Agente {
 		out.write(usu[i].getUser()+",");
 		out.write(usu[i].getPass()+",");
 		out.write(usu[i].getNombre()+",");
-		out.write(ut.genFecha());
+		out.write(usu[i].getUltAcc());
 		out.newLine();
 	    }
 	    out.close();

@@ -1,4 +1,4 @@
-admin,admin,Administrador,Jue 29 - 11 - 2018 | 19:53:5
-edu,1234,Eduardo Garcia Aparicio,Jue 29 - 11 - 2018 | 19:53:5
-luces,9876,Lucia Afonso Garcia,Jue 29 - 11 - 2018 | 19:53:5
-pru,1234,prueba,Jue 29 - 11 - 2018 | 19:53:5
+admin,admin,Administrador,Jue 29 - 11 - 2018 | 23:16:23
+edu,1234,Eduardo Garcia Aparicio,Jue 29 - 11 - 2018 | 23:16:23
+luces,9876,Lucia Afonso Garcia,Jue 29 - 11 - 2018 | 23:16:23
+pru,1234,prueba,Jue 29 - 11 - 2018 | 23:16:23
