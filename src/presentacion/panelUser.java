@@ -253,7 +253,7 @@ public class panelUser extends JPanel {
     	    Agente ag=new Agente();
     	    Usuario [] uwu = ag.leerUsuarios();
     	    for(int i = 0;i<uwu.length;i++) {
-    		if(uwu[i].getUser().equals(user1))uwu[i].setUltAcc(ut.genFecha());
+    		if(uwu[i].getUser().equalsIgnoreCase(user1.getUser()))uwu[i].setUltAcc(ut.genFecha());
     	    }
     	    ag.escribirUsuarios(uwu);
     	    frame1.dispose();

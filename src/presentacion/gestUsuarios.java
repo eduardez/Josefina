@@ -96,6 +96,7 @@ public class gestUsuarios extends JDialog {
 	listUsers.addListSelectionListener(new ListSelectionListener() {
 	    public void valueChanged(ListSelectionEvent arg0) {
 		lblUsersSelec.setText(String.valueOf(listUsers.getSelectedIndices().length));
+		okButton.setEnabled(true);
 		if (listUsers.getSelectedIndices().length > 1) {
 		    okButton.setText("Eliminar Usuarios");
 		} else {
@@ -111,6 +112,7 @@ public class gestUsuarios extends JDialog {
 	    buttonPane.setBackground(new Color(38, 38, 38));
 	    {
 		okButton = new JButton("Eliminar Usuario");
+		okButton.setEnabled(false);
 		okButton.setVerifyInputWhenFocusTarget(false);
 		okButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {

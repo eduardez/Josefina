@@ -124,8 +124,9 @@ public class UI_Login extends JFrame {
 	}
 	{
 	    separator = new JSeparator();
-	    separator.setBackground(new Color(0, 0, 102));
-	    separator.setForeground(new Color(0, 102, 102));
+	    separator.setOpaque(true);
+	    separator.setBackground(new Color(38,38,38));
+	    separator.setForeground(new Color(38,38,38));
 	    separator.setPreferredSize(new Dimension(2, 19498));
 	    separator.setMaximumSize(new Dimension(2, 19998));
 	    separator.setMinimumSize(new Dimension(2, 2));
