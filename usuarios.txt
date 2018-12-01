@@ -1,5 +1,5 @@
-admin,admin,Administrador,Vie 30 - 11 - 2018 | 19:47:11
-edu,1234,Eduardo Garcia Aparicio,Sab 1 - 12 - 2018 | 2:55:6
-luces,9876,Lucia Afonso Garcia,Jue 29 - 11 - 2018 | 23:16:23
+admin,admin,Administrador,Sab 1 - 12 - 2018 | 2:59:46
+edu,1234,Eduardo Garcia Aparicio,Sab 1 - 12 - 2018 | 11:10:4
 pru,1234,prueba,Jue 29 - 11 - 2018 | 23:16:23
 anita,1111,Ana Valero MONERO,Era mi primerito dia :D
+user2,prueba,Usuario de prueba 2,Sab 1 - 12 - 2018 | 2:59:55
