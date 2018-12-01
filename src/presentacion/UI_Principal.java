@@ -20,6 +20,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 import dominio.Producto;
 import dominio.Usuario;
+import dominio.util;
+import persistencia.Agente;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Color;
@@ -28,6 +30,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class UI_Principal {
 
@@ -48,6 +52,7 @@ public class UI_Principal {
     private JTable tablaPedidos;
     private JScrollPane scPnlPlatos;
     private JPanel pnlCarta;
+    private util ut = new util();
 
     public UI_Principal(Usuario us) {
 	user = us;
@@ -59,6 +64,7 @@ public class UI_Principal {
      */
     private void initialize() {
 	frame = new JFrame();
+	frame.addWindowFocusListener(new FrameWindowFocusListener());
 	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
 	frame.setBounds(100, 100, 974, 665);
 	frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -181,55 +187,31 @@ public class UI_Principal {
 	}
     }
 
-    /*
-     * ----------------------------------------------------------------------------------------------------------
-     * ----------------------------------------------------------------------------------------------------------
-     * ------------------------------------ ME HE QUEDADO POR AQUI ----------------------------------------------
-     * ----------------------------------------------------------------------------------------------------------
-     * ----------------------------------------------------------------------------------------------------------
-     * PONER LO DE LOS NOMBRES Y TAL
-     */
     private void anadirPaneles() {
-	{
-	    pnlGest = new JPanel();
-	    pnlProductos.add(pnlGest, "Gestión de Pedidos");
-	}
-	{ // ------------- CARTA ------------------
-	    Producto[] prod = new Producto[3];
-	    String[] tipoProd = { "Menus", "Carnes", "Pescados", "Vinos", "Cervezas", "Helados" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Carta");
-	}
-	{ // ------------- MENUS ------------------
-	    Producto[] prod = new Producto[6];
-	    String[] tipoProd = { "Menus Normales", "Menús Especiales" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Menús");
-	}
-	{ // ------------- BEBIDAS ------------------
-	    Producto[] prod = new Producto[4];
-	    String[] tipoProd = { "Vinos", "Cervezas", "Tés" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Bebidas");
-	}
-	{ // ------------- PANELES INDIVIDUALES ------------------
-	    Producto[] prod = new Producto[6];
-	    String[] tipoProd = { "Carnes", "Pescados" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Platos Individuales");
-	}
-	{ // ------------- POSTRES ------------------
-	    Producto[] prod = new Producto[6];
-	    String[] tipoProd = { "Helados", "Furtas" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Postres");
-	}
-	{ // ------------- Ofertas ------------------
-	    Producto[] prod = new Producto[6];
-	    String[] tipoProd = { "Menús Especiales", "Ofertas del Dia" };
-	    panelProductos pprod = new panelProductos(tipoProd, prod);
-	    pnlProductos.add(pprod, "Ofertas");
-	}
+
+	pnlGest = new JPanel();
+	pnlProductos.add(pnlGest, "Gestión de Pedidos");
+	Agente ag = new Agente();
+	Producto[] prods = ag.leerProducto();
+	// ------------- CARTA ------------------
+	pnlProductos.add(new panelProductos(prods,1), "Carta");
+	// ------------- MENUS ------------------
+	pnlProductos.add(generarPanel("menu", prods), "Menús");
+	// ------------- BEBIDAS ------------------
+	pnlProductos.add(generarPanel("bebida", prods), "Bebidas");
+	// ------------- PLATOS INDIVIDUALES ------------------
+	pnlProductos.add(generarPanel("platInd", prods), "Platos Individuales");
+	// ------------- POSTRES ------------------
+	pnlProductos.add(generarPanel("postre", prods), "Postres");
+	// ------------- Ofertas ------------------
+	pnlProductos.add(generarPanel("oferta", prods), "Ofertas");
+
+    }
+
+    private JPanel generarPanel(String categoria, Producto[] prods) {
+	Producto[] newProds = ut.categorizarProds(categoria, prods);
+	panelProductos pprod = new panelProductos(newProds);
+	return pprod;
     }
 
     private class TreeTreeSelectionListener implements TreeSelectionListener {
@@ -249,5 +231,14 @@ public class UI_Principal {
 		System.out.println(nodo);
 	    }
 	}
+    }
+    
+    // PARA QUE CADA VEZ QUE SE AÑADA UN PRODUCTO Y LUEGO CANE EL FOCUS, DE REPINTE. PERO NO FUNCIONA
+    private class FrameWindowFocusListener implements WindowFocusListener {
+    	public void windowGainedFocus(WindowEvent arg0) {
+    	    frame.repaint();
+    	}
+    	public void windowLostFocus(WindowEvent arg0) {
+    	}
     }
 }

@@ -1,24 +1,44 @@
 package dominio;
 
 public class Producto {
+    private String categoria;
     private String tipo;
     private String nombre;
-    private String ingredientes;
+    private String descripcion;
     private String precio;
+    private String alergenos;
 
     /**
      * @param tipo
      * @param nombre
-     * @param ingredientes
+     * @param descripcion
      * @param precio
+     * @param alergenos
      */
-    
-    public Producto(String tipo, String nombre, String ingredientes, String precio) {
+    public Producto(String cat, String tipo, String nombre, String descripcion, String precio, String alergenos) {
 	super();
+	this.categoria = cat;
 	this.tipo = tipo;
 	this.nombre = nombre;
-	this.ingredientes = ingredientes;
+	this.descripcion = descripcion;
 	this.precio = precio;
+	this.alergenos = alergenos;
+    }
+
+    public String getCategoria() {
+	return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+	this.categoria = categoria;
+    }
+
+    public String getAlergenos() {
+	return alergenos;
+    }
+
+    public void setAlergenos(String alergenos) {
+	this.alergenos = alergenos;
     }
 
     public String getTipo() {
@@ -37,12 +57,12 @@ public class Producto {
 	this.nombre = nombre;
     }
 
-    public String getIngredientes() {
-	return ingredientes;
+    public String getDescripcion() {
+	return descripcion;
     }
 
-    public void setIngredientes(String ingredientes) {
-	this.ingredientes = ingredientes;
+    public void setDescripcion(String descripcion) {
+	this.descripcion = descripcion;
     }
 
     public String getPrecio() {
@@ -51,6 +71,12 @@ public class Producto {
 
     public void setPrecio(String precio) {
 	this.precio = precio;
+    }
+
+    @Override
+    public String toString() {
+	return "Producto [categoria=" + categoria + ", tipo=" + tipo + ", nombre=" + nombre + ", descripcion="
+		+ descripcion + ", precio=" + precio + ", alergenos=" + alergenos + "]";
     }
 
 }

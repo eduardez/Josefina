@@ -10,15 +10,84 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
+import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
 import recursos.*;
 
 public class Agente {
-    private util ut=new util();
+    private util ut = new util();
+
     public Agente() {
     }
 
+    public Producto[] leerProducto() {
+	Producto[] prod;
+	try {
+	    System.out.println("Leyendo productos...");
+
+	    File f = new File("productos.txt");
+	    Scanner datos = new Scanner(f);
+	    datos.useDelimiter(",");
+	    ArrayList<Producto> arrProd = new ArrayList<Producto>();
+	    String linea = "";
+
+	    while (datos.hasNext()) {
+		// Lectura por lineas
+		linea = datos.nextLine();
+		StringTokenizer token = new StringTokenizer(linea, "-");
+		
+		String cat=token.nextToken();
+		String tipo = token.nextToken();
+		String nombre = token.nextToken();
+		String descr = token.nextToken();
+		String prec = token.nextToken();
+		String alerg = token.nextToken();
+		arrProd.add(new Producto(cat,tipo, nombre, descr, prec, alerg));
+	    }
+	    datos.close();// Cerrar el fichero Auxiliar
+	    for(int lee=0;lee<arrProd.size();lee++)System.out.println(arrProd.get(lee).toString());
+
+	    prod = arrProd.toArray(new Producto[arrProd.size()]);
+
+	} catch (Exception e) {
+	    JOptionPane.showMessageDialog(null, "Base de datos no encontrada o dañada.");
+	    System.out.println("Error en la lectura.");
+	    e.printStackTrace();
+	    prod = null;
+	}
+
+	return prod;
+    }
+    public void escribirProds(Producto[] prod) {
+   	BufferedWriter out;
+   	try {
+   	    out = new BufferedWriter(new FileWriter("productos.txt"));
+
+   	    for (int i = 0; i < prod.length; i++) {
+   		out.write(prod[i].getCategoria() + "-");
+   		out.write(prod[i].getTipo() + "-");
+   		out.write(prod[i].getNombre() + "-");
+   		out.write(prod[i].getDescripcion() + "-");
+   		out.write(prod[i].getPrecio() + "-");
+   		out.write(prod[i].getAlergenos() + "-");
+   		out.newLine();
+   	    }
+   	    out.close();
+
+   	} catch (IOException e) {
+   	    e.printStackTrace();
+   	}
+       }
+    
+    /**
+     * 
+     * 
+     * --------------------------- USUARIOS -------------------------------------
+     * 
+     * 
+     * @return
+     */
     public Usuario[] leerUsuarios() {
 	Usuario[] users;
 	try {
@@ -71,16 +140,16 @@ public class Agente {
 	BufferedWriter out;
 	try {
 	    out = new BufferedWriter(new FileWriter("usuarios.txt"));
-	    
+
 	    for (int i = 0; i < usu.length; i++) {
-		out.write(usu[i].getUser()+",");
-		out.write(usu[i].getPass()+",");
-		out.write(usu[i].getNombre()+",");
+		out.write(usu[i].getUser() + ",");
+		out.write(usu[i].getPass() + ",");
+		out.write(usu[i].getNombre() + ",");
 		out.write(usu[i].getUltAcc());
 		out.newLine();
 	    }
 	    out.close();
-	    
+
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}

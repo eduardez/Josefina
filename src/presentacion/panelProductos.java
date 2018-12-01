@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import dominio.Producto;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.border.TitledBorder;
 
 public class panelProductos extends JPanel {
@@ -19,35 +21,63 @@ public class panelProductos extends JPanel {
 
     /**
      * Create the panel.
+     * 
+     * Este panel es un pifostio del carajo, casi se me rompe la cabeza haciendolo
+     * 
      */
-    public panelProductos(String[] tipoProd, Producto[] productos) {
+    public panelProductos(Producto[] productos) {
+	inicializar(productos, 0);
+    }
+
+    public panelProductos(Producto[] productos, int flagCarta) {
+	inicializar(productos, 1);
+    }
+
+    public void inicializar(Producto[] productos, int flagCarta) {
 	setLayout(new BorderLayout());
 	panelPaneles = new JPanel();
-	panelPaneles.setLayout(new GridLayout(tipoProd.length, 0, 0, 0));
+	String[] allTipos = contarTipos(productos);
+	panelPaneles.setLayout(new GridLayout(allTipos.length, 0, 0, 0));
 
-	for (int j = 0; j < tipoProd.length; j++) {// Recorrer todos los tipos
+	for (int j = 0; j < allTipos.length; j++) {// Recorrer todos los tipos
 
-	    int tam = productos.length;
 	    panelTipo = new JPanel();
-	    panelTipo.setBorder(new TitledBorder(null, tipoProd[j], TitledBorder.LEADING, TitledBorder.TOP,
+	    panelTipo.setBorder(new TitledBorder(null, allTipos[j], TitledBorder.LEADING, TitledBorder.TOP,
 		    new Font("SansSerif", Font.BOLD, 36), null));
-	    panelTipo.setLayout(new GridLayout(tam, 0, 0, 0));
-	    panelProdReut[] panPlato = new panelProdReut[tam];
+	    ArrayList<panelProdReut> panPlato = new ArrayList<panelProdReut>();
 	    {
-		/*
-		 * for (int i = 0; i < tam; i++) {
-		 * panPlato[i] = new panelProdReut(productos[i].getNombre(), productos[i].getIngredientes, productos[i].getAlergenos());
-		 * panelTipo.add(panPlato[i]);
-		 * }
-		 * 
-		 */
-		for (int i = 0; i < tam; i++) { // Recorrer todos los productos de ese tipo
-		    panPlato[i] = new panelProdReut();
-		    panelTipo.add(panPlato[i]);
+		int numPn = 0;
+		for (int i = 0; i < productos.length; i++) {
+		    if (productos[i].getTipo().equals(allTipos[j])) {// Si coincide con el tipo que se esta recorriendo
+
+			System.out.println(productos[i].toString());
+
+			panPlato.add(new panelProdReut(productos[i]));
+			panelTipo.add(panPlato.get(numPn));
+			panelTipo.setLayout(new GridLayout(numPn + 1, 0, 0, 0));
+			numPn++;
+		    }
 		}
 		panelPaneles.add(panelTipo);
 	    }
+
 	} // FIN RECORRER TODOS LOS TIPOS
 	add(new JScrollPane(panelPaneles), BorderLayout.CENTER);
+	if (flagCarta != 0) {
+	    add(new panelGestionProd("carta"), BorderLayout.NORTH);
+	} else {
+	    add(new panelGestionProd(productos[0].getCategoria()), BorderLayout.NORTH);
+
+	}
+    }
+
+    private String[] contarTipos(Producto[] productos) {
+	ArrayList<String> tip = new ArrayList<String>(); // Contar numero de tipos de producto que hay
+	for (int i = 0; i < productos.length; i++) {
+	    if (!tip.contains(productos[i].getTipo()))
+		tip.add(productos[i].getTipo());
+	}
+	String[] arrTipos = tip.toArray(new String[tip.size()]);
+	return arrTipos;
     }
 }
