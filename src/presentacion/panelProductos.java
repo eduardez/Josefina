@@ -8,6 +8,7 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 
 import dominio.Producto;
+import dominio.util;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.swing.border.TitledBorder;
 public class panelProductos extends JPanel {
     private JScrollPane scrollPane;
     private JPanel panelTipo;
+    private util ut=new util();
     private JPanel panelPaneles;
 
     /**
@@ -25,10 +27,10 @@ public class panelProductos extends JPanel {
      * Este panel es un pifostio del carajo, casi se me rompe la cabeza haciendolo
      * 
      */
-    public panelProductos(Producto[] productos) {
+    public panelProductos(Producto[] productos) { /* Si el flag de carta = 1, muestra todos los productos */
 	inicializar(productos, 0);
     }
-
+    
     public panelProductos(Producto[] productos, int flagCarta) {
 	inicializar(productos, 1);
     }
@@ -36,8 +38,9 @@ public class panelProductos extends JPanel {
     public void inicializar(Producto[] productos, int flagCarta) {
 	setLayout(new BorderLayout());
 	panelPaneles = new JPanel();
-	String[] allTipos = contarTipos(productos);
+	String[] allTipos = ut.contarTipos(productos);
 	panelPaneles.setLayout(new GridLayout(allTipos.length, 0, 0, 0));
+
 
 	for (int j = 0; j < allTipos.length; j++) {// Recorrer todos los tipos
 
@@ -71,13 +74,5 @@ public class panelProductos extends JPanel {
 	}
     }
 
-    private String[] contarTipos(Producto[] productos) {
-	ArrayList<String> tip = new ArrayList<String>(); // Contar numero de tipos de producto que hay
-	for (int i = 0; i < productos.length; i++) {
-	    if (!tip.contains(productos[i].getTipo()))
-		tip.add(productos[i].getTipo());
-	}
-	String[] arrTipos = tip.toArray(new String[tip.size()]);
-	return arrTipos;
-    }
+ 
 }

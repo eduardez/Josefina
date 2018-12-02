@@ -7,5 +7,3 @@ menu-Menús-Menú numero 1-Platos: <br>1.prueba 1 <br>2.prueba 2-23€-Muchos-
 postre-Helados-Sorbete de limon-Ingredientes: Limon y algo mas.-4,5€-Pescado-
 oferta-Promociones-Albondigas marineras-Ingredientes: Albondigas y un marinero viejo.-14€-Huevos-
 bebida-Cervezas-Cerveza especial de Edu-Una cerveza intensa, exquisita, con un toque de jamon. Digo jamon porque son las 3am y no se que escribir-4€-Ninguno-
-platInd-null-Prueba de pescado-asdfasfa-11€-Ninguno-
-platInd-Pescados-Prueba pescado 2-sdfñlajsakfañsldkfa-14€-Ninguno-

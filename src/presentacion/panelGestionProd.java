@@ -56,7 +56,7 @@ public class panelGestionProd extends JPanel {
 	    {
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos..."}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos...", "Precio ascendente", "Precio descendente"}));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
