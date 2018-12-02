@@ -101,6 +101,7 @@ public class addProducto extends JDialog {
 	{
 	    cmbTipo = new JComboBox();
 	    cmbTipo.addItemListener(new CmbTipoItemListener());
+	    cmbTipo.addActionListener(new CmbTipoActionListener());
 	    cmbTipo.setToolTipText("(Poner el tipo en plural. Ej: Cervezas, Vinos, Carnes...)");
 	    cmbTipo.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_cmbTipo = new GridBagConstraints();
@@ -251,13 +252,19 @@ public class addProducto extends JDialog {
 
 	}
     }
+  
+    private class CmbTipoActionListener implements ActionListener {
+    	public void actionPerformed(ActionEvent arg0) {
+    	if(cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
+		tipoComida = JOptionPane.showInputDialog("Introducir tipo nuevo");
+	    }else {
+		tipoComida=cmbTipo.getSelectedItem().toString();
+	    }
+    	}
+    }
     private class CmbTipoItemListener implements ItemListener {
-    	public void itemStateChanged(ItemEvent e) {
-    	    if(cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
-    		tipoComida = JOptionPane.showInputDialog("Introducir tipo nuevo");
-    	    }else {
-    		tipoComida=cmbTipo.getSelectedItem().toString();
-    	    }
+    	public void itemStateChanged(ItemEvent arg0) {
+    	    repaint();
     	}
     }
 }
