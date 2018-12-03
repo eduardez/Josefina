@@ -28,10 +28,12 @@ public class panelGestionProd extends JPanel {
      * Create the panel.
      */
     public panelGestionProd(String tipoProd) {
+    	setOpaque(false);
 	setMinimumSize(new Dimension(10, 86));
 	setLayout(new BorderLayout(0, 0));
 	{
 	    panel = new JPanel();
+	    panel.setOpaque(false);
 	    add(panel, BorderLayout.CENTER);
 	    GridBagLayout gbl_panel = new GridBagLayout();
 	    gbl_panel.columnWidths = new int[] { 0, 122, 0, 133, 147, 0, 0 };
@@ -42,6 +44,7 @@ public class panelGestionProd extends JPanel {
 	    {
 		//btnNewButton = new JButton(getTipoProd(tipoProd));Añadir Producto
 		btnNewButton = new JButton("Añadir Producto");
+		btnNewButton.setOpaque(false);
 		btnNewButton.addActionListener(new BtnNewButtonActionListener());
 		btnNewButton.setIcon(new ImageIcon(panelGestionProd.class.getResource("/recursos/anadirProd.png")));
 		btnNewButton.setFont(new Font("SansSerif", Font.PLAIN, 24));
@@ -55,6 +58,7 @@ public class panelGestionProd extends JPanel {
 	    }
 	    {
 		comboBox = new JComboBox();
+		comboBox.setOpaque(false);
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos...", "Precio ascendente", "Precio descendente"}));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -100,8 +104,7 @@ public class panelGestionProd extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 		    addProducto addPr=new addProducto();
 		    addPr.setVisible(true);
-		    addPr.setLocationRelativeTo(null);
-		    
+		    addPr.setLocationRelativeTo(null);		    
 		}
 	}
 }

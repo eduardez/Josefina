@@ -46,8 +46,7 @@ public class Agente {
 		arrProd.add(new Producto(cat,tipo, nombre, descr, prec, alerg));
 	    }
 	    datos.close();// Cerrar el fichero Auxiliar
-	    for(int lee=0;lee<arrProd.size();lee++)System.out.println(arrProd.get(lee).toString());
-
+	    
 	    prod = arrProd.toArray(new Producto[arrProd.size()]);
 
 	} catch (Exception e) {

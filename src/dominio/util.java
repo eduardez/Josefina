@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.JOptionPane;
+
 import sun.util.calendar.LocalGregorianCalendar.Date;
 
 public class util {
@@ -49,5 +51,17 @@ public class util {
 	String[] arrTipos = tip.toArray(new String[tip.size()]);
 	return arrTipos;
     }
+
+    public boolean stringValida(String cadena) {
+	boolean valido = true;
+	char[] cadenaChar = cadena.toCharArray();
+	for (int i = 0; i < cadenaChar.length && valido; i++) {
+	    if (cadenaChar[i] == '-') {
+		valido = false;
+	    }
+	}
+	return valido;
+    }
+    	
 
 }

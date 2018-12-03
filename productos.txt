@@ -4,10 +4,19 @@ menu-Menús-Menú numero 1-Platos: <br>1.prueba 1 <br>2.prueba 2-23€-Muchos
 postre-Helados-Sorbete de limon-Ingredientes: Limon y algo mas.-4,5€-Pescado
 oferta-Promociones-Albondigas marineras-Ingredientes: Albondigas y un marinero viejo.-14€-Huevos
 bebida-Cervezas-Cerveza especial de Edu-Una cerveza intensa, exquisita, con un toque de jamon. Digo jamon porque son las 3am y no se que escribir-4€-Ninguno
-platInd-null-Prueba de pescado-asdfasfa-11€-Ninguno
 platInd-Pescados-Prueba pescado 2-sdfñlajsakfañsldkfa-14€-Ninguno
 platInd-Carnes-Carne con Tomate -Ingredientes: ternera o cerdo en trozos,tomate, dientes de ajo, cebolla, vaso vino fino de jerez,nuez moscada-8€-Ninguno
 platInd-Carnes-Carne o caldeiro -Ingredientes: ternera, patatas, pimenton. -9€-Ninguno
 platInd-Carnes-Carne en Salsa -Ingredientes: costilla de cerdo, alitas de pollo, salchichas, albondigillas, vino tinto, tomate frito, cebolla,Pimiento verde,Zanahoria. -10€-Ninguno
-platInd-jhgf-mnbv-,mnbvb-5€-Ninguno
 platInd-Carnes-Magro de ternera-Prueba para ver si los paneles que contienen los platos tienen como tamaño minimo algo asi como 3 paneles de producto-5€-Ninguno
+bebida-Cervezas-Lager Mercadona-La litro clasica de toda la vida. Con sabor a parque.-1€-Ninguno
+bebida-Vinos-Pelambrusco-Pedal-2€-Ninguno
+platInd-Carnes-Carne di Carlo -Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo Carne di Carlo -5€-Ninguno
+postre-Sorbete-Sorbete de limon-Rico rico-5€-Ninguno
+postre-Helados-Helado ed trufa-asedfav sdfa dsfasdf asdf asdf asdfasd fasdfascdv sgstrgsdfbsdfvsdfgadafa-123€-Ninguno
+menu-Menús-Menu 3-aldsfkj 	 kj ALKJBsldf-5€-Ninguno
+menu-Menús-Menu 2-asdfkjh alskdjfa diujfha sldijfhasl kjadsf alsdhfj hal-5€-Ninguno
+menu-Menús-Menu 45-45 45 4 5 45 4 5 u sydvfgisuydfg aoliufhgña oighñag-45€-Ninguno
+menu-Menús-safdad-asdfasdfasfasdfasdfasfdasdf-5€-Ninguno
+oferta-Promosiò-Promosiò 1-Comprad el cable HD-5€-Ninguno
+oferta-Promociones-Esda-asdfasfasf-5€-Ninguno

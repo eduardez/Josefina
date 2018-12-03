@@ -36,6 +36,7 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.awt.event.ItemEvent;
+import java.awt.Color;
 
 public class addProducto extends JDialog {
 
@@ -48,15 +49,17 @@ public class addProducto extends JDialog {
     private JSpinner spPrecio;
     private Agente ag = new Agente();
     private util ut = new util();
-    private String tipoComida="";
+    private String tipoComida = "";
 
     public addProducto() {
-    	setModal(true);
+	setModal(true);
 	setTitle("Restaurante la Josefina - A\u00F1adir Producto");
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addProducto.class.getResource("/recursos/logo.png")));
 	setResizable(false);
 	setBounds(100, 100, 552, 636);
+	setLocationRelativeTo(null);	
 	getContentPane().setLayout(new BorderLayout());
+	contentPanel.setBackground(new Color(0, 180, 188));
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -137,6 +140,7 @@ public class addProducto extends JDialog {
 	}
 	{
 	    JPanel panel = new JPanel();
+	    panel.setOpaque(false);
 	    panel.setBorder(new TitledBorder(null, "Descripcion", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	    GridBagConstraints gbc_panel = new GridBagConstraints();
 	    gbc_panel.gridwidth = 5;
@@ -154,6 +158,7 @@ public class addProducto extends JDialog {
 	}
 	{
 	    JPanel pnlAlerg = new JPanel();
+	    pnlAlerg.setOpaque(false);
 	    pnlAlerg.setBorder(
 		    new TitledBorder(null, "Al\u00E9rgenos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	    GridBagConstraints gbc_pnlAlerg = new GridBagConstraints();
@@ -198,6 +203,8 @@ public class addProducto extends JDialog {
 	}
 	{
 	    JPanel buttonPane = new JPanel();
+	    buttonPane.setBackground(new Color(38,38,38));
+	    buttonPane.setOpaque(false);
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
@@ -215,6 +222,7 @@ public class addProducto extends JDialog {
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 	    }
+	    actualizarTipos(false, null);
 	}
     }
 
@@ -228,11 +236,16 @@ public class addProducto extends JDialog {
 	    }
 	    int precio = (Integer) spPrecio.getValue();
 	    String precioS = String.valueOf(precio) + "€";
-	    Producto newProd = new Producto(categorias[cmbCat.getSelectedIndex()], tipoComida,
-		    txtNombre.getText(), txtrDesc.getText(), precioS, "Ninguno");
+	    Producto newProd = new Producto(categorias[cmbCat.getSelectedIndex()], tipoComida, txtNombre.getText(),
+		    txtrDesc.getText(), precioS, "Ninguno");
 	    newPr[newPr.length - 1] = newProd;
-	    ag.escribirProds(newPr);
-	    dispose();
+	    System.out.println(newProd.toString());
+	    if(ut.stringValida(newProd.toString())) {
+		    ag.escribirProds(newPr);
+		    dispose();
+	    }else {
+		    JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
+	    }
 
 	}
     }
@@ -245,28 +258,47 @@ public class addProducto extends JDialog {
 
     private class CmbCatItemListener implements ItemListener {
 	public void itemStateChanged(ItemEvent arg0) {
-	    String[] tipoSelec = ut
-		    .contarTipos(ut.categorizarProds(categorias[cmbCat.getSelectedIndex()], ag.leerProducto()));
-	    ArrayList <String> arrTipo=new ArrayList<String>();
-	    for(int i=0;i<tipoSelec.length;i++)arrTipo.add(tipoSelec[i]);
-	    arrTipo.add("+ Nuevo tipo");
-	    cmbTipo.setModel(new DefaultComboBoxModel<String>(arrTipo.toArray(new String[arrTipo.size()])));
-
+	    actualizarTipos(false, null);
 	}
     }
-  
-    private class CmbTipoActionListener implements ActionListener {
-    	public void actionPerformed(ActionEvent arg0) {
-    	if(cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
-		tipoComida = JOptionPane.showInputDialog("Introducir tipo nuevo");
-	    }else {
-		tipoComida=cmbTipo.getSelectedItem().toString();
-	    }
-    	}
+
+    private void actualizarTipos(boolean flagNuevo, String nuevo) {
+	String[] tipoSelec = ut
+		.contarTipos(ut.categorizarProds(categorias[cmbCat.getSelectedIndex()], ag.leerProducto()));
+	ArrayList<String> arrTipo = new ArrayList<String>();
+	arrTipo.add("Seleccionar tipo...");
+
+	for (int i = 0; i < tipoSelec.length; i++)
+	    arrTipo.add(tipoSelec[i]);
+	if (flagNuevo) {
+	    arrTipo.add(nuevo);
+	}
+	arrTipo.add("+ Nuevo tipo");
+	cmbTipo.setModel(new DefaultComboBoxModel<String>(arrTipo.toArray(new String[arrTipo.size()])));
+
     }
+
+    private class CmbTipoActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent arg0) {
+	    if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
+
+		tipoComida = JOptionPane.showInputDialog("Introducir tipo nuevo");
+		if (ut.stringValida(tipoComida)) {
+		    actualizarTipos(true, tipoComida);
+		} else {
+		    JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
+		    dispose();
+		}
+
+	    } else {
+		tipoComida = cmbTipo.getSelectedItem().toString();
+	    }
+	}
+    }
+
     private class CmbTipoItemListener implements ItemListener {
-    	public void itemStateChanged(ItemEvent arg0) {
-    	    repaint();
-    	}
+	public void itemStateChanged(ItemEvent arg0) {
+	    repaint();
+	}
     }
 }

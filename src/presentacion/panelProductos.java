@@ -36,7 +36,8 @@ public class panelProductos extends JPanel {
      * @wbp.parser.constructor
      * 
      */
-    public panelProductos(Producto[] productos) { /* Si el flag de carta = 1, muestra todos los productos */
+    public panelProductos(Producto[] productos) {
+    	setOpaque(false); /* Si el flag de carta = 1, muestra todos los productos */
 	inicializar(productos, 0);
     }
 
@@ -46,6 +47,7 @@ public class panelProductos extends JPanel {
 
     public void inicializar(Producto[] productos, int flagCarta) {
 	setLayout(new BorderLayout());
+	setBackground(new Color(0,180,188));
 	panelPaneles = new JPanel();
 	panelPaneles.setOpaque(false);
 	String[] allTipos = ut.contarTipos(productos);
@@ -65,14 +67,18 @@ public class panelProductos extends JPanel {
 		    panelTipo.add(new panelProdReut(productos[i]));
 		    numS += 1;
 		    panelTipo.setLayout(new GridLayout(numS, 0, 0, 0));
-
+		    panelTipo.setBackground(new Color(0,180,188));
 		}
 	    }
 	    panelPaneles.add(panelTipo);
+	    panelPaneles.setBackground(new Color(0,180,188));
+
 
 	} // FIN RECORRER TODOS LOS TIPOS
 
-	add(new JScrollPane(panelPaneles), BorderLayout.CENTER);
+	JScrollPane scrollPane_1 = new JScrollPane(panelPaneles);
+	scrollPane_1.setOpaque(false);
+	add(scrollPane_1, BorderLayout.CENTER);
 
 	if (flagCarta != 0) {
 	    add(new panelGestionProd("carta"), BorderLayout.NORTH);

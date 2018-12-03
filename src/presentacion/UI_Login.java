@@ -61,9 +61,6 @@ public class UI_Login extends JFrame {
     private JLabel lblAvisoPass;
 
     public UI_Login() {
-	for (int i = 0; i < users.length; i++) {
-	    System.out.println(users[i].toString());
-	}
 	setTitle("Restaurante La Josefina - Acceso a Personal");
 	setMaximumSize(new Dimension(1050, 750));
 	setMinimumSize(new Dimension(880, 630));

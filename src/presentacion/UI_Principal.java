@@ -32,6 +32,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowStateListener;
 
 public class UI_Principal {
 
@@ -64,6 +67,7 @@ public class UI_Principal {
      */
     private void initialize() {
 	frame = new JFrame();
+	frame.addWindowStateListener(new FrameWindowStateListener());
 	frame.addWindowFocusListener(new FrameWindowFocusListener());
 	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
 	frame.setBounds(100, 100, 1180, 769);
@@ -190,11 +194,13 @@ public class UI_Principal {
     private void anadirPaneles() {
 
 	pnlGest = new JPanel();
+	pnlGest.setBackground(new Color(0,180,188));
+
 	pnlProductos.add(pnlGest, "Gestión de Pedidos");
 	Agente ag = new Agente();
 	Producto[] prods = ag.leerProducto();
 	// ------------- CARTA ------------------
-	pnlProductos.add(new panelProductos(prods,1), "Carta");
+	pnlProductos.add(new panelProductos(prods, 1), "Carta");
 	// ------------- MENUS ------------------
 	pnlProductos.add(generarPanel("menu", prods), "Menús");
 	// ------------- BEBIDAS ------------------
@@ -232,13 +238,25 @@ public class UI_Principal {
 	    }
 	}
     }
-    
+
     // PARA QUE CADA VEZ QUE SE AÑADA UN PRODUCTO Y LUEGO CANE EL FOCUS, DE REPINTE. PERO NO FUNCIONA
     private class FrameWindowFocusListener implements WindowFocusListener {
-    	public void windowGainedFocus(WindowEvent arg0) {
-    	    frame.repaint();
-    	}
-    	public void windowLostFocus(WindowEvent arg0) {
-    	}
+	public void windowGainedFocus(WindowEvent arg0) {
+	    frame.repaint();
+	    anadirPaneles();
+	}
+
+	public void windowLostFocus(WindowEvent arg0) {
+	    pnlGest.repaint();
+	    anadirPaneles();
+	}
     }
+
+    private class FrameWindowStateListener implements WindowStateListener {
+	public void windowStateChanged(WindowEvent arg0) {
+	    frame.repaint();
+	    anadirPaneles();
+	}
+    }
+
 }
