@@ -51,6 +51,7 @@ public class addProducto extends JDialog {
     private String tipoComida="";
 
     public addProducto() {
+    	setModal(true);
 	setTitle("Restaurante la Josefina - A\u00F1adir Producto");
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addProducto.class.getResource("/recursos/logo.png")));
 	setResizable(false);
@@ -147,6 +148,7 @@ public class addProducto extends JDialog {
 	    panel.setLayout(new BorderLayout(0, 0));
 	    {
 		txtrDesc = new JTextArea();
+		txtrDesc.setLineWrap(true);
 		panel.add(txtrDesc, BorderLayout.CENTER);
 	    }
 	}

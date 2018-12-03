@@ -66,7 +66,7 @@ public class UI_Principal {
 	frame = new JFrame();
 	frame.addWindowFocusListener(new FrameWindowFocusListener());
 	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
-	frame.setBounds(100, 100, 974, 665);
+	frame.setBounds(100, 100, 1180, 769);
 	frame.getContentPane().setLayout(new BorderLayout(0, 0));
 	frame.setUndecorated(true);
 	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

@@ -70,7 +70,7 @@ public class Agente {
    		out.write(prod[i].getNombre() + "-");
    		out.write(prod[i].getDescripcion() + "-");
    		out.write(prod[i].getPrecio() + "-");
-   		out.write(prod[i].getAlergenos() + "-");
+   		out.write(prod[i].getAlergenos());
    		out.newLine();
    	    }
    	    out.close();

@@ -1,12 +1,13 @@
-platInd-Carnes-Carne con Tomate -Ingredientes: ternera o cerdo en trozos,tomate, dientes de ajo, cebolla, vaso vino fino de jerez,nuez moscada-8€-Ninguno-
-platInd-Carnes-Carne o caldeiro -Ingredientes: ternera, patatas, pimenton. -9€-Ninguno-
-platInd-Carnes-Carne en Salsa -Ingredientes: costilla de cerdo, alitas de pollo, salchichas, albondigillas, vino tinto, tomate frito, cebolla,Pimiento verde,Zanahoria. -10€-Ninguno-
-platInd-Pastas-Ensalada de pasta con guacamole -Ingredientes:Pasta, tomates, lechuga, maíz, guisantes, queso feta, huevos, caballa, aguacates, lima. -7€-Huevo, pescado, gluten-
-bebida-Vinos-Hacienda López de Haro Garnacha Tinto 2017 - Descripción: 2 semanas de maceración. Fermentación controlada a 28ºC. 10 meses en barrica. - 18€-Ninguno-
-menu-Menús-Menú numero 1-Platos: <br>1.prueba 1 <br>2.prueba 2-23€-Muchos-
-postre-Helados-Sorbete de limon-Ingredientes: Limon y algo mas.-4,5€-Pescado-
-oferta-Promociones-Albondigas marineras-Ingredientes: Albondigas y un marinero viejo.-14€-Huevos-
-bebida-Cervezas-Cerveza especial de Edu-Una cerveza intensa, exquisita, con un toque de jamon. Digo jamon porque son las 3am y no se que escribir-4€-Ninguno-
-platInd-null-Prueba de pescado-asdfasfa-11€-Ninguno-
-platInd-Pescados-Prueba pescado 2-sdfñlajsakfañsldkfa-14€-Ninguno-
-platInd-jhgf-mnbv-,mnbvb-5€-Ninguno-
+platInd-Pastas-Ensalada de pasta con guacamole -Ingredientes:Pasta, tomates, lechuga, maíz, guisantes, queso feta, huevos, caballa, aguacates, lima. -7€-Huevo, pescado, gluten
+bebida-Vinos-Hacienda López de Haro Garnacha Tinto 2017 - Descripción: 2 semanas de maceración. Fermentación controlada a 28ºC. 10 meses en barrica. - 18€-Ninguno
+menu-Menús-Menú numero 1-Platos: <br>1.prueba 1 <br>2.prueba 2-23€-Muchos
+postre-Helados-Sorbete de limon-Ingredientes: Limon y algo mas.-4,5€-Pescado
+oferta-Promociones-Albondigas marineras-Ingredientes: Albondigas y un marinero viejo.-14€-Huevos
+bebida-Cervezas-Cerveza especial de Edu-Una cerveza intensa, exquisita, con un toque de jamon. Digo jamon porque son las 3am y no se que escribir-4€-Ninguno
+platInd-null-Prueba de pescado-asdfasfa-11€-Ninguno
+platInd-Pescados-Prueba pescado 2-sdfñlajsakfañsldkfa-14€-Ninguno
+platInd-Carnes-Carne con Tomate -Ingredientes: ternera o cerdo en trozos,tomate, dientes de ajo, cebolla, vaso vino fino de jerez,nuez moscada-8€-Ninguno
+platInd-Carnes-Carne o caldeiro -Ingredientes: ternera, patatas, pimenton. -9€-Ninguno
+platInd-Carnes-Carne en Salsa -Ingredientes: costilla de cerdo, alitas de pollo, salchichas, albondigillas, vino tinto, tomate frito, cebolla,Pimiento verde,Zanahoria. -10€-Ninguno
+platInd-jhgf-mnbv-,mnbvb-5€-Ninguno
+platInd-Carnes-Magro de ternera-Prueba para ver si los paneles que contienen los platos tienen como tamaño minimo algo asi como 3 paneles de producto-5€-Ninguno

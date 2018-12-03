@@ -201,6 +201,9 @@ public class UI_Login extends JFrame {
 		txtContra.setHorizontalAlignment(SwingConstants.CENTER);
 		txtContra.setMinimumSize(new Dimension(6, 38));
 		txtContra.addKeyListener(new TxtContraKeyListener());
+		txtContra.addActionListener(new BtnEntrarActionListener());
+		
+		
 		txtContra.setVerifyInputWhenFocusTarget(false);
 		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 23));
 

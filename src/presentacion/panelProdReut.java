@@ -31,7 +31,7 @@ public class panelProdReut extends JPanel {
 
     public panelProdReut(Producto pro) {
 	setMinimumSize(new Dimension(500, 150));
-	setPreferredSize(new Dimension(598, 190));
+	setPreferredSize(new Dimension(826, 190));
 	setMaximumSize(new Dimension(500, 152));
 	inicializar(pro);
     }
