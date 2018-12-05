@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.swing.JOptionPane;
-
-import sun.util.calendar.LocalGregorianCalendar.Date;
-
 public class util {
     private String[] dias = { "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab" };
 
@@ -62,6 +58,5 @@ public class util {
 	}
 	return valido;
     }
-    	
 
 }

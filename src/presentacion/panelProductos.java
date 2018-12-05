@@ -1,28 +1,19 @@
 package presentacion;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-
-import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import dominio.Producto;
-import dominio.Usuario;
-import dominio.util;
-
 import java.awt.GridLayout;
-import java.util.ArrayList;
-
-import javax.swing.border.TitledBorder;
-import java.awt.FlowLayout.*;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+
+import dominio.Producto;
+import dominio.Usuario;
+import dominio.util;
 
 public class panelProductos extends JPanel {
     private JScrollPane scrollPane;
@@ -31,7 +22,7 @@ public class panelProductos extends JPanel {
     private Usuario user;
 
     /**
-     * Create the panel	
+     * Create the panel
      * Este panel es un pifostio del carajo, casi se me rompe la cabeza haciendolo
      * 
      * @wbp.parser.constructor
@@ -82,9 +73,9 @@ public class panelProductos extends JPanel {
 	add(scrollPane_1, BorderLayout.CENTER);
 
 	if (flagCarta != 0) {
-	    add(new panelGestionProd("carta",user), BorderLayout.NORTH);
+	    add(new panelGestionProd("carta", user), BorderLayout.NORTH);
 	} else {
-	    add(new panelGestionProd(productos[0].getCategoria(),user), BorderLayout.NORTH);
+	    add(new panelGestionProd(productos[0].getCategoria(), user), BorderLayout.NORTH);
 	}
     }
 

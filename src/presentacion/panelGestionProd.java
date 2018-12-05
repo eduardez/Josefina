@@ -1,25 +1,22 @@
 package presentacion;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import dominio.Usuario;
-
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JComboBox;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.SystemColor;
 
 public class panelGestionProd extends JPanel {
     private JPanel panel;
@@ -30,8 +27,8 @@ public class panelGestionProd extends JPanel {
      * Create the panel.
      */
     public panelGestionProd(String tipoProd, Usuario user) {
-    	setBorder(null);
-    	setBackground(new Color(38, 38, 38));
+	setBorder(null);
+	setBackground(new Color(38, 38, 38));
 	setMinimumSize(new Dimension(10, 86));
 	setLayout(new BorderLayout(0, 0));
 	{
@@ -46,7 +43,7 @@ public class panelGestionProd extends JPanel {
 	    gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 	    panel.setLayout(gbl_panel);
 	    {
-		//btnNewButton = new JButton(getTipoProd(tipoProd));Añadir Producto
+		// btnNewButton = new JButton(getTipoProd(tipoProd));Añadir Producto
 		btnAddProd = new JButton("Añadir Producto");
 		btnAddProd.setForeground(Color.BLACK);
 		btnAddProd.setBackground(Color.white);
@@ -64,11 +61,12 @@ public class panelGestionProd extends JPanel {
 	    }
 	    {
 		cmbOrdenar = new JComboBox();
-		cmbOrdenar.setForeground(new Color(0,180,188));
+		cmbOrdenar.setForeground(new Color(0, 180, 188));
 		cmbOrdenar.setBackground(Color.WHITE);
 		cmbOrdenar.setOpaque(false);
 		cmbOrdenar.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		cmbOrdenar.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos...", "Precio ascendente", "Precio descendente"}));
+		cmbOrdenar.setModel(new DefaultComboBoxModel(
+			new String[] { "Ordenar productos...", "Precio ascendente", "Precio descendente" }));
 		GridBagConstraints gbc_cmbOrdenar = new GridBagConstraints();
 		gbc_cmbOrdenar.gridwidth = 2;
 		gbc_cmbOrdenar.insets = new Insets(0, 0, 5, 5);
@@ -79,7 +77,7 @@ public class panelGestionProd extends JPanel {
 	    }
 	}
 
-	if(!user.getUser().equalsIgnoreCase("admin")) {
+	if (!user.getUser().equalsIgnoreCase("admin")) {
 	    btnAddProd.setEnabled(false);
 	    btnAddProd.setToolTipText("Hay que ser administrador para poder añadir productos.");
 	}
@@ -87,37 +85,39 @@ public class panelGestionProd extends JPanel {
     }
 
     /*
-    private String getTipoProd(String tipoProd) {
-	String pr = null;
-	switch (tipoProd) {
-	case "platInd":
-	    pr = "Añadir Plato Individual";
-	    break;
-	case "bebida":
-	    pr = "Añadir Bebida";
-	    break;
-	case "menu":
-	    pr = "Añadir Menú";
-	    break;
-	case "postre":
-	    pr = "Añadir Postre";
-	    break;
-	case "oferta":
-	    pr = "Añadir Oferta";
-	    break;
-	default:
-	    pr = "Añadir Producto";
-	    break;
-	}
+     * private String getTipoProd(String tipoProd) {
+     * String pr = null;
+     * switch (tipoProd) {
+     * case "platInd":
+     * pr = "Añadir Plato Individual";
+     * break;
+     * case "bebida":
+     * pr = "Añadir Bebida";
+     * break;
+     * case "menu":
+     * pr = "Añadir Menú";
+     * break;
+     * case "postre":
+     * pr = "Añadir Postre";
+     * break;
+     * case "oferta":
+     * pr = "Añadir Oferta";
+     * break;
+     * default:
+     * pr = "Añadir Producto";
+     * break;
+     * }
+     * 
+     * return pr;
+     * }
+     */
 
-	return pr;
-    }*/
-
-	private class BtnNewButtonActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-		    addProducto addPr=new addProducto();
-		    addPr.setVisible(true);
-		    addPr.setLocationRelativeTo(null);		    
-		}
+    private class BtnNewButtonActionListener implements ActionListener {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    addProducto addPr = new addProducto();
+	    addPr.setVisible(true);
+	    addPr.setLocationRelativeTo(null);
 	}
+    }
 }

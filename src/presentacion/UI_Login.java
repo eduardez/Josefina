@@ -1,48 +1,35 @@
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import dominio.Usuario;
-import persistencia.*;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-
-import java.awt.Font;
-import javax.swing.JSeparator;
-import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.JFormattedTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextArea;
-import java.awt.TextArea;
-import javax.swing.JPasswordField;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.SystemColor;
+import persistencia.Agente;
 
 public class UI_Login extends JFrame {
 
@@ -131,8 +118,8 @@ public class UI_Login extends JFrame {
 	{
 	    separator = new JSeparator();
 	    separator.setOpaque(true);
-	    separator.setBackground(new Color(38,38,38));
-	    separator.setForeground(new Color(38,38,38));
+	    separator.setBackground(new Color(38, 38, 38));
+	    separator.setForeground(new Color(38, 38, 38));
 	    separator.setPreferredSize(new Dimension(2, 19498));
 	    separator.setMaximumSize(new Dimension(2, 19998));
 	    separator.setMinimumSize(new Dimension(2, 2));
@@ -208,8 +195,7 @@ public class UI_Login extends JFrame {
 		txtContra.setMinimumSize(new Dimension(6, 38));
 		txtContra.addKeyListener(new TxtContraKeyListener());
 		txtContra.addActionListener(new BtnEntrarActionListener());
-		
-		
+
 		txtContra.setVerifyInputWhenFocusTarget(false);
 		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 23));
 
@@ -285,6 +271,7 @@ public class UI_Login extends JFrame {
     }
 
     private class BtnEntrarActionListener implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent e) {
 	    if (comprobLogin()) {
 		initPrincipal();
@@ -327,13 +314,15 @@ public class UI_Login extends JFrame {
 	    txtContra.setBackground(Color.white);
 	}
     }
+
     private class LblInternMouseListener extends MouseAdapter {
-    	@Override
-    	public void mouseEntered(MouseEvent arg0) {
-    	}
-    	@Override
-    	public void mouseExited(MouseEvent e) {
-    	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
     }
 
     private void initPrincipal() {
@@ -342,7 +331,7 @@ public class UI_Login extends JFrame {
 	UI_Principal prin = new UI_Principal(users[userIndex]);
 	prin.frame.setVisible(true);
 	prin.frame.setLocationRelativeTo(null);
-	prin.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	prin.frame.setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     private boolean comprobLogin() {

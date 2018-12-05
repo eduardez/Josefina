@@ -10,17 +10,21 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class RenderMenu extends DefaultTreeCellRenderer {
+    @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
 	    int row, boolean hasFocus) {
 	super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 	DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) value;
 	setFont(new Font("SansSerif", Font.PLAIN, 19));
-	setForeground(new Color(38,38,38));
-	setOpaque(false);
+	setForeground(Color.white);
+	setTextSelectionColor(new Color(38, 38, 38));
+	setBackgroundSelectionColor(Color.WHITE);
+	setOpaque(true);
 	String c = (String) (nodo.getUserObject());
 	switch (c) {
 	case "Gestión de Pedidos":
 	    setIcon(new ImageIcon(RenderMenu.class.getResource("/recursos/Gestion.png")));
+	    setBackgroundSelectionColor(Color.RED);
 	    break;
 	case "Listado de Clientes":
 	    setIcon(new ImageIcon(RenderMenu.class.getResource("/recursos/Clientes.png")));

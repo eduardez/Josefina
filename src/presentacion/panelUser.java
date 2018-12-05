@@ -1,25 +1,24 @@
 package presentacion;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
-import java.awt.Insets;
-import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 import dominio.Usuario;
 import dominio.util;
 import persistencia.Agente;
-
-import javax.swing.JSeparator;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class panelUser extends JPanel {
     private JLabel lblCamarero;
@@ -37,19 +36,19 @@ public class panelUser extends JPanel {
     private JLabel lblLogout;
     private JLabel lblGestUsuarios;
     private Usuario user1;
-    private util ut=new util();
+    private util ut = new util();
     private JFrame frame1;
 
     /**
      * Create the panel.
      * 
      * @param user
-     * @param frame 
+     * @param frame
      */
     public panelUser(Usuario user, JFrame frame) {
-    	setBorder(null);
-	frame1=frame;
-	user1=user;
+	setBorder(null);
+	frame1 = frame;
+	user1 = user;
 	setBackground(new Color(38, 38, 38));
 	GridBagLayout gridBagLayout = new GridBagLayout();
 	gridBagLayout.columnWidths = new int[] { 62, 0, 40, 189, 250, 0, 0, 0, 92, 116, 166, 0, 89, 0, 0, 57, 75, 74,
@@ -248,19 +247,21 @@ public class panelUser extends JPanel {
 	    }
 	}
     }
+
     private class LblLogoutMouseListener extends MouseAdapter {
-    	@Override
-    	public void mouseClicked(MouseEvent arg0) {
-    	    Agente ag=new Agente();
-    	    Usuario [] uwu = ag.leerUsuarios();
-    	    for(int i = 0;i<uwu.length;i++) {
-    		if(uwu[i].getUser().equalsIgnoreCase(user1.getUser()))uwu[i].setUltAcc(ut.genFecha());
-    	    }
-    	    ag.escribirUsuarios(uwu);
-    	    frame1.dispose();
-    	    UI_Login ui=new UI_Login();
-    	    ui.setVisible(true);
-    	    ui.setLocationRelativeTo(null);
-    	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+	    Agente ag = new Agente();
+	    Usuario[] uwu = ag.leerUsuarios();
+	    for (int i = 0; i < uwu.length; i++) {
+		if (uwu[i].getUser().equalsIgnoreCase(user1.getUser()))
+		    uwu[i].setUltAcc(ut.genFecha());
+	    }
+	    ag.escribirUsuarios(uwu);
+	    frame1.dispose();
+	    UI_Login ui = new UI_Login();
+	    ui.setVisible(true);
+	    ui.setLocationRelativeTo(null);
+	}
     }
 }

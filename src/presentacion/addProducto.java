@@ -1,42 +1,37 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import dominio.Producto;
-import dominio.Usuario;
 import dominio.util;
 import persistencia.Agente;
-
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import java.awt.GridLayout;
-import javax.swing.JCheckBox;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.awt.event.ItemEvent;
-import java.awt.Color;
 
 public class addProducto extends JDialog {
 
@@ -57,7 +52,7 @@ public class addProducto extends JDialog {
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addProducto.class.getResource("/recursos/logo.png")));
 	setResizable(false);
 	setBounds(100, 100, 552, 636);
-	setLocationRelativeTo(null);	
+	setLocationRelativeTo(null);
 	getContentPane().setLayout(new BorderLayout());
 	contentPanel.setBackground(new Color(255, 255, 255));
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -203,7 +198,7 @@ public class addProducto extends JDialog {
 	}
 	{
 	    JPanel buttonPane = new JPanel();
-	    buttonPane.setBackground(new Color(38,38,38));
+	    buttonPane.setBackground(new Color(38, 38, 38));
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
@@ -226,6 +221,7 @@ public class addProducto extends JDialog {
     }
 
     private class OkButtonActionListener implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 	    Producto[] oldPr = ag.leerProducto();
@@ -239,23 +235,25 @@ public class addProducto extends JDialog {
 		    txtrDesc.getText(), precioS, "Ninguno");
 	    newPr[newPr.length - 1] = newProd;
 	    System.out.println(newProd.toString());
-	    if(ut.stringValida(newProd.toString())) {
-		    ag.escribirProds(newPr);
-		    dispose();
-	    }else {
-		    JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
+	    if (ut.stringValida(newProd.toString())) {
+		ag.escribirProds(newPr);
+		dispose();
+	    } else {
+		JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
 	    }
 
 	}
     }
 
     private class CancelButtonActionListener implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent e) {
 	    dispose();
 	}
     }
 
     private class CmbCatItemListener implements ItemListener {
+	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 	    actualizarTipos(false, null);
 	}
@@ -278,6 +276,7 @@ public class addProducto extends JDialog {
     }
 
     private class CmbTipoActionListener implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 	    if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
 
@@ -296,6 +295,7 @@ public class addProducto extends JDialog {
     }
 
     private class CmbTipoItemListener implements ItemListener {
+	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 	    repaint();
 	}

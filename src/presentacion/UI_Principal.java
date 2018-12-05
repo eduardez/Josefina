@@ -1,20 +1,28 @@
 package presentacion;
 
-import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTree;
-import java.awt.GridBagLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -22,20 +30,6 @@ import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
 import persistencia.Agente;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.Color;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
-import javax.swing.JScrollPane;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowStateListener;
-import java.awt.SystemColor;
 
 public class UI_Principal {
 
@@ -73,7 +67,7 @@ public class UI_Principal {
 	frame.setBounds(100, 100, 1180, 769);
 	frame.getContentPane().setLayout(new BorderLayout(0, 0));
 	frame.setUndecorated(true);
-	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	{
 	    panUser = new panelUser(user, frame);
 
@@ -93,7 +87,7 @@ public class UI_Principal {
 	    panNav.setLayout(new BorderLayout(0, 0));
 	    {
 		splitPane = new JSplitPane();
-		splitPane.setBackground(new Color(38,38,38));
+		splitPane.setBackground(new Color(38, 38, 38));
 		panNav.add(splitPane, BorderLayout.CENTER);
 		{
 		    pnlArb = new JPanel();
@@ -101,15 +95,14 @@ public class UI_Principal {
 		    pnlArb.setMinimumSize(new Dimension(270, 10));
 		    splitPane.setLeftComponent(pnlArb);
 		    pnlArb.setLayout(new BorderLayout(0, 0));
-		    pnlArb.setBackground(new Color(38,38,38));
-		    pnlArb.setOpaque(true);
+		    pnlArb.setBackground(new Color(38, 38, 38));
+		    pnlArb.setOpaque(false);
 		    {
 			tree = new JTree();
 			tree.setBorder(null);
 			tree.addTreeSelectionListener(new TreeTreeSelectionListener());
-			tree.setBackground(Color.WHITE);
+			tree.setBackground(new Color(38, 38, 38));
 			tree.setRootVisible(false);
-			tree.setCellRenderer(new RenderMenu());
 			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Inicio") {
 			    {
@@ -129,6 +122,7 @@ public class UI_Principal {
 			for (int i = 0; i < tree.getRowCount(); i++) {// Expandir todos los nodos
 			    tree.expandRow(i);
 			}
+			tree.setCellRenderer(new RenderMenu());
 			tree.putClientProperty("JTree.lineStyle", "Horizontal");
 		    }
 		}
@@ -231,6 +225,7 @@ public class UI_Principal {
     }
 
     private class TreeTreeSelectionListener implements TreeSelectionListener {
+	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 
 	    String nodo = (e.getPath().getLastPathComponent()).toString();
@@ -251,6 +246,7 @@ public class UI_Principal {
 
     // PARA QUE CADA VEZ QUE SE AÑADA UN PRODUCTO Y LUEGO CANE EL FOCUS, DE REPINTE. PERO NO FUNCIONA
     private class FrameWindowFocusListener implements WindowFocusListener {
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 	    frame.repaint();
 	    frame.revalidate();

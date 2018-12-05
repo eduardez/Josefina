@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
-import recursos.*;
 
 public class Agente {
     private util ut = new util();
@@ -36,17 +35,17 @@ public class Agente {
 		// Lectura por lineas
 		linea = datos.nextLine();
 		StringTokenizer token = new StringTokenizer(linea, "-");
-		
-		String cat=token.nextToken();
+
+		String cat = token.nextToken();
 		String tipo = token.nextToken();
 		String nombre = token.nextToken();
 		String descr = token.nextToken();
 		String prec = token.nextToken();
 		String alerg = token.nextToken();
-		arrProd.add(new Producto(cat,tipo, nombre, descr, prec, alerg));
+		arrProd.add(new Producto(cat, tipo, nombre, descr, prec, alerg));
 	    }
 	    datos.close();// Cerrar el fichero Auxiliar
-	    
+
 	    prod = arrProd.toArray(new Producto[arrProd.size()]);
 
 	} catch (Exception e) {
@@ -58,27 +57,28 @@ public class Agente {
 
 	return prod;
     }
+
     public void escribirProds(Producto[] prod) {
-   	BufferedWriter out;
-   	try {
-   	    out = new BufferedWriter(new FileWriter("productos.txt"));
+	BufferedWriter out;
+	try {
+	    out = new BufferedWriter(new FileWriter("productos.txt"));
 
-   	    for (int i = 0; i < prod.length; i++) {
-   		out.write(prod[i].getCategoria() + "-");
-   		out.write(prod[i].getTipo() + "-");
-   		out.write(prod[i].getNombre() + "-");
-   		out.write(prod[i].getDescripcion() + "-");
-   		out.write(prod[i].getPrecio() + "-");
-   		out.write(prod[i].getAlergenos());
-   		out.newLine();
-   	    }
-   	    out.close();
+	    for (int i = 0; i < prod.length; i++) {
+		out.write(prod[i].getCategoria() + "-");
+		out.write(prod[i].getTipo() + "-");
+		out.write(prod[i].getNombre() + "-");
+		out.write(prod[i].getDescripcion() + "-");
+		out.write(prod[i].getPrecio() + "-");
+		out.write(prod[i].getAlergenos());
+		out.newLine();
+	    }
+	    out.close();
 
-   	} catch (IOException e) {
-   	    e.printStackTrace();
-   	}
-       }
-    
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+    }
+
     /**
      * 
      * 

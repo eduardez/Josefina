@@ -2,11 +2,15 @@ package presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,13 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import dominio.Usuario;
-import dominio.util;
 import persistencia.Agente;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Font;
-import java.awt.Dimension;
 
 public class gestUsuarios extends JDialog {
 
@@ -42,7 +40,7 @@ public class gestUsuarios extends JDialog {
      */
 
     public gestUsuarios() {
-    	setIconImage(Toolkit.getDefaultToolkit().getImage(gestUsuarios.class.getResource("/recursos/logo.png")));
+	setIconImage(Toolkit.getDefaultToolkit().getImage(gestUsuarios.class.getResource("/recursos/logo.png")));
 	setMaximumSize(new Dimension(682, 736));
 	setMinimumSize(new Dimension(470, 300));
 	setTitle("Gestor Usuarios");
@@ -94,6 +92,7 @@ public class gestUsuarios extends JDialog {
 	mostrarUser(model, users, lblUsersSelec);
 
 	listUsers.addListSelectionListener(new ListSelectionListener() {
+	    @Override
 	    public void valueChanged(ListSelectionEvent arg0) {
 		lblUsersSelec.setText(String.valueOf(listUsers.getSelectedIndices().length));
 		okButton.setEnabled(true);
@@ -115,17 +114,19 @@ public class gestUsuarios extends JDialog {
 		okButton.setEnabled(false);
 		okButton.setVerifyInputWhenFocusTarget(false);
 		okButton.addActionListener(new ActionListener() {
+		    @Override
 		    public void actionPerformed(ActionEvent e) {
 			int opt = JOptionPane.showConfirmDialog(null,
 				"¿Eliminar " + listUsers.getSelectedIndices().length + " usuario(s)?", "Atencion",
 				JOptionPane.YES_NO_OPTION);
 			if (opt == 0) {
-			    for(int j=0;j<listUsers.getSelectedIndices().length;j++)ag.EliminarUsuario(users[listUsers.getSelectedIndices()[j]]);
+			    for (int j = 0; j < listUsers.getSelectedIndices().length; j++)
+				ag.EliminarUsuario(users[listUsers.getSelectedIndices()[j]]);
 			    dispose();
 			}
 		    }
 		});
-		
+
 		JButton btnAnadir = new JButton("A\u00F1adir Usuario");
 		btnAnadir.setActionCommand("add");
 		btnAnadir.addActionListener(new BtnAnadirActionListener());
@@ -137,6 +138,7 @@ public class gestUsuarios extends JDialog {
 	    {
 		JButton cancelButton = new JButton("Cancelar");
 		cancelButton.addActionListener(new ActionListener() {
+		    @Override
 		    public void actionPerformed(ActionEvent arg0) {
 			dispose();
 		    }
@@ -147,23 +149,24 @@ public class gestUsuarios extends JDialog {
 	}
     }
 
-
     private void mostrarUser(DefaultListModel<String> model, Usuario[] users, JLabel lblTareas) {
 	if (users.length < 1) {
 	    lblTareas.setText("No existen usuarios.");
 	} else {
 	    for (int i = 0; i < users.length; i++) {
-		model.add(i, users[i].getNombre()+" | user: "+users[i].getUser()+", pass: "+users[i].getPass());
+		model.add(i, users[i].getNombre() + " | user: " + users[i].getUser() + ", pass: " + users[i].getPass());
 	    }
 	    lblTareas.setText("0");
 	}
 
     }
-	private class BtnAnadirActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-		    dispose();
-		    addUser au=new addUser();
-		    au.setVisible(true);
-		}
+
+    private class BtnAnadirActionListener implements ActionListener {
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+	    dispose();
+	    addUser au = new addUser();
+	    au.setVisible(true);
 	}
+    }
 }

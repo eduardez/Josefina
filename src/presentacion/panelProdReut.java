@@ -1,22 +1,18 @@
 package presentacion;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JSeparator;
-import java.awt.GridBagConstraints;
-import javax.swing.JLabel;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
-
-import dominio.Producto;
-
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+
+import dominio.Producto;
 
 public class panelProdReut extends JPanel {
     private JLabel lblNombre;
@@ -91,24 +87,24 @@ public class panelProdReut extends JPanel {
 	    add(lblDesc, gbc_lblDesc);
 	}
 	{
-		btnAdd = new JButton("A\u00F1adir al pedido");
-		btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 17));
-		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
-		gbc_btnAdd.gridx = 7;
-		gbc_btnAdd.gridy = 2;
-		add(btnAdd, gbc_btnAdd);
+	    btnAdd = new JButton("A\u00F1adir al pedido");
+	    btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 17));
+	    GridBagConstraints gbc_btnAdd = new GridBagConstraints();
+	    gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
+	    gbc_btnAdd.gridx = 7;
+	    gbc_btnAdd.gridy = 2;
+	    add(btnAdd, gbc_btnAdd);
 	}
 	{
-		btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("SansSerif", Font.PLAIN, 17));
-		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
-		gbc_btnEditar.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
-		gbc_btnEditar.gridx = 7;
-		gbc_btnEditar.gridy = 3;
-		add(btnEditar, gbc_btnEditar);
+	    btnEditar = new JButton("Editar");
+	    btnEditar.setFont(new Font("SansSerif", Font.PLAIN, 17));
+	    GridBagConstraints gbc_btnEditar = new GridBagConstraints();
+	    gbc_btnEditar.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_btnEditar.insets = new Insets(0, 0, 5, 0);
+	    gbc_btnEditar.gridx = 7;
+	    gbc_btnEditar.gridy = 3;
+	    add(btnEditar, gbc_btnEditar);
 	}
 	{
 	    lblAlerg = new JLabel(pro.getAlergenos());
