@@ -23,7 +23,6 @@ public class panelProdReut extends JPanel {
     private JLabel lblDesc;
     private JLabel lblAlerg;
     private JSeparator separator;
-    private JSeparator separator_1;
     private JLabel lblFoto;
     private JLabel lblPrecio;
     private JButton btnAdd;
@@ -31,7 +30,7 @@ public class panelProdReut extends JPanel {
 
     public panelProdReut(Producto pro) {
 	setMinimumSize(new Dimension(500, 150));
-	setPreferredSize(new Dimension(826, 190));
+	setPreferredSize(new Dimension(826, 176));
 	setMaximumSize(new Dimension(500, 152));
 	inicializar(pro);
     }
@@ -46,6 +45,7 @@ public class panelProdReut extends JPanel {
 	setLayout(gridBagLayout);
 	{
 	    separator = new JSeparator();
+	    separator.setMinimumSize(new Dimension(0, 2));
 	    GridBagConstraints gbc_separator = new GridBagConstraints();
 	    gbc_separator.gridwidth = 7;
 	    gbc_separator.fill = GridBagConstraints.HORIZONTAL;
@@ -130,16 +130,6 @@ public class panelProdReut extends JPanel {
 	    gbc_lblPrecio.gridx = 4;
 	    gbc_lblPrecio.gridy = 4;
 	    add(lblPrecio, gbc_lblPrecio);
-	}
-	{
-	    separator_1 = new JSeparator();
-	    GridBagConstraints gbc_separator_1 = new GridBagConstraints();
-	    gbc_separator_1.insets = new Insets(0, 0, 0, 5);
-	    gbc_separator_1.gridwidth = 7;
-	    gbc_separator_1.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_separator_1.gridx = 1;
-	    gbc_separator_1.gridy = 5;
-	    add(separator_1, gbc_separator_1);
 	}
 
     }

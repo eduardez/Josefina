@@ -34,6 +34,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextArea;
 import java.awt.TextArea;
 import javax.swing.JPasswordField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.SystemColor;
 
 public class UI_Login extends JFrame {
 
@@ -53,12 +62,12 @@ public class UI_Login extends JFrame {
     private String fuente = "SansSerif";
     private JPasswordField txtContra;
     private JLabel lblRecuperar;
-    private JLabel lblIntern;
     private Agente ag = new Agente();
     public Usuario[] users = ag.leerUsuarios();;
     private int userIndex;
     private JLabel lblAvisouser;
     private JLabel lblAvisoPass;
+    private JLabel lblIntern;
 
     public UI_Login() {
 	setTitle("Restaurante La Josefina - Acceso a Personal");
@@ -213,6 +222,7 @@ public class UI_Login extends JFrame {
 	    }
 	    {
 		btnEntrar = new JButton("Entrar");
+		btnEntrar.setBackground(SystemColor.menu);
 		btnEntrar.addActionListener(new BtnEntrarActionListener());
 		{
 		    lblAvisoPass = new JLabel("");
@@ -252,6 +262,8 @@ public class UI_Login extends JFrame {
 	    panAccesi.setLayout(gbl_panAccesi);
 	    {
 		lblIntern = new JLabel("");
+		lblIntern.addMouseListener(new LblInternMouseListener());
+		lblIntern.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblIntern.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/idioma.png")));
 		GridBagConstraints gbc_lblIntern = new GridBagConstraints();
 		gbc_lblIntern.anchor = GridBagConstraints.WEST;
@@ -314,6 +326,14 @@ public class UI_Login extends JFrame {
 	    txtContra.setBorder(null);
 	    txtContra.setBackground(Color.white);
 	}
+    }
+    private class LblInternMouseListener extends MouseAdapter {
+    	@Override
+    	public void mouseEntered(MouseEvent arg0) {
+    	}
+    	@Override
+    	public void mouseExited(MouseEvent e) {
+    	}
     }
 
     private void initPrincipal() {

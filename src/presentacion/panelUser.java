@@ -47,6 +47,7 @@ public class panelUser extends JPanel {
      * @param frame 
      */
     public panelUser(Usuario user, JFrame frame) {
+    	setBorder(null);
 	frame1=frame;
 	user1=user;
 	setBackground(new Color(38, 38, 38));

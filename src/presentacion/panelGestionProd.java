@@ -1,9 +1,9 @@
 package presentacion;
 
 import javax.swing.JPanel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+
+import dominio.Usuario;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -18,57 +18,70 @@ import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class panelGestionProd extends JPanel {
     private JPanel panel;
-    private JButton btnNewButton;
-    private JComboBox comboBox;
+    private JButton btnAddProd;
+    private JComboBox cmbOrdenar;
 
     /**
      * Create the panel.
      */
-    public panelGestionProd(String tipoProd) {
-    	setOpaque(false);
+    public panelGestionProd(String tipoProd, Usuario user) {
+    	setBorder(null);
+    	setBackground(new Color(38, 38, 38));
 	setMinimumSize(new Dimension(10, 86));
 	setLayout(new BorderLayout(0, 0));
 	{
 	    panel = new JPanel();
+	    panel.setBorder(null);
 	    panel.setOpaque(false);
 	    add(panel, BorderLayout.CENTER);
 	    GridBagLayout gbl_panel = new GridBagLayout();
-	    gbl_panel.columnWidths = new int[] { 0, 122, 0, 133, 147, 0, 0 };
+	    gbl_panel.columnWidths = new int[] { 38, 122, 0, 133, 147, 35, 0 };
 	    gbl_panel.rowHeights = new int[] { 0, 0, 0, 0 };
 	    gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	    gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 	    panel.setLayout(gbl_panel);
 	    {
 		//btnNewButton = new JButton(getTipoProd(tipoProd));Añadir Producto
-		btnNewButton = new JButton("Añadir Producto");
-		btnNewButton.setOpaque(false);
-		btnNewButton.addActionListener(new BtnNewButtonActionListener());
-		btnNewButton.setIcon(new ImageIcon(panelGestionProd.class.getResource("/recursos/anadirProd.png")));
-		btnNewButton.setFont(new Font("SansSerif", Font.PLAIN, 24));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridheight = 3;
-		gbc_btnNewButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 0;
-		panel.add(btnNewButton, gbc_btnNewButton);
+		btnAddProd = new JButton("Añadir Producto");
+		btnAddProd.setForeground(Color.BLACK);
+		btnAddProd.setBackground(Color.white);
+		btnAddProd.setOpaque(false);
+		btnAddProd.addActionListener(new BtnNewButtonActionListener());
+		btnAddProd.setIcon(new ImageIcon(panelGestionProd.class.getResource("/recursos/anadirProd.png")));
+		btnAddProd.setFont(new Font("SansSerif", Font.BOLD, 24));
+		GridBagConstraints gbc_btnAddProd = new GridBagConstraints();
+		gbc_btnAddProd.gridheight = 3;
+		gbc_btnAddProd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAddProd.insets = new Insets(0, 0, 0, 5);
+		gbc_btnAddProd.gridx = 1;
+		gbc_btnAddProd.gridy = 0;
+		panel.add(btnAddProd, gbc_btnAddProd);
 	    }
 	    {
-		comboBox = new JComboBox();
-		comboBox.setOpaque(false);
-		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos...", "Precio ascendente", "Precio descendente"}));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 2;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.BOTH;
-		gbc_comboBox.gridx = 3;
-		gbc_comboBox.gridy = 1;
-		panel.add(comboBox, gbc_comboBox);
+		cmbOrdenar = new JComboBox();
+		cmbOrdenar.setForeground(new Color(0,180,188));
+		cmbOrdenar.setBackground(Color.WHITE);
+		cmbOrdenar.setOpaque(false);
+		cmbOrdenar.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		cmbOrdenar.setModel(new DefaultComboBoxModel(new String[] {"Ordenar productos...", "Precio ascendente", "Precio descendente"}));
+		GridBagConstraints gbc_cmbOrdenar = new GridBagConstraints();
+		gbc_cmbOrdenar.gridwidth = 2;
+		gbc_cmbOrdenar.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbOrdenar.fill = GridBagConstraints.BOTH;
+		gbc_cmbOrdenar.gridx = 3;
+		gbc_cmbOrdenar.gridy = 1;
+		panel.add(cmbOrdenar, gbc_cmbOrdenar);
 	    }
+	}
+
+	if(!user.getUser().equalsIgnoreCase("admin")) {
+	    btnAddProd.setEnabled(false);
+	    btnAddProd.setToolTipText("Hay que ser administrador para poder añadir productos.");
 	}
 
     }

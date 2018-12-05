@@ -10,6 +10,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
 import dominio.Producto;
+import dominio.Usuario;
 import dominio.util;
 
 import java.awt.GridLayout;
@@ -27,32 +28,34 @@ public class panelProductos extends JPanel {
     private JScrollPane scrollPane;
     private util ut = new util();
     private JPanel panelPaneles;
+    private Usuario user;
 
     /**
-     * Create the panel.
-     * 
+     * Create the panel	
      * Este panel es un pifostio del carajo, casi se me rompe la cabeza haciendolo
      * 
      * @wbp.parser.constructor
      * 
      */
-    public panelProductos(Producto[] productos) {
-    	setOpaque(false); /* Si el flag de carta = 1, muestra todos los productos */
+    public panelProductos(Producto[] productos, Usuario us) {
+	setOpaque(false); /* Si el flag de carta = 1, muestra todos los productos */
+	user = us;
 	inicializar(productos, 0);
     }
 
-    public panelProductos(Producto[] productos, int flagCarta) {
+    public panelProductos(Producto[] productos, int flagCarta, Usuario us) {
+	user = us;
 	inicializar(productos, 1);
     }
 
     public void inicializar(Producto[] productos, int flagCarta) {
 	setLayout(new BorderLayout());
-	setBackground(new Color(0,180,188));
+	setBackground(new Color(211, 238, 255));
 	panelPaneles = new JPanel();
 	panelPaneles.setOpaque(false);
 	String[] allTipos = ut.contarTipos(productos);
 
-	panelPaneles.setLayout(new BoxLayout(panelPaneles, BoxLayout.Y_AXIS));//ME CAGOEN EL BOX LAYOUT
+	panelPaneles.setLayout(new BoxLayout(panelPaneles, BoxLayout.Y_AXIS));
 	panelPaneles.add(Box.createHorizontalGlue());
 
 	for (int j = 0; j < allTipos.length; j++) {// Recorrer todos los tipos
@@ -67,12 +70,10 @@ public class panelProductos extends JPanel {
 		    panelTipo.add(new panelProdReut(productos[i]));
 		    numS += 1;
 		    panelTipo.setLayout(new GridLayout(numS, 0, 0, 0));
-		    panelTipo.setBackground(new Color(0,180,188));
+		    panelTipo.setBackground(new Color(255, 255, 255));
 		}
 	    }
 	    panelPaneles.add(panelTipo);
-	    panelPaneles.setBackground(new Color(0,180,188));
-
 
 	} // FIN RECORRER TODOS LOS TIPOS
 
@@ -81,9 +82,9 @@ public class panelProductos extends JPanel {
 	add(scrollPane_1, BorderLayout.CENTER);
 
 	if (flagCarta != 0) {
-	    add(new panelGestionProd("carta"), BorderLayout.NORTH);
+	    add(new panelGestionProd("carta",user), BorderLayout.NORTH);
 	} else {
-	    add(new panelGestionProd(productos[0].getCategoria()), BorderLayout.NORTH);
+	    add(new panelGestionProd(productos[0].getCategoria(),user), BorderLayout.NORTH);
 	}
     }
 

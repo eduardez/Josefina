@@ -59,7 +59,7 @@ public class addProducto extends JDialog {
 	setBounds(100, 100, 552, 636);
 	setLocationRelativeTo(null);	
 	getContentPane().setLayout(new BorderLayout());
-	contentPanel.setBackground(new Color(0, 180, 188));
+	contentPanel.setBackground(new Color(255, 255, 255));
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	GridBagLayout gbl_contentPanel = new GridBagLayout();
@@ -204,7 +204,6 @@ public class addProducto extends JDialog {
 	{
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setBackground(new Color(38,38,38));
-	    buttonPane.setOpaque(false);
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {

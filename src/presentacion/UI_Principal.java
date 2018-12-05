@@ -35,6 +35,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.SystemColor;
 
 public class UI_Principal {
 
@@ -67,7 +68,6 @@ public class UI_Principal {
      */
     private void initialize() {
 	frame = new JFrame();
-	frame.addWindowStateListener(new FrameWindowStateListener());
 	frame.addWindowFocusListener(new FrameWindowFocusListener());
 	frame.setTitle("Restaurante La Josefina - Menu de Empleado");
 	frame.setBounds(100, 100, 1180, 769);
@@ -88,10 +88,12 @@ public class UI_Principal {
 	}
 	{
 	    panNav = new JPanel();
+	    panNav.setBorder(null);
 	    frame.getContentPane().add(panNav, BorderLayout.CENTER);
 	    panNav.setLayout(new BorderLayout(0, 0));
 	    {
 		splitPane = new JSplitPane();
+		splitPane.setBackground(new Color(38,38,38));
 		panNav.add(splitPane, BorderLayout.CENTER);
 		{
 		    pnlArb = new JPanel();
@@ -99,10 +101,13 @@ public class UI_Principal {
 		    pnlArb.setMinimumSize(new Dimension(270, 10));
 		    splitPane.setLeftComponent(pnlArb);
 		    pnlArb.setLayout(new BorderLayout(0, 0));
+		    pnlArb.setBackground(new Color(38,38,38));
+		    pnlArb.setOpaque(true);
 		    {
 			tree = new JTree();
+			tree.setBorder(null);
 			tree.addTreeSelectionListener(new TreeTreeSelectionListener());
-			tree.setBackground(new Color(255, 255, 255));
+			tree.setBackground(Color.WHITE);
 			tree.setRootVisible(false);
 			tree.setCellRenderer(new RenderMenu());
 			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -131,9 +136,9 @@ public class UI_Principal {
 		    pnlComida = new JPanel();
 		    splitPane.setRightComponent(pnlComida);
 		    GridBagLayout gbl_pnlComida = new GridBagLayout();
-		    gbl_pnlComida.columnWidths = new int[] { 583, 146, 0 };
+		    gbl_pnlComida.columnWidths = new int[] { 583, 544, 0 };
 		    gbl_pnlComida.rowHeights = new int[] { 0, 0 };
-		    gbl_pnlComida.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		    gbl_pnlComida.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		    gbl_pnlComida.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		    pnlComida.setLayout(gbl_pnlComida);
 		    {
@@ -159,6 +164,7 @@ public class UI_Principal {
 			gbl_pnlInfo.rowHeights = new int[] { 272, 334, 0 };
 			gbl_pnlInfo.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 			gbl_pnlInfo.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+			pnlInfo.setBackground(new Color(255, 255, 255));
 			pnlInfo.setLayout(gbl_pnlInfo);
 			{
 			    txtrInfo = new JTextArea();
@@ -172,6 +178,7 @@ public class UI_Principal {
 			}
 			{
 			    pnlTabla = new JPanel();
+			    pnlTabla.setOpaque(false);
 			    pnlTabla.setBorder(new TitledBorder(null, "Productos a\u00F1adidos al pedido",
 				    TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			    GridBagConstraints gbc_pnlTabla = new GridBagConstraints();
@@ -194,13 +201,16 @@ public class UI_Principal {
     private void anadirPaneles() {
 
 	pnlGest = new JPanel();
-	pnlGest.setBackground(new Color(0,180,188));
+	pnlGest.setBackground(Color.WHITE);
 
 	pnlProductos.add(pnlGest, "Gestión de Pedidos");
+	pnlProductos.setBackground(new Color(255, 255, 255));
 	Agente ag = new Agente();
 	Producto[] prods = ag.leerProducto();
 	// ------------- CARTA ------------------
-	pnlProductos.add(new panelProductos(prods, 1), "Carta");
+	System.out.println("1  " + user.toString());
+
+	pnlProductos.add(new panelProductos(prods, 1, user), "Carta");
 	// ------------- MENUS ------------------
 	pnlProductos.add(generarPanel("menu", prods), "Menús");
 	// ------------- BEBIDAS ------------------
@@ -216,7 +226,7 @@ public class UI_Principal {
 
     private JPanel generarPanel(String categoria, Producto[] prods) {
 	Producto[] newProds = ut.categorizarProds(categoria, prods);
-	panelProductos pprod = new panelProductos(newProds);
+	panelProductos pprod = new panelProductos(newProds, user);
 	return pprod;
     }
 
@@ -243,20 +253,15 @@ public class UI_Principal {
     private class FrameWindowFocusListener implements WindowFocusListener {
 	public void windowGainedFocus(WindowEvent arg0) {
 	    frame.repaint();
+	    frame.revalidate();
 	    anadirPaneles();
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent arg0) {
-	    pnlGest.repaint();
-	    anadirPaneles();
-	}
-    }
 
-    private class FrameWindowStateListener implements WindowStateListener {
-	public void windowStateChanged(WindowEvent arg0) {
-	    frame.repaint();
-	    anadirPaneles();
 	}
+
     }
 
 }

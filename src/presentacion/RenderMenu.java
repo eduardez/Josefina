@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
@@ -14,6 +15,8 @@ public class RenderMenu extends DefaultTreeCellRenderer {
 	super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 	DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) value;
 	setFont(new Font("SansSerif", Font.PLAIN, 19));
+	setForeground(new Color(38,38,38));
+	setOpaque(false);
 	String c = (String) (nodo.getUserObject());
 	switch (c) {
 	case "Gestión de Pedidos":
