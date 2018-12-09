@@ -91,8 +91,8 @@ public class UI_Principal {
 		panNav.add(splitPane, BorderLayout.CENTER);
 		{
 		    pnlArb = new JPanel();
-		    pnlArb.setPreferredSize(new Dimension(150, 10));
-		    pnlArb.setMinimumSize(new Dimension(270, 10));
+		    pnlArb.setBackground(new Color(0,180,188));
+		    pnlArb.setMinimumSize(new Dimension(278, 10));
 		    splitPane.setLeftComponent(pnlArb);
 		    pnlArb.setLayout(new BorderLayout(0, 0));
 		    pnlArb.setBackground(new Color(38, 38, 38));
@@ -101,7 +101,7 @@ public class UI_Principal {
 			tree = new JTree();
 			tree.setBorder(null);
 			tree.addTreeSelectionListener(new TreeTreeSelectionListener());
-			tree.setBackground(new Color(38, 38, 38));
+			tree.setBackground(Color.WHITE);
 			tree.setRootVisible(false);
 			tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Inicio") {
@@ -122,6 +122,7 @@ public class UI_Principal {
 			for (int i = 0; i < tree.getRowCount(); i++) {// Expandir todos los nodos
 			    tree.expandRow(i);
 			}
+			
 			tree.setCellRenderer(new RenderMenu());
 			tree.putClientProperty("JTree.lineStyle", "Horizontal");
 		    }

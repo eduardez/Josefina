@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.StringTokenizer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import dominio.Producto;
+import java.awt.GridLayout;
 
 public class panelProdReut extends JPanel {
     private JLabel lblNombre;
@@ -23,6 +25,7 @@ public class panelProdReut extends JPanel {
     private JLabel lblPrecio;
     private JButton btnAdd;
     private JButton btnEditar;
+    private JPanel panelAlerg;
 
     public panelProdReut(Producto pro) {
 	setMinimumSize(new Dimension(500, 150));
@@ -35,7 +38,7 @@ public class panelProdReut extends JPanel {
 	setOpaque(false);
 	GridBagLayout gridBagLayout = new GridBagLayout();
 	gridBagLayout.columnWidths = new int[] { 36, 20, 64, 615, 58, 0, 0, 56, 0 };
-	gridBagLayout.rowHeights = new int[] { 17, 14, 14, 49, 0, 15, 0 };
+	gridBagLayout.rowHeights = new int[] { 32, 14, 14, 49, 44, 15, 0 };
 	gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	setLayout(gridBagLayout);
@@ -43,9 +46,10 @@ public class panelProdReut extends JPanel {
 	    separator = new JSeparator();
 	    separator.setMinimumSize(new Dimension(0, 2));
 	    GridBagConstraints gbc_separator = new GridBagConstraints();
+	    gbc_separator.anchor = GridBagConstraints.SOUTH;
 	    gbc_separator.gridwidth = 7;
 	    gbc_separator.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_separator.insets = new Insets(0, 0, 5, 5);
+	    gbc_separator.insets = new Insets(0, 0, 5, 0);
 	    gbc_separator.gridx = 1;
 	    gbc_separator.gridy = 0;
 	    add(separator, gbc_separator);
@@ -107,15 +111,16 @@ public class panelProdReut extends JPanel {
 	    add(btnEditar, gbc_btnEditar);
 	}
 	{
-	    lblAlerg = new JLabel(pro.getAlergenos());
-	    lblAlerg.setFont(new Font("SansSerif", Font.PLAIN, 18));
-	    GridBagConstraints gbc_lblAlerg = new GridBagConstraints();
-	    gbc_lblAlerg.anchor = GridBagConstraints.NORTH;
-	    gbc_lblAlerg.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_lblAlerg.insets = new Insets(0, 0, 5, 5);
-	    gbc_lblAlerg.gridx = 3;
-	    gbc_lblAlerg.gridy = 4;
-	    add(lblAlerg, gbc_lblAlerg);
+	    panelAlerg = new JPanel();
+	    panelAlerg.setOpaque(false);
+	    GridBagConstraints gbc_panelAlerg = new GridBagConstraints();
+	    gbc_panelAlerg.anchor = GridBagConstraints.WEST;
+	    gbc_panelAlerg.insets = new Insets(0, 0, 5, 5);
+	    gbc_panelAlerg.fill = GridBagConstraints.VERTICAL;
+	    gbc_panelAlerg.gridx = 3;
+	    gbc_panelAlerg.gridy = 4;
+	    add(panelAlerg, gbc_panelAlerg);
+	    panelAlerg.setLayout(new GridLayout(1, 0, 0, 0));
 	}
 	{
 	    lblPrecio = new JLabel(pro.getPrecio());
@@ -126,6 +131,32 @@ public class panelProdReut extends JPanel {
 	    gbc_lblPrecio.gridx = 4;
 	    gbc_lblPrecio.gridy = 4;
 	    add(lblPrecio, gbc_lblPrecio);
+	}
+	showAlergenos(pro.getAlergenos());
+
+    }
+
+    private void showAlergenos(String alerg) {
+	StringTokenizer token = new StringTokenizer(alerg, ",");
+
+	while (token.hasMoreTokens()) {
+	    String al = token.nextToken();
+	    System.out.println(al);
+	    JLabel lblAler = new JLabel();
+	    try {
+		if (!al.equalsIgnoreCase("Ninguno")) {
+		    lblAler.setToolTipText("Puede contener " + al);
+		    lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/" + al + ".png")));
+		} else {
+		    lblAler.setToolTipText("Plato libre de alergenos");
+		    lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/Ninguno.png")));
+		}
+	    } catch (Exception e) {
+		    lblAler.setToolTipText("Puede contener " + al);
+		lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/noImage.png")));
+	    }
+	    panelAlerg.add(lblAler);
+
 	}
 
     }

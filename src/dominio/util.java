@@ -1,8 +1,18 @@
 package dominio;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+
+import presentacion.addUser;
 
 public class util {
     private String[] dias = { "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab" };
@@ -59,4 +69,43 @@ public class util {
 	return valido;
     }
 
+    public JCheckBox[] anadirAlerg() {
+	int maxI = 3, maxJ = 4, alerg = 0;
+	String[] alergenos = { "Crustaceos", "Gluten", "Huevos", "Pescado", "Cacahuetes", "Soja", "Lacteos",
+		"Frutos de Cascara", "Apio", "Mostaza", "Sulfitos", "Vegano" };
+	JCheckBox[] chckbx = new JCheckBox[alergenos.length];
+	try {
+	    for (int i = 0; i < maxI; i++) {
+		for (int j = 0; j < maxJ; j++) {
+		    chckbx[alerg] = new JCheckBox(alergenos[alerg]);
+		    chckbx[alerg].addMouseListener(new ChckbxMouseListener(chckbx[alerg]));
+		    chckbx[alerg].setIcon(new ImageIcon(
+			    addUser.class.getResource("/recursos/alergenos/" + alergenos[alerg] + ".png")));
+		    chckbx[alerg].setEnabled(false);
+		    alerg++;
+		}
+	    }
+	} catch (Exception e) {
+
+	}
+	return chckbx;
+    }
+
+    private class ChckbxMouseListener extends MouseAdapter {
+	JCheckBox chckbx;
+
+	public ChckbxMouseListener(JCheckBox chckbx) {
+	    this.chckbx = chckbx;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+	    if (!chckbx.isEnabled()) {
+		chckbx.setEnabled(true);
+	    } else {
+		chckbx.setEnabled(false);
+	    }
+
+	}
+    }
 }

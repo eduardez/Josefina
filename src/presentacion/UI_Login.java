@@ -63,7 +63,7 @@ public class UI_Login extends JFrame {
 	// ---------- CAMBIAR LOOK AND FEEL ----------
 	try {
 	    // Set cross-platform Java L&F (also called "Metal")
-	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
+	   UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
 	} catch (Exception e) {
 	    System.out.println("ERROR en L&F");
 	}

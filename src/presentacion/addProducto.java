@@ -32,6 +32,11 @@ import javax.swing.border.TitledBorder;
 import dominio.Producto;
 import dominio.util;
 import persistencia.Agente;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JCheckBox;
 
 public class addProducto extends JDialog {
 
@@ -45,13 +50,15 @@ public class addProducto extends JDialog {
     private Agente ag = new Agente();
     private util ut = new util();
     private String tipoComida = "";
+    private JCheckBox[] alerg = ut.anadirAlerg();
+    private JPanel pnlAlerg;
 
     public addProducto() {
 	setModal(true);
 	setTitle("Restaurante la Josefina - A\u00F1adir Producto");
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addProducto.class.getResource("/recursos/logo.png")));
 	setResizable(false);
-	setBounds(100, 100, 552, 636);
+	setBounds(100, 100, 551, 703);
 	setLocationRelativeTo(null);
 	getContentPane().setLayout(new BorderLayout());
 	contentPanel.setBackground(new Color(255, 255, 255));
@@ -59,7 +66,7 @@ public class addProducto extends JDialog {
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	GridBagLayout gbl_contentPanel = new GridBagLayout();
 	gbl_contentPanel.columnWidths = new int[] { 0, 0, 133, 97, 0, 0 };
-	gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 204, 197, 0, 0, 0 };
+	gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 154, 248, 0, 0, 0 };
 	gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 	gbl_contentPanel.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	contentPanel.setLayout(gbl_contentPanel);
@@ -152,7 +159,7 @@ public class addProducto extends JDialog {
 	    }
 	}
 	{
-	    JPanel pnlAlerg = new JPanel();
+	    pnlAlerg = new JPanel();
 	    pnlAlerg.setOpaque(false);
 	    pnlAlerg.setBorder(
 		    new TitledBorder(null, "Al\u00E9rgenos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -163,7 +170,12 @@ public class addProducto extends JDialog {
 	    gbc_pnlAlerg.gridx = 0;
 	    gbc_pnlAlerg.gridy = 5;
 	    contentPanel.add(pnlAlerg, gbc_pnlAlerg);
-	    pnlAlerg.setLayout(new GridLayout(1, 0, 0, 0));
+	    pnlAlerg.setLayout(new GridLayout(3, 4, 0, 0));
+
+	    for (int i = 0; i < alerg.length; i++)
+		pnlAlerg.add(alerg[i]);
+	    // Se añaden todos los alergenos al panel
+
 	}
 	{
 	    JLabel lblPrecio = new JLabel("Precio:");
@@ -177,7 +189,7 @@ public class addProducto extends JDialog {
 	}
 	{
 	    spPrecio = new JSpinner();
-	    spPrecio.setModel(new SpinnerNumberModel(new Integer(5), new Integer(0), null, new Integer(1)));
+	    spPrecio.setModel(new SpinnerNumberModel(new Double(5), new Double(0), null, new Double(0.1)));
 	    spPrecio.setFont(new Font("SansSerif", Font.PLAIN, 21));
 	    GridBagConstraints gbc_spPrecio = new GridBagConstraints();
 	    gbc_spPrecio.fill = GridBagConstraints.HORIZONTAL;
@@ -229,13 +241,28 @@ public class addProducto extends JDialog {
 	    for (int i = 0; i < oldPr.length; i++) {
 		newPr[i] = oldPr[i];
 	    }
-	    int precio = (Integer) spPrecio.getValue();
-	    String precioS = String.valueOf(precio) + "€";
+	    // Ver que alergenos han sido seleccionados
+	    String alergenos = "";
+	    for (int i = 0; i < alerg.length; i++)
+		if (alerg[i].isEnabled())
+		    alergenos = alerg[i].getText() + "," + alergenos;
+
+	    if (alergenos.equalsIgnoreCase(""))
+		alergenos = "Ninguno";
+	    System.out.println(alergenos);
+
+	    // Poner bien el precio
+	    String precioS = String.valueOf(spPrecio.getValue()) + "€";
+
+	    // Crear Nuevo producto y añadirlo al array de Productos
 	    Producto newProd = new Producto(categorias[cmbCat.getSelectedIndex()], tipoComida, txtNombre.getText(),
-		    txtrDesc.getText(), precioS, "Ninguno");
+		    txtrDesc.getText(), precioS, alergenos);
 	    newPr[newPr.length - 1] = newProd;
+
 	    System.out.println(newProd.toString());
-	    if (ut.stringValida(newProd.toString())) {
+	    
+	    //Si todo esta bien, se añade. Si no, se muestra un popUp de error
+	    if (ut.stringValida(newProd.toString()) && !cmbTipo.getSelectedItem().toString().equalsIgnoreCase("") && !txtNombre.getText().equals("") && !txtrDesc.getText().equals("")) {
 		ag.escribirProds(newPr);
 		dispose();
 	    } else {

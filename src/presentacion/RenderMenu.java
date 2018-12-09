@@ -16,10 +16,9 @@ public class RenderMenu extends DefaultTreeCellRenderer {
 	super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 	DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) value;
 	setFont(new Font("SansSerif", Font.PLAIN, 19));
-	setForeground(Color.white);
-	setTextSelectionColor(new Color(38, 38, 38));
-	setBackgroundSelectionColor(Color.WHITE);
-	setOpaque(true);
+	setForeground(new Color(38, 38, 38));
+	setTextSelectionColor(Color.WHITE);
+	setOpaque(false);
 	String c = (String) (nodo.getUserObject());
 	switch (c) {
 	case "Gestión de Pedidos":
