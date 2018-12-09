@@ -50,7 +50,7 @@ public class util {
 
     public String[] contarTipos(Producto[] productos) {
 	ArrayList<String> tip = new ArrayList<String>(); // Contar numero de tipos de producto que hay
-	for (int i = 0; i < productos.length; i++) {
+	for (int i = 0; i < productos.length && productos.length>0; i++) {
 	    if (!tip.contains(productos[i].getTipo()))
 		tip.add(productos[i].getTipo());
 	}

@@ -49,7 +49,17 @@ public class Agente {
 	    prod = arrProd.toArray(new Producto[arrProd.size()]);
 
 	} catch (Exception e) {
-	    JOptionPane.showMessageDialog(null, "Base de datos no encontrada o dañada.");
+	    String respuesta = JOptionPane.showInputDialog("Base de datos no encontrada o dañada.\n¿Crear una nueva?",
+		    "Si/no");
+	    if (respuesta.equalsIgnoreCase("si")) {
+		try {
+		    File f = new File("productos.txt");
+		    BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+		} catch (IOException e1) {
+		}
+	    } else {
+		System.exit(0);
+	    }
 	    System.out.println("Error en la lectura.");
 	    e.printStackTrace();
 	    prod = null;

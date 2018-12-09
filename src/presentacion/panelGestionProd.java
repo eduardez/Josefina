@@ -26,7 +26,7 @@ public class panelGestionProd extends JPanel {
     /**
      * Create the panel.
      */
-    public panelGestionProd(String tipoProd, Usuario user) {
+    public panelGestionProd(Usuario user) {
 	setBorder(null);
 	setBackground(new Color(38, 38, 38));
 	setMinimumSize(new Dimension(10, 86));
@@ -43,7 +43,6 @@ public class panelGestionProd extends JPanel {
 	    gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 	    panel.setLayout(gbl_panel);
 	    {
-		// btnNewButton = new JButton(getTipoProd(tipoProd));Añadir Producto
 		btnAddProd = new JButton("Añadir Producto");
 		btnAddProd.setForeground(Color.BLACK);
 		btnAddProd.setBackground(Color.white);
@@ -83,35 +82,6 @@ public class panelGestionProd extends JPanel {
 	}
 
     }
-
-    /*
-     * private String getTipoProd(String tipoProd) {
-     * String pr = null;
-     * switch (tipoProd) {
-     * case "platInd":
-     * pr = "Añadir Plato Individual";
-     * break;
-     * case "bebida":
-     * pr = "Añadir Bebida";
-     * break;
-     * case "menu":
-     * pr = "Añadir Menú";
-     * break;
-     * case "postre":
-     * pr = "Añadir Postre";
-     * break;
-     * case "oferta":
-     * pr = "Añadir Oferta";
-     * break;
-     * default:
-     * pr = "Añadir Producto";
-     * break;
-     * }
-     * 
-     * return pr;
-     * }
-     */
-
     private class BtnNewButtonActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {

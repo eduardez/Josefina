@@ -39,7 +39,6 @@ public class UI_Principal {
     private JSplitPane splitPane;
     private JPanel pnlArb;
     private JTree tree;
-    private JButton btnLl;
     private JPanel pnlComida;
     private JPanel pnlInfo;
     private JPanel pnlProductos;
@@ -48,8 +47,6 @@ public class UI_Principal {
     private JTextArea txtrInfo;
     private JPanel pnlTabla;
     private JTable tablaPedidos;
-    private JScrollPane scPnlPlatos;
-    private JPanel pnlCarta;
     private util ut = new util();
 
     public UI_Principal(Usuario us) {

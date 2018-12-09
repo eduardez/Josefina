@@ -16,7 +16,6 @@ import dominio.Usuario;
 import dominio.util;
 
 public class panelProductos extends JPanel {
-    private JScrollPane scrollPane;
     private util ut = new util();
     private JPanel panelPaneles;
     private Usuario user;
@@ -68,15 +67,13 @@ public class panelProductos extends JPanel {
 
 	} // FIN RECORRER TODOS LOS TIPOS
 
-	JScrollPane scrollPane_1 = new JScrollPane(panelPaneles);
-	scrollPane_1.setOpaque(false);
-	add(scrollPane_1, BorderLayout.CENTER);
+	JScrollPane scrollPanel = new JScrollPane(panelPaneles);
+	scrollPanel.setBackground(Color.WHITE);
+	scrollPanel.getVerticalScrollBar().setUnitIncrement(16);//Aumentar la velocidad de scroll
+	scrollPanel.setOpaque(false);
+	add(scrollPanel, BorderLayout.CENTER);
+	add(new panelGestionProd(user), BorderLayout.NORTH);
 
-	if (flagCarta != 0) {
-	    add(new panelGestionProd("carta", user), BorderLayout.NORTH);
-	} else {
-	    add(new panelGestionProd(productos[0].getCategoria(), user), BorderLayout.NORTH);
-	}
     }
 
 }

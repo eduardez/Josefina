@@ -1,4 +1,4 @@
-admin,admin,Administrador,Dom 9 - 12 - 2018 | 17:17:3
+admin,admin,Administrador,Dom 9 - 12 - 2018 | 18:00:26
 pru,1234,prueba,Jue 29 - 11 - 2018 | 23:16:23
 user2,prueba,Usuario de prueba 2,Sab 1 - 12 - 2018 | 2:59:55
 edu,1234,Eduardo Garcia,Dom 9 - 12 - 2018 | 16:50:11

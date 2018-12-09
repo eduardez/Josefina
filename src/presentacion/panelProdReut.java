@@ -152,7 +152,7 @@ public class panelProdReut extends JPanel {
 		    lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/Ninguno.png")));
 		}
 	    } catch (Exception e) {
-		    lblAler.setToolTipText("Puede contener " + al);
+		lblAler.setToolTipText("Puede contener " + al);
 		lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/noImage.png")));
 	    }
 	    panelAlerg.add(lblAler);
