@@ -14,7 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import dominio.Producto;
+import dominio.util;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class panelProdReut extends JPanel {
     private JLabel lblNombre;
@@ -26,8 +30,12 @@ public class panelProdReut extends JPanel {
     private JButton btnAdd;
     private JButton btnEditar;
     private JPanel panelAlerg;
+    private util ut;
+    private Producto pro;
 
-    public panelProdReut(Producto pro) {
+    public panelProdReut(Producto prod, util utiles) {
+	ut=utiles;
+	pro=prod;
 	setMinimumSize(new Dimension(500, 150));
 	setPreferredSize(new Dimension(826, 176));
 	setMaximumSize(new Dimension(500, 152));
@@ -92,6 +100,7 @@ public class panelProdReut extends JPanel {
 	}
 	{
 	    btnAdd = new JButton("A\u00F1adir al pedido");
+	    btnAdd.addActionListener(new BtnAddActionListener());
 	    btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 	    gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
@@ -198,4 +207,9 @@ public class panelProdReut extends JPanel {
 	ImageIcon ic = new ImageIcon(panelProdReut.class.getResource(ruta));
 	return ic;
     }
+	private class BtnAddActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		    ut.anadirAtabla(pro);
+		}
+	}
 }

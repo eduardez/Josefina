@@ -16,7 +16,7 @@ import dominio.Usuario;
 import dominio.util;
 
 public class panelProductos extends JPanel {
-    private util ut = new util();
+    private util ut;
     private JPanel panelPaneles;
     private Usuario user;
 
@@ -24,17 +24,21 @@ public class panelProductos extends JPanel {
      * Create the panel
      * Este panel es un pifostio del carajo, casi se me rompe la cabeza haciendolo
      * 
+     * @param utiles
+     * 
      * @wbp.parser.constructor
      * 
      */
-    public panelProductos(Producto[] productos, Usuario us) {
+    public panelProductos(Producto[] productos, Usuario us, util utiles) {
 	setOpaque(false); /* Si el flag de carta = 1, muestra todos los productos */
 	user = us;
+	ut = utiles;
 	inicializar(productos, 0);
     }
 
-    public panelProductos(Producto[] productos, int flagCarta, Usuario us) {
+    public panelProductos(Producto[] productos, int flagCarta, Usuario us, util utiles) {
 	user = us;
+	ut = utiles;
 	inicializar(productos, 1);
     }
 
@@ -57,7 +61,7 @@ public class panelProductos extends JPanel {
 	    int numS = 0;
 	    for (int i = 0; i < productos.length; i++) {
 		if (productos[i].getTipo().equals(allTipos[j])) {// Si coincide con el tipo que se esta recorriendo
-		    panelTipo.add(new panelProdReut(productos[i]));
+		    panelTipo.add(new panelProdReut(productos[i],ut));
 		    numS += 1;
 		    panelTipo.setLayout(new GridLayout(numS, 0, 0, 0));
 		    panelTipo.setBackground(new Color(255, 255, 255));
@@ -69,7 +73,7 @@ public class panelProductos extends JPanel {
 
 	JScrollPane scrollPanel = new JScrollPane(panelPaneles);
 	scrollPanel.setBackground(Color.WHITE);
-	scrollPanel.getVerticalScrollBar().setUnitIncrement(16);//Aumentar la velocidad de scroll
+	scrollPanel.getVerticalScrollBar().setUnitIncrement(16);// Aumentar la velocidad de scroll
 	scrollPanel.setOpaque(false);
 	add(scrollPanel, BorderLayout.CENTER);
 	add(new panelGestionProd(user), BorderLayout.NORTH);

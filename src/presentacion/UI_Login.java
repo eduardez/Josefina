@@ -173,6 +173,7 @@ public class UI_Login extends JFrame {
 	    }
 	    {
 		lblAvisouser = new JLabel("");
+		lblAvisouser.setForeground(Color.RED);
 		lblAvisouser.setFont(new Font("SansSerif", Font.ITALIC, 12));
 		GridBagConstraints gbc_lblAvisouser = new GridBagConstraints();
 		gbc_lblAvisouser.insets = new Insets(0, 0, 5, 5);
@@ -212,6 +213,7 @@ public class UI_Login extends JFrame {
 		btnEntrar.addActionListener(new BtnEntrarActionListener());
 		{
 		    lblAvisoPass = new JLabel("");
+		    lblAvisoPass.setForeground(Color.RED);
 		    lblAvisoPass.setFont(new Font("SansSerif", Font.ITALIC, 12));
 		    GridBagConstraints gbc_lblAvisoPass = new GridBagConstraints();
 		    gbc_lblAvisoPass.anchor = GridBagConstraints.NORTH;
@@ -355,6 +357,7 @@ public class UI_Login extends JFrame {
 			userIndex = i;// Esto es para pasar luego a la siguiente ventana el usuario que se ha autenticado
 			valido = true;
 		    } else {
+			lblAvisouser.setText("");
 			lblAvisoPass.setText("Contraseña Incorrecta");
 			lblAvisouser.setText("");
 			txtUsuario.setBorder(null);
@@ -368,6 +371,7 @@ public class UI_Login extends JFrame {
 		lblAvisoPass.setText("");
 		txtContra.setBorder(null);
 		txtContra.setBackground(Color.white);
+		lblAvisoPass.setText("");
 		txtUsuario.setBorder(new LineBorder(Color.RED));
 		txtUsuario.setBackground(new Color(253, 215, 214));
 	    }

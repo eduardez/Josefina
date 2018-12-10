@@ -38,6 +38,8 @@ public class panelUser extends JPanel {
     private Usuario user1;
     private util ut = new util();
     private JFrame frame1;
+    private int numProd = 0;
+    private double precioTotal = 0.0;
 
     /**
      * Create the panel.
@@ -236,6 +238,24 @@ public class panelUser extends JPanel {
 	    add(lblMarEnero, gbc_lblMarEnero);
 	}
 
+    }
+
+    public void setNumProd(int n) {
+	lblProductos.setText(n + " productos");
+	this.numProd = n;
+    }
+
+    public int getNumProd() {
+	return this.numProd;
+    }
+
+    public void setPrecioTot(double p) {
+	lblTotalEU.setText(p + "€");
+	this.precioTotal = p;
+    }
+
+    public double getPrecioTot() {
+	return this.precioTotal;
     }
 
     private class LblGestUsuariosMouseListener extends MouseAdapter {

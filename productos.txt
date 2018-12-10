@@ -28,3 +28,6 @@ menu-Menús-Alergenos-Prueba de alergenos-5.0€-Vegano,Sulfitos,Mostaza,Apio,Fruto
 menu-Menús-Prueba Alergeno Gluten-sfdes-5.0€-Gluten,
 oferta-Promociones-Prueba Sin Alergenos-oajefj-5.0€-Ninguno
 oferta-Promociones-Prueba con alergenos-asdfa-5.0€-Sulfitos,Mostaza,Apio,Frutos de Cascara,Soja,Huevos,
+bebida-Vinos-Vino moscatell-asdfñlaknjfñkajnñ-5.0€-Lacteos,Pescado,Crustaceos,
+oferta-Promociones-asjdfna-asldfjknalf baldsfnb a-5.0€-Sulfitos,Mostaza,Apio,Lacteos,Soja,Cacahuetes,
+platInd-Pastas-fasdfaf-sdfasdfas-5.0€-Sulfitos,Frutos de Cascara,Lacteos,Cacahuetes,Gluten,

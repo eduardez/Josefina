@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,11 +31,12 @@ import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
 import persistencia.Agente;
+import javax.swing.table.DefaultTableModel;
 
 public class UI_Principal {
 
     public JFrame frame;
-    private JPanel panUser;
+    private panelUser panUser;
     private JPanel panNav;
     private JSplitPane splitPane;
     private JPanel pnlArb;
@@ -44,10 +46,10 @@ public class UI_Principal {
     private JPanel pnlProductos;
     private Usuario user;
     private JPanel pnlGest;
-    private JTextArea txtrInfo;
-    private JPanel pnlTabla;
-    private JTable tablaPedidos;
     private util ut = new util();
+    private JTextArea textArea;
+    private JPanel pnlTabla;
+    private JScrollPane scrollPane;
 
     public UI_Principal(Usuario us) {
 	user = us;
@@ -88,7 +90,7 @@ public class UI_Principal {
 		panNav.add(splitPane, BorderLayout.CENTER);
 		{
 		    pnlArb = new JPanel();
-		    pnlArb.setBackground(new Color(0,180,188));
+		    pnlArb.setBackground(new Color(0, 180, 188));
 		    pnlArb.setMinimumSize(new Dimension(278, 10));
 		    splitPane.setLeftComponent(pnlArb);
 		    pnlArb.setLayout(new BorderLayout(0, 0));
@@ -119,7 +121,7 @@ public class UI_Principal {
 			for (int i = 0; i < tree.getRowCount(); i++) {// Expandir todos los nodos
 			    tree.expandRow(i);
 			}
-			
+
 			tree.setCellRenderer(new RenderMenu());
 			tree.putClientProperty("JTree.lineStyle", "Horizontal");
 		    }
@@ -142,7 +144,6 @@ public class UI_Principal {
 			gbc_pnlProductos.gridy = 0;
 			pnlComida.add(pnlProductos, gbc_pnlProductos);
 			pnlProductos.setLayout(new CardLayout(0, 0));
-			anadirPaneles();
 		    }
 		    {
 			pnlInfo = new JPanel();
@@ -153,41 +154,53 @@ public class UI_Principal {
 			pnlComida.add(pnlInfo, gbc_pnlInfo);
 			GridBagLayout gbl_pnlInfo = new GridBagLayout();
 			gbl_pnlInfo.columnWidths = new int[] { 0, 0 };
-			gbl_pnlInfo.rowHeights = new int[] { 272, 334, 0 };
+			gbl_pnlInfo.rowHeights = new int[] { 373, 386, 0 };
 			gbl_pnlInfo.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-			gbl_pnlInfo.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+			gbl_pnlInfo.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 			pnlInfo.setBackground(new Color(255, 255, 255));
 			pnlInfo.setLayout(gbl_pnlInfo);
 			{
-			    txtrInfo = new JTextArea();
-			    txtrInfo.setText("info");
-			    GridBagConstraints gbc_txtrInfo = new GridBagConstraints();
-			    gbc_txtrInfo.insets = new Insets(0, 0, 5, 0);
-			    gbc_txtrInfo.fill = GridBagConstraints.BOTH;
-			    gbc_txtrInfo.gridx = 0;
-			    gbc_txtrInfo.gridy = 0;
-			    pnlInfo.add(txtrInfo, gbc_txtrInfo);
-			}
-			{
 			    pnlTabla = new JPanel();
 			    pnlTabla.setOpaque(false);
-			    pnlTabla.setBorder(new TitledBorder(null, "Productos a\u00F1adidos al pedido",
-				    TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			    GridBagConstraints gbc_pnlTabla = new GridBagConstraints();
+			    gbc_pnlTabla.insets = new Insets(0, 0, 5, 0);
 			    gbc_pnlTabla.fill = GridBagConstraints.BOTH;
 			    gbc_pnlTabla.gridx = 0;
-			    gbc_pnlTabla.gridy = 1;
+			    gbc_pnlTabla.gridy = 0;
 			    pnlInfo.add(pnlTabla, gbc_pnlTabla);
 			    pnlTabla.setLayout(new BorderLayout(0, 0));
-			    {
-				tablaPedidos = new JTable();
-				pnlTabla.add(tablaPedidos);
-			    }
+
+			    // Añadir tabla ----------
+			    anadirTabla();
+			}
+			{
+			    textArea = new JTextArea();
+			    textArea.setText("info");
+			    GridBagConstraints gbc_textArea = new GridBagConstraints();
+			    gbc_textArea.fill = GridBagConstraints.BOTH;
+			    gbc_textArea.gridx = 0;
+			    gbc_textArea.gridy = 1;
+			    pnlInfo.add(textArea, gbc_textArea);
 			}
 		    }
 		}
 	    }
 	}
+	anadirPaneles();
+    }
+
+    private void anadirTabla() {
+	String columnas[] = { "Producto", "Tipo", "Precio", "Cantidad" }; // Que se va a poner en cada columna
+	DefaultTableModel modelo_tabla = new DefaultTableModel(columnas, 0);
+	JTable tabla = new JTable(modelo_tabla); // Crear tabla
+	tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+	tabla.setFont(new Font("SansSerif", Font.PLAIN, 17));
+	JScrollPane scrollpan = new JScrollPane(tabla);
+	scrollpan.setVerticalScrollBarPolicy(scrollpan.VERTICAL_SCROLLBAR_AS_NEEDED);
+	pnlTabla.add(scrollpan);
+	pnlTabla.add(tabla.getTableHeader(), BorderLayout.NORTH);
+	ut.setTabla(tabla);
+	ut.setPnlUser(panUser);
     }
 
     private void anadirPaneles() {
@@ -202,7 +215,7 @@ public class UI_Principal {
 	// ------------- CARTA ------------------
 	System.out.println("1  " + user.toString());
 
-	pnlProductos.add(new panelProductos(prods, 1, user), "Carta");
+	pnlProductos.add(new panelProductos(prods, 1, user, ut), "Carta");
 	// ------------- MENUS ------------------
 	pnlProductos.add(generarPanel("menu", prods), "Menús");
 	// ------------- BEBIDAS ------------------
@@ -218,7 +231,7 @@ public class UI_Principal {
 
     private JPanel generarPanel(String categoria, Producto[] prods) {
 	Producto[] newProds = ut.categorizarProds(categoria, prods);
-	panelProductos pprod = new panelProductos(newProds, user);
+	panelProductos pprod = new panelProductos(newProds, user, ut);
 	return pprod;
     }
 
@@ -246,8 +259,9 @@ public class UI_Principal {
     private class FrameWindowFocusListener implements WindowFocusListener {
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-	    frame.repaint();
-	    frame.revalidate();
+
+	    pnlProductos.repaint();
+	    pnlProductos.revalidate();
 	    anadirPaneles();
 	}
 
