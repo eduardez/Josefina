@@ -31,3 +31,4 @@ oferta-Promociones-Prueba con alergenos-asdfa-5.0€-Sulfitos,Mostaza,Apio,Frutos 
 bebida-Vinos-Vino moscatell-asdfñlaknjfñkajnñ-5.0€-Lacteos,Pescado,Crustaceos,
 oferta-Promociones-asjdfna-asldfjknalf baldsfnb a-5.0€-Sulfitos,Mostaza,Apio,Lacteos,Soja,Cacahuetes,
 platInd-Pastas-fasdfaf-sdfasdfas-5.0€-Sulfitos,Frutos de Cascara,Lacteos,Cacahuetes,Gluten,
+bebida-Vinos-asdf-asdf-5.0€-Sulfitos,Cacahuetes,Gluten,

@@ -1,4 +1,4 @@
-package dominio;
+	package dominio;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -175,7 +175,7 @@ public class util {
 	    if (tabla.getValueAt(fila, 0).toString().equals(prod.getNombre())) {
 		int cantidad = Integer.parseInt(tabla.getValueAt(fila, 3).toString());
 		tabla.setValueAt((cantidad + 1), fila, 3);
-		tabla.setValueAt(String.valueOf(total) + "€", model.getRowCount() - 1, 3);
+		tabla.setValueAt(String.format("%.2f", total) + "€", model.getRowCount() - 1, 3);
 		esta = true;
 	    }
 	}
@@ -183,12 +183,12 @@ public class util {
 	if (!esta && (tabla.getRowCount() != 0)) {
 	    model.removeRow(model.getRowCount() - 1);
 	    model.addRow(new Object[] { prod.getNombre(), prod.getTipo(), prod.getPrecio(), "1" });
-	    model.addRow(new Object[] { "", "", "Total: ", String.valueOf(total) + "€" });// añadir y actualizar precio total
+	    model.addRow(new Object[] { "", "", "Total: ", String.format("%.2f", total) + "€" });// añadir y actualizar precio total
 	}
 
 	if (tabla.getRowCount() == 0) {
 	    model.addRow(new Object[] { prod.getNombre(), prod.getTipo(), prod.getPrecio(), "1" });
-	    model.addRow(new Object[] { "", "", "Total: ", String.valueOf(total) + "€" });// añadir y actualizar precio total
+	    model.addRow(new Object[] { "", "", "Total: ", String.format("%.2f", total) + "€" });// añadir y actualizar precio total
 	}
 
     }
