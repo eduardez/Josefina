@@ -1,41 +1,35 @@
 package presentacion;
 
+import javax.swing.JPanel;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.StringTokenizer;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
-
 import dominio.Producto;
 import dominio.util;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class panelProdReut extends JPanel {
+public class panelCliente extends JPanel {
     private JLabel lblNombre;
     private JLabel lblDesc;
-    private JLabel lblAlerg;
     private JSeparator separator;
     private JLabel lblFoto;
-    private JLabel lblPrecio;
-    private JButton btnAdd;
+    private JButton btnPedidos;
     private JButton btnEditar;
-    private JPanel panelAlerg;
     private util ut;
     private Producto pro;
 
-    public panelProdReut(Producto prod, util utiles) {
-	ut=utiles;
-	pro=prod;
+    public panelCliente(Producto prod, util utiles) {
+	ut = utiles;
+	pro = prod;
 	setMinimumSize(new Dimension(500, 150));
 	setPreferredSize(new Dimension(826, 176));
 	setMaximumSize(new Dimension(500, 152));
@@ -99,18 +93,18 @@ public class panelProdReut extends JPanel {
 	    add(lblDesc, gbc_lblDesc);
 	}
 	{
-	    btnAdd = new JButton("A\u00F1adir al pedido");
-	    btnAdd.addActionListener(new BtnAddActionListener());
-	    btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 17));
-	    GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-	    gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
-	    gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
-	    gbc_btnAdd.gridx = 7;
-	    gbc_btnAdd.gridy = 2;
-	    add(btnAdd, gbc_btnAdd);
+	    btnPedidos = new JButton("Ver pedidos");
+	    btnPedidos.addActionListener(new BtnAddActionListener());
+	    btnPedidos.setFont(new Font("SansSerif", Font.PLAIN, 17));
+	    GridBagConstraints gbc_btnPedidos = new GridBagConstraints();
+	    gbc_btnPedidos.fill = GridBagConstraints.HORIZONTAL;
+	    gbc_btnPedidos.insets = new Insets(0, 0, 5, 0);
+	    gbc_btnPedidos.gridx = 7;
+	    gbc_btnPedidos.gridy = 2;
+	    add(btnPedidos, gbc_btnPedidos);
 	}
 	{
-	    btnEditar = new JButton("Editar");
+	    btnEditar = new JButton("Editar cliente");
 	    btnEditar.addActionListener(new BtnEditarActionListener());
 	    btnEditar.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_btnEditar = new GridBagConstraints();
@@ -119,53 +113,6 @@ public class panelProdReut extends JPanel {
 	    gbc_btnEditar.gridx = 7;
 	    gbc_btnEditar.gridy = 3;
 	    add(btnEditar, gbc_btnEditar);
-	}
-	{
-	    panelAlerg = new JPanel();
-	    panelAlerg.setOpaque(false);
-	    GridBagConstraints gbc_panelAlerg = new GridBagConstraints();
-	    gbc_panelAlerg.anchor = GridBagConstraints.WEST;
-	    gbc_panelAlerg.insets = new Insets(0, 0, 5, 5);
-	    gbc_panelAlerg.fill = GridBagConstraints.VERTICAL;
-	    gbc_panelAlerg.gridx = 3;
-	    gbc_panelAlerg.gridy = 4;
-	    add(panelAlerg, gbc_panelAlerg);
-	    panelAlerg.setLayout(new GridLayout(1, 0, 0, 0));
-	}
-	{
-	    lblPrecio = new JLabel(pro.getPrecio());
-	    lblPrecio.setFont(new Font("SansSerif", Font.PLAIN, 20));
-	    GridBagConstraints gbc_lblPrecio = new GridBagConstraints();
-	    gbc_lblPrecio.anchor = GridBagConstraints.WEST;
-	    gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
-	    gbc_lblPrecio.gridx = 4;
-	    gbc_lblPrecio.gridy = 4;
-	    add(lblPrecio, gbc_lblPrecio);
-	}
-	showAlergenos(pro.getAlergenos());
-
-    }
-
-    private void showAlergenos(String alerg) {
-	StringTokenizer token = new StringTokenizer(alerg, ",");
-
-	while (token.hasMoreTokens()) {
-	    String al = token.nextToken();
-	    JLabel lblAler = new JLabel();
-	    try {
-		if (!al.equalsIgnoreCase("Ninguno")) {
-		    lblAler.setToolTipText("Puede contener " + al);
-		    lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/" + al + ".png")));
-		} else {
-		    lblAler.setToolTipText("Plato libre de alergenos");
-		    lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/Ninguno.png")));
-		}
-	    } catch (Exception e) {
-		lblAler.setToolTipText("Puede contener " + al);
-		lblAler.setIcon(new ImageIcon(addUser.class.getResource("/recursos/alergenos/noImage.png")));
-	    }
-	    panelAlerg.add(lblAler);
-
 	}
 
     }
@@ -207,15 +154,17 @@ public class panelProdReut extends JPanel {
 	ImageIcon ic = new ImageIcon(panelProdReut.class.getResource(ruta));
 	return ic;
     }
-	private class BtnAddActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-		    ut.anadirAtabla(pro);
-		}
+
+    private class BtnAddActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent arg0) {
+	    ut.anadirAtabla(pro);
 	}
-	private class BtnEditarActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-		    addProducto pnlPro= new addProducto(pro);
-		    pnlPro.setVisible(true);
-		}
+    }
+
+    private class BtnEditarActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+	    addProducto pnlPro = new addProducto(pro);
+	    pnlPro.setVisible(true);
 	}
+    }
 }

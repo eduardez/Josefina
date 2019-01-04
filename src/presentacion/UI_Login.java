@@ -21,9 +21,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -63,7 +65,7 @@ public class UI_Login extends JFrame {
 	// ---------- CAMBIAR LOOK AND FEEL ----------
 	try {
 	    // Set cross-platform Java L&F (also called "Metal")
-	   UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
+	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
 	} catch (Exception e) {
 	    System.out.println("ERROR en L&F");
 	}
@@ -82,12 +84,8 @@ public class UI_Login extends JFrame {
 	{
 	    panIcon = new JPanel();
 	    panIcon.setOpaque(false);
-	    GridBagConstraints gbc_panIcon = new GridBagConstraints();
-	    gbc_panIcon.insets = new Insets(0, 0, 5, 5);
-	    gbc_panIcon.fill = GridBagConstraints.BOTH;
-	    gbc_panIcon.gridx = 1;
-	    gbc_panIcon.gridy = 0;
-	    contentPane.add(panIcon, gbc_panIcon);
+	    contentPane.add(panIcon, renderObjeto(1, 0, -2, new int[] { 0, 0, 5, 5 }, -1, GridBagConstraints.BOTH));
+
 	    GridBagLayout gbl_panIcon = new GridBagLayout();
 	    gbl_panIcon.columnWidths = new int[] { 0, 0 };
 	    gbl_panIcon.rowHeights = new int[] { 480, 88, 0 };
@@ -97,22 +95,14 @@ public class UI_Login extends JFrame {
 	    {
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/logo.png")));
-		GridBagConstraints gbc_lblLogo = new GridBagConstraints();
-		gbc_lblLogo.anchor = GridBagConstraints.SOUTH;
-		gbc_lblLogo.insets = new Insets(0, 0, 5, 0);
-		gbc_lblLogo.gridx = 0;
-		gbc_lblLogo.gridy = 0;
-		panIcon.add(lblLogo, gbc_lblLogo);
+		panIcon.add(lblLogo, renderObjeto(0, 0, GridBagConstraints.SOUTH, new int[] { 0, 0, 5, 0 }, -1, -2));
+
 	    }
 	    {
 		lblRestauranteLaJosefina = new JLabel("Restaurante La Josefina");
 		lblRestauranteLaJosefina.setFont(new Font(fuente, Font.PLAIN, 25));
 		lblRestauranteLaJosefina.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblRestauranteLaJosefina = new GridBagConstraints();
-		gbc_lblRestauranteLaJosefina.anchor = GridBagConstraints.NORTH;
-		gbc_lblRestauranteLaJosefina.gridx = 0;
-		gbc_lblRestauranteLaJosefina.gridy = 1;
-		panIcon.add(lblRestauranteLaJosefina, gbc_lblRestauranteLaJosefina);
+		panIcon.add(lblRestauranteLaJosefina, renderObjeto(0, 1, GridBagConstraints.NORTH, null, -1, -2));
 	    }
 	}
 	{
@@ -124,22 +114,15 @@ public class UI_Login extends JFrame {
 	    separator.setMaximumSize(new Dimension(2, 19998));
 	    separator.setMinimumSize(new Dimension(2, 2));
 	    separator.setOrientation(SwingConstants.VERTICAL);
-	    GridBagConstraints gbc_separator = new GridBagConstraints();
-	    gbc_separator.fill = GridBagConstraints.VERTICAL;
-	    gbc_separator.insets = new Insets(0, 0, 5, 5);
-	    gbc_separator.gridx = 2;
-	    gbc_separator.gridy = 0;
-	    contentPane.add(separator, gbc_separator);
+
+	    contentPane.add(separator,
+		    renderObjeto(2, 0, -2, new int[] { 0, 0, 5, 5 }, -1, GridBagConstraints.VERTICAL));
 	}
 	{
 	    panAut = new JPanel();
 	    panAut.setOpaque(false);
-	    GridBagConstraints gbc_panAut = new GridBagConstraints();
-	    gbc_panAut.insets = new Insets(0, 0, 5, 5);
-	    gbc_panAut.fill = GridBagConstraints.BOTH;
-	    gbc_panAut.gridx = 3;
-	    gbc_panAut.gridy = 0;
-	    contentPane.add(panAut, gbc_panAut);
+	    contentPane.add(panAut, renderObjeto(3, 0, -2, new int[] { 0, 0, 5, 5 }, -1, GridBagConstraints.BOTH));
+
 	    GridBagLayout gbl_panAut = new GridBagLayout();
 	    gbl_panAut.columnWidths = new int[] { 127, 289, 69, 0 };
 	    gbl_panAut.rowHeights = new int[] { 125, -60, 0, -232, -188, 120, 116, 0 };
@@ -149,12 +132,7 @@ public class UI_Login extends JFrame {
 	    {
 		lblUsuario = new JLabel("Usuario");
 		lblUsuario.setFont(new Font("SansSerif", Font.BOLD, 19));
-		GridBagConstraints gbc_lblUsuario = new GridBagConstraints();
-		gbc_lblUsuario.anchor = GridBagConstraints.SOUTH;
-		gbc_lblUsuario.insets = new Insets(0, 0, 5, 5);
-		gbc_lblUsuario.gridx = 0;
-		gbc_lblUsuario.gridy = 1;
-		panAut.add(lblUsuario, gbc_lblUsuario);
+		panAut.add(lblUsuario, renderObjeto(0, 1, GridBagConstraints.SOUTH, new int[] { 0, 0, 5, 5 }, -1, -2));
 	    }
 	    {
 		txtUsuario = new JTextField();
@@ -162,33 +140,20 @@ public class UI_Login extends JFrame {
 		txtUsuario.addKeyListener(new TxtUsuarioKeyListener());
 		txtUsuario.setFont(new Font("SansSerif", Font.PLAIN, 19));
 		txtUsuario.setMinimumSize(new Dimension(6, 38));
-		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
-		gbc_txtUsuario.anchor = GridBagConstraints.SOUTH;
-		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
-		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtUsuario.gridx = 1;
-		gbc_txtUsuario.gridy = 1;
-		panAut.add(txtUsuario, gbc_txtUsuario);
+		panAut.add(txtUsuario, renderObjeto(1, 1, GridBagConstraints.SOUTH, new int[] { 0, 0, 5, 5 }, -1,
+			GridBagConstraints.HORIZONTAL));
 		txtUsuario.setColumns(10);
 	    }
 	    {
 		lblAvisouser = new JLabel("");
 		lblAvisouser.setForeground(Color.RED);
 		lblAvisouser.setFont(new Font("SansSerif", Font.ITALIC, 12));
-		GridBagConstraints gbc_lblAvisouser = new GridBagConstraints();
-		gbc_lblAvisouser.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAvisouser.gridx = 1;
-		gbc_lblAvisouser.gridy = 2;
-		panAut.add(lblAvisouser, gbc_lblAvisouser);
+		panAut.add(lblAvisouser, renderObjeto(1, 2, -2, new int[] { 0, 0, 5, 5 }, -1, -2));
 	    }
 	    {
 		lblContrasea = new JLabel("Contrase\u00F1a");
 		lblContrasea.setFont(new Font("SansSerif", Font.BOLD, 19));
-		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
-		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
-		gbc_lblContrasea.gridx = 0;
-		gbc_lblContrasea.gridy = 3;
-		panAut.add(lblContrasea, gbc_lblContrasea);
+		panAut.add(lblContrasea, renderObjeto(0, 3, -2, new int[] { 0, 0, 5, 5 }, -1, -2));
 	    }
 	    {
 		txtContra = new JPasswordField();
@@ -199,13 +164,8 @@ public class UI_Login extends JFrame {
 
 		txtContra.setVerifyInputWhenFocusTarget(false);
 		txtContra.setFont(new Font("SansSerif", Font.PLAIN, 23));
-
-		GridBagConstraints gbc_txtContra = new GridBagConstraints();
-		gbc_txtContra.insets = new Insets(0, 0, 5, 5);
-		gbc_txtContra.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtContra.gridx = 1;
-		gbc_txtContra.gridy = 3;
-		panAut.add(txtContra, gbc_txtContra);
+		panAut.add(txtContra,
+			renderObjeto(1, 3, -2, new int[] { 0, 0, 5, 5 }, -1, GridBagConstraints.HORIZONTAL));
 	    }
 	    {
 		btnEntrar = new JButton("Entrar");
@@ -215,33 +175,19 @@ public class UI_Login extends JFrame {
 		    lblAvisoPass = new JLabel("");
 		    lblAvisoPass.setForeground(Color.RED);
 		    lblAvisoPass.setFont(new Font("SansSerif", Font.ITALIC, 12));
-		    GridBagConstraints gbc_lblAvisoPass = new GridBagConstraints();
-		    gbc_lblAvisoPass.anchor = GridBagConstraints.NORTH;
-		    gbc_lblAvisoPass.insets = new Insets(0, 0, 5, 5);
-		    gbc_lblAvisoPass.gridx = 1;
-		    gbc_lblAvisoPass.gridy = 4;
-		    panAut.add(lblAvisoPass, gbc_lblAvisoPass);
+		    panAut.add(lblAvisoPass,
+			    renderObjeto(1, 4, GridBagConstraints.NORTH, new int[] { 0, 0, 5, 5 }, -1, -2));
 		}
 		btnEntrar.setFont(new Font("SansSerif", Font.BOLD, 33));
-		GridBagConstraints gbc_btnEntrar = new GridBagConstraints();
-		gbc_btnEntrar.anchor = GridBagConstraints.NORTH;
-		gbc_btnEntrar.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnEntrar.insets = new Insets(0, 0, 5, 5);
-		gbc_btnEntrar.gridx = 1;
-		gbc_btnEntrar.gridy = 5;
-		panAut.add(btnEntrar, gbc_btnEntrar);
+		panAut.add(btnEntrar, renderObjeto(1, 5, GridBagConstraints.NORTH, new int[] { 0, 0, 5, 5 }, -1,
+			GridBagConstraints.HORIZONTAL));
 	    }
 	}
 	{
 	    panAccesi = new JPanel();
 	    panAccesi.setOpaque(false);
-	    GridBagConstraints gbc_panAccesi = new GridBagConstraints();
-	    gbc_panAccesi.insets = new Insets(0, 0, 0, 5);
-	    gbc_panAccesi.gridwidth = 3;
-	    gbc_panAccesi.fill = GridBagConstraints.BOTH;
-	    gbc_panAccesi.gridx = 1;
-	    gbc_panAccesi.gridy = 1;
-	    contentPane.add(panAccesi, gbc_panAccesi);
+	    contentPane.add(panAccesi, renderObjeto(1, 1, -2, new int[] { 0, 0, 0, 5 }, 3, GridBagConstraints.BOTH));
+
 	    GridBagLayout gbl_panAccesi = new GridBagLayout();
 	    gbl_panAccesi.columnWidths = new int[] { 139, 527, 186, 0 };
 	    gbl_panAccesi.rowHeights = new int[] { 44, 0 };
@@ -249,27 +195,55 @@ public class UI_Login extends JFrame {
 	    gbl_panAccesi.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 	    panAccesi.setLayout(gbl_panAccesi);
 	    {
+		// Crear boton 'Cambiar Idioma'
 		lblIntern = new JLabel("");
-		lblIntern.addMouseListener(new LblInternMouseListener());
 		lblIntern.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		lblIntern.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/idioma.png")));
-		GridBagConstraints gbc_lblIntern = new GridBagConstraints();
-		gbc_lblIntern.anchor = GridBagConstraints.WEST;
-		gbc_lblIntern.insets = new Insets(0, 0, 0, 5);
-		gbc_lblIntern.gridx = 0;
-		gbc_lblIntern.gridy = 0;
-		panAccesi.add(lblIntern, gbc_lblIntern);
+		panAccesi.add(lblIntern, renderObjeto(0, 0, GridBagConstraints.WEST, new int[] { 0, 0, 0, 5 }, -1, -2));
 	    }
 	    {
+		// Crear boton 'Recuperar Contrasena'
 		lblRecuperar = new JLabel("Recuperar Contrase\u00F1a");
 		lblRecuperar.setFont(new Font("SansSerif", Font.ITALIC, 16));
-		GridBagConstraints gbc_lblRecuperar = new GridBagConstraints();
-		gbc_lblRecuperar.anchor = GridBagConstraints.EAST;
-		gbc_lblRecuperar.gridx = 2;
-		gbc_lblRecuperar.gridy = 0;
-		panAccesi.add(lblRecuperar, gbc_lblRecuperar);
+		panAccesi.add(lblRecuperar, renderObjeto(2, 0, GridBagConstraints.EAST, null, -1, -2));
 	    }
 	}
+    }
+
+    /**
+     * Metodo que devuelve un objeto GridBagConstraints. Usado para simplificar codigo.
+     * 
+     * @param x
+     *            (coord. X)
+     * @param y
+     *            (coord. Y)
+     * @param anch
+     *            (anchor, -2 para no usar)
+     * @param insts
+     *            (insets, null para no usar)
+     * @param gridW
+     *            (gridWidth, -1 para no usar)
+     * @param fll
+     *            (fill, -2 para no usar)
+     * @return Devuelve un objeto GridBagConstraints llamado 'gbc_generico'
+     */
+    private GridBagConstraints renderObjeto(int x, int y, int anch, int[] insts, int gridW, int fll) {
+	GridBagConstraints gbc_generico = new GridBagConstraints();
+	gbc_generico.gridx = x;
+	gbc_generico.gridy = y;
+	if (gridW != -1)
+	    gbc_generico.gridwidth = gridW;
+
+	if (fll != -2)
+	    gbc_generico.fill = fll;
+
+	if (anch != -2)
+	    gbc_generico.anchor = anch;// Set anchor, tipo int. Si el valor es -2 no se modifica (valor libre en Constant Field de GBC)
+
+	if (insts != null)
+	    gbc_generico.insets = new Insets(insts[0], insts[1], insts[2], insts[3]);
+
+	return gbc_generico;
     }
 
     private class BtnEntrarActionListener implements ActionListener {
@@ -297,7 +271,6 @@ public class UI_Login extends JFrame {
     }
 
     private class TxtContraKeyListener extends KeyAdapter {
-
 	@Override // Esto es para cuando esta en el area de la contra y pulsa enter
 	public void keyPressed(KeyEvent k) {
 	    if (k.getKeyCode() == 10) {// Si se pulsa intro se simula un click en el boton de entrar
@@ -305,7 +278,6 @@ public class UI_Login extends JFrame {
 		    btnEntrar.doClick();
 		} else {
 		    System.out.println("Login INcorrecta ");
-
 		}
 	    }
 	}
@@ -317,19 +289,8 @@ public class UI_Login extends JFrame {
 	}
     }
 
-    private class LblInternMouseListener extends MouseAdapter {
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-    }
-
     private void initPrincipal() {
 	dispose();
-
 	UI_Principal prin = new UI_Principal(users[userIndex]);
 	prin.frame.setVisible(true);
 	prin.frame.setLocationRelativeTo(null);

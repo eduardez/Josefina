@@ -250,7 +250,8 @@ public class panelUser extends JPanel {
     }
 
     public void setPrecioTot(double p) {
-	lblTotalEU.setText(p + "€");
+	String strPrec = String.format("%.2f", p);
+	lblTotalEU.setText(strPrec + "€");
 	this.precioTotal = p;
     }
 
@@ -272,12 +273,8 @@ public class panelUser extends JPanel {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 	    Agente ag = new Agente();
-	    Usuario[] uwu = ag.leerUsuarios();
-	    for (int i = 0; i < uwu.length; i++) {
-		if (uwu[i].getUser().equalsIgnoreCase(user1.getUser()))
-		    uwu[i].setUltAcc(ut.genFecha());
-	    }
-	    ag.escribirUsuarios(uwu);
+	    user1.setUltAcc(ut.genFecha());
+	    ag.actualizarUsuario(user1);
 	    frame1.dispose();
 	    UI_Login ui = new UI_Login();
 	    ui.setVisible(true);

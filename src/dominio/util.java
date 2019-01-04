@@ -1,4 +1,4 @@
-	package dominio;
+ package dominio;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;

@@ -49,7 +49,7 @@ public class UI_Principal {
     private util ut = new util();
     private JTextArea textArea;
     private JPanel pnlTabla;
-    private JScrollPane scrollPane;
+    Agente ag = new Agente();
 
     public UI_Principal(Usuario us) {
 	user = us;
@@ -204,13 +204,10 @@ public class UI_Principal {
     }
 
     private void anadirPaneles() {
-
 	pnlGest = new JPanel();
 	pnlGest.setBackground(Color.WHITE);
+	pnlProductos.removeAll();// Quitar todos los paneles y volver a meterlos. Es muy basto, pero funciona.
 
-	pnlProductos.add(pnlGest, "Gestión de Pedidos");
-	pnlProductos.setBackground(new Color(255, 255, 255));
-	Agente ag = new Agente();
 	Producto[] prods = ag.leerProducto();
 	// ------------- CARTA ------------------
 	System.out.println("1  " + user.toString());
@@ -226,7 +223,6 @@ public class UI_Principal {
 	pnlProductos.add(generarPanel("postre", prods), "Postres");
 	// ------------- Ofertas ------------------
 	pnlProductos.add(generarPanel("oferta", prods), "Ofertas");
-
     }
 
     private JPanel generarPanel(String categoria, Producto[] prods) {
@@ -255,14 +251,14 @@ public class UI_Principal {
 	}
     }
 
-    // PARA QUE CADA VEZ QUE SE AÑADA UN PRODUCTO Y LUEGO CANE EL FOCUS, DE REPINTE. PERO NO FUNCIONA
+    // PARA QUE CADA VEZ QUE SE AÑADA UN PRODUCTO Y LUEGO GANE EL FOCUS
     private class FrameWindowFocusListener implements WindowFocusListener {
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-
+	    anadirPaneles();
+	    ((CardLayout) pnlProductos.getLayout()).show(pnlProductos, tree.getLastSelectedPathComponent().toString());
 	    pnlProductos.repaint();
 	    pnlProductos.revalidate();
-	    anadirPaneles();
 	}
 
 	@Override

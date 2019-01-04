@@ -1,92 +1,100 @@
 package persistencia;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.Date;
 
-import javax.swing.JOptionPane;
-
+import dominio.Cliente;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
 
 public class Agente {
     private util ut = new util();
+    private final String url = "jdbc:ucanaccess://.//datos.accdb";
 
     public Agente() {
     }
 
+    /**
+     * 
+     * 
+     * --------------------------- PRODUCTOS -------------------------------------
+     * 
+     * 
+     * @return
+     */
     public Producto[] leerProducto() {
 	Producto[] prod;
+
 	try {
-	    System.out.println("Leyendo productos...");
+	    String sql = "SELECT * FROM productos ";
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+	    ResultSet res = stm.executeQuery(sql);
 
-	    File f = new File("productos.txt");
-	    Scanner datos = new Scanner(f);
-	    datos.useDelimiter(",");
 	    ArrayList<Producto> arrProd = new ArrayList<Producto>();
-	    String linea = "";
+	    while (res.next()) {
 
-	    while (datos.hasNext()) {
-		// Lectura por lineas
-		linea = datos.nextLine();
-		StringTokenizer token = new StringTokenizer(linea, "-");
-
-		String cat = token.nextToken();
-		String tipo = token.nextToken();
-		String nombre = token.nextToken();
-		String descr = token.nextToken();
-		String prec = token.nextToken();
-		String alerg = token.nextToken();
+		String cat = res.getString("cat");
+		String tipo = res.getString("tipo");
+		String nombre = res.getString("nombre");
+		String descr = res.getString("descr");
+		String prec = res.getString("prec");
+		String alerg = res.getString("alerg");
 		arrProd.add(new Producto(cat, tipo, nombre, descr, prec, alerg));
 	    }
-	    datos.close();// Cerrar el fichero Auxiliar
-
+	    conn.commit();
+	    stm.close();
+	    conn.close();
 	    prod = arrProd.toArray(new Producto[arrProd.size()]);
-
+	    return prod;
 	} catch (Exception e) {
-	    String respuesta = JOptionPane.showInputDialog("Base de datos no encontrada o dañada.\n¿Crear una nueva?",
-		    "Si/no");
-	    if (respuesta.equalsIgnoreCase("si")) {
-		try {
-		    File f = new File("productos.txt");
-		    BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-		} catch (IOException e1) {
-		}
-	    } else {
-		System.exit(0);
-	    }
-	    System.out.println("Error en la lectura.");
 	    e.printStackTrace();
 	    prod = null;
 	}
-
 	return prod;
     }
 
-    public void escribirProds(Producto[] prod) {
-	BufferedWriter out;
+    public void escribirProds(Producto p) {
 	try {
-	    out = new BufferedWriter(new FileWriter("productos.txt"));
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
 
-	    for (int i = 0; i < prod.length; i++) {
-		out.write(prod[i].getCategoria() + "-");
-		out.write(prod[i].getTipo() + "-");
-		out.write(prod[i].getNombre() + "-");
-		out.write(prod[i].getDescripcion() + "-");
-		out.write(prod[i].getPrecio() + "-");
-		out.write(prod[i].getAlergenos());
-		out.newLine();
-	    }
-	    out.close();
+	    String sql = "INSERT INTO productos VALUES(1,'" + p.getCategoria() + "','" + p.getTipo() + "','"
+		    + p.getNombre() + "','" + p.getDescripcion() + "', '" + p.getPrecio() + "', '" + p.getAlergenos()
+		    + "')";
+	    stm.executeUpdate(sql);
 
-	} catch (IOException e) {
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+    }
+
+    public void elimProds(Producto p) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+	    stm.executeUpdate("DELETE FROM productos WHERE descr='" + p.getDescripcion() + "' ; ");
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public void actualizarProd(Producto p) {
+	elimProds(p);
+	escribirProds(p);
     }
 
     /**
@@ -99,31 +107,28 @@ public class Agente {
      */
     public Usuario[] leerUsuarios() {
 	Usuario[] users;
+
 	try {
-	    System.out.println("Leyendo Usuarios...");
+	    String sql = "SELECT * FROM usuarios ";
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+	    ResultSet res = stm.executeQuery(sql);
 
-	    File f = new File("usuarios.txt");
-	    Scanner datos = new Scanner(f);
-	    datos.useDelimiter(",");
-	    ArrayList<Usuario> arrUsers = new ArrayList<Usuario>();
-	    String linea = "";
+	    ArrayList<Usuario> arrUsers = new ArrayList<>();
+	    while (res.next()) {
 
-	    while (datos.hasNext()) {
-		// Lectura por lineas
-		linea = datos.nextLine();
-		StringTokenizer token = new StringTokenizer(linea, ",");
-		String user = token.nextToken();
-		String pass = token.nextToken();
-		String nom = token.nextToken();
-		String ult = token.nextToken();
+		String user = res.getString("user1");
+		String pass = res.getString("pass");
+		String nom = res.getString("nom");
+		String ult = res.getString("ult");
 		arrUsers.add(new Usuario(user, pass, nom, ult));
 	    }
-	    datos.close();// Cerrar el fichero Auxiliar
+	    conn.commit();
+	    stm.close();
+	    conn.close();
 	    users = arrUsers.toArray(new Usuario[arrUsers.size()]);
-
+	    return users;
 	} catch (Exception e) {
-	    JOptionPane.showMessageDialog(null, "Base de datos no encontrada o dañada.");
-	    System.out.println("Error en la lectura.");
 	    e.printStackTrace();
 	    users = null;
 	}
@@ -131,38 +136,130 @@ public class Agente {
 
     }
 
-    public void EliminarUsuario(Usuario usuario) {
-	Usuario[] users = leerUsuarios();
-	Usuario[] newUser = new Usuario[users.length - 1];
-	int j = 0;
-	for (int i = 0; i < users.length; i++) {
-	    if (!usuario.getUser().equalsIgnoreCase(users[i].getUser())) {
-		newUser[j] = users[i];
-		j++;
-	    }
-	}
-	users = newUser;
-	escribirUsuarios(users);
-    }
-
-    public void escribirUsuarios(Usuario[] usu) {
-	BufferedWriter out;
+    public void EliminarUsuario(Usuario u) {
 	try {
-	    out = new BufferedWriter(new FileWriter("usuarios.txt"));
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
 
-	    for (int i = 0; i < usu.length; i++) {
-		out.write(usu[i].getUser() + ",");
-		out.write(usu[i].getPass() + ",");
-		out.write(usu[i].getNombre() + ",");
-		out.write(usu[i].getUltAcc());
-		out.newLine();
-	    }
-	    out.close();
+	    stm.executeUpdate("DELETE FROM usuarios WHERE user1='" + u.getUser() + "' ; ");
 
-	} catch (IOException e) {
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-
     }
 
+    public void escribirUsuarios(Usuario u) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+
+	    String sql = "INSERT INTO usuarios VALUES(1,'" + u.getUser() + "','" + u.getPass() + "','" + u.getNombre()
+		    + "','" + u.getUltAcc() + "')";
+	    stm.executeUpdate(sql);
+
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public void actualizarUsuario(Usuario u) {
+	EliminarUsuario(u);
+	escribirUsuarios(u);
+    }
+
+    /**
+     * 
+     * 
+     * --------------------------- CLIENTES -------------------------------------
+     * 
+     * 
+     * @return
+     */
+
+    /*
+     * public Cliente[] leerCliente() {
+     * Cliente[] clientes;
+     * 
+     * try {
+     * String sql = "SELECT * FROM clientes ";
+     * Connection conn = DriverManager.getConnection(url);
+     * Statement stm = conn.createStatement();
+     * ResultSet res = stm.executeQuery(sql);
+     * 
+     * ArrayList<Usuario> arrUsers = new ArrayList<>();
+     * while (res.next()) {
+     * 
+     * String user = res.getString("user1");
+     * String pass = res.getString("pass");
+     * String nom = res.getString("nom");
+     * String ult = res.getString("ult");
+     * arrUsers.add(new Usuario(user, pass, nom, ult));
+     * }
+     * conn.commit();
+     * stm.close();
+     * conn.close();
+     * users = arrUsers.toArray(new Usuario[arrUsers.size()]);
+     * return users;
+     * } catch (Exception e) {
+     * e.printStackTrace();
+     * users = null;
+     * }
+     * return users;
+     * 
+     * }
+     * 
+     * 
+     */
+
+
+    public void EliminarCliente(Cliente c) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+
+	    stm.executeUpdate("DELETE FROM clientes WHERE nClien='" + c.getNumCliente() + "' ; ");
+
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public void escribirClientes(Cliente c) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+
+	    Date fech = c.getpCaducidad();
+
+	    @SuppressWarnings("deprecation")
+		Object fechaIni = new java.sql.Timestamp((fech.getYear()), fech.getMonth(), fech.getDate(),
+				0, 0, 0, 0);
+	    
+	    String sql = "INSERT INTO clientes VALUES(1,'" + c.getNombre() + "','" + c.getNumCliente() + "','"
+		    + c.getNumTel() + "','" + c.getCorreo() + "','" + c.getDireccion() + "','" + c.getpActuales()
+		    + "','" + c.getpCanjeados() + "','" + fechaIni + "','" + c.getDescripcion() + "','"
+		    + c.getPedidos() + "','" + c.isVip() + "')";
+	    stm.executeUpdate(sql);
+
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public void actualizarUsuario(Cliente c) {
+	EliminarCliente(c);
+	//escribirCliente(c);
+    }
 }

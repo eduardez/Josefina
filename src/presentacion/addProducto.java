@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -44,7 +46,7 @@ public class addProducto extends JDialog {
     private JTextField txtNombre;
     private JComboBox<String> cmbTipo;
     private JComboBox<String> cmbCat;
-    private String[] categorias = { "menu", "platInd", "bebida", "postre", "oferta" };
+    private final String[] categorias = { "menu", "platInd", "bebida", "postre", "oferta" };
     private JTextArea txtrDesc;
     private JSpinner spPrecio;
     private Agente ag = new Agente();
@@ -52,8 +54,53 @@ public class addProducto extends JDialog {
     private String tipoComida = "";
     private JCheckBox[] alerg = ut.anadirAlerg();
     private JPanel pnlAlerg;
+    private JButton btnBorrar;
+    private JButton okButton;
+    private Producto producAct;
 
     public addProducto() {
+	inicializar();
+    }
+
+    public addProducto(Producto p) {
+	inicializar();
+	producAct = p;
+	editarProd(producAct);
+    }
+
+    private void editarProd(Producto p) {
+	txtNombre.setText(p.getNombre());
+	txtrDesc.setText(p.getDescripcion());
+	String precio = p.getPrecio();
+	spPrecio.setValue(Double.valueOf(precio.substring(0, precio.length() - 1)));
+
+	for (int i = 0; i < categorias.length; i++) {
+	    if (categorias[i].equalsIgnoreCase(p.getCategoria())) {
+		cmbCat.setSelectedIndex(i);
+		break;
+	    }
+	}
+	
+	for (int i = 0; i < cmbTipo.getItemCount(); i++) {
+	    if (cmbTipo.getItemAt(i).toString().equalsIgnoreCase(p.getTipo())) {
+		cmbTipo.setSelectedIndex(i);
+		break;
+	    }
+	}
+
+	StringTokenizer token = new StringTokenizer(p.getAlergenos(), ",");
+	while (token.hasMoreTokens()) {
+	    String al = token.nextToken();
+	    for (int j = 0; j < alerg.length; j++) {
+		if (alerg[j].getText().equals(al))
+		    alerg[j].setEnabled(true);
+	    }
+	}
+	okButton.setText("Modificar");
+	btnBorrar.setVisible(true);
+    }
+
+    private void inicializar() {
 	setModal(true);
 	setTitle("Restaurante la Josefina - A\u00F1adir Producto");
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addProducto.class.getResource("/recursos/logo.png")));
@@ -65,9 +112,9 @@ public class addProducto extends JDialog {
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	GridBagLayout gbl_contentPanel = new GridBagLayout();
-	gbl_contentPanel.columnWidths = new int[] { 0, 0, 133, 97, 0, 0 };
+	gbl_contentPanel.columnWidths = new int[] { 0, 123, 80, 97, 0, 0 };
 	gbl_contentPanel.rowHeights = new int[] { 0, 0, 0, 0, 154, 248, 0, 0, 0 };
-	gbl_contentPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+	gbl_contentPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 	gbl_contentPanel.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	contentPanel.setLayout(gbl_contentPanel);
 	{
@@ -106,7 +153,6 @@ public class addProducto extends JDialog {
 	}
 	{
 	    cmbTipo = new JComboBox();
-	    cmbTipo.addItemListener(new CmbTipoItemListener());
 	    cmbTipo.addActionListener(new CmbTipoActionListener());
 	    cmbTipo.setToolTipText("(Poner el tipo en plural. Ej: Cervezas, Vinos, Carnes...)");
 	    cmbTipo.setFont(new Font("SansSerif", Font.PLAIN, 17));
@@ -209,14 +255,25 @@ public class addProducto extends JDialog {
 	    contentPanel.add(lblLeuro, gbc_lblLeuro);
 	}
 	{
+	    btnBorrar = new JButton("Borrar producto");
+	    btnBorrar.addActionListener(new BtnBorrarActionListener());
+	    btnBorrar.setVisible(false);
+	    btnBorrar.setFont(new Font("SansSerif", Font.PLAIN, 22));
+	    GridBagConstraints gbc_btnBorrar = new GridBagConstraints();
+	    gbc_btnBorrar.insets = new Insets(0, 0, 5, 5);
+	    gbc_btnBorrar.gridx = 3;
+	    gbc_btnBorrar.gridy = 6;
+	    contentPanel.add(btnBorrar, gbc_btnBorrar);
+	}
+	{
 	    JPanel buttonPane = new JPanel();
 	    buttonPane.setBackground(new Color(38, 38, 38));
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
-		JButton okButton = new JButton("A\u00F1adir");
+		okButton = new JButton("A\u00F1adir");
 		okButton.addActionListener(new OkButtonActionListener());
-		okButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		okButton.setFont(new Font("SansSerif", Font.PLAIN, 17));
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
@@ -224,7 +281,7 @@ public class addProducto extends JDialog {
 	    {
 		JButton cancelButton = new JButton("Cancelar");
 		cancelButton.addActionListener(new CancelButtonActionListener());
-		cancelButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		cancelButton.setFont(new Font("SansSerif", Font.PLAIN, 17));
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 	    }
@@ -236,11 +293,6 @@ public class addProducto extends JDialog {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-	    Producto[] oldPr = ag.leerProducto();
-	    Producto[] newPr = new Producto[oldPr.length + 1];
-	    for (int i = 0; i < oldPr.length; i++) {
-		newPr[i] = oldPr[i];
-	    }
 	    // Ver que alergenos han sido seleccionados
 	    String alergenos = "";
 	    for (int i = 0; i < alerg.length; i++)
@@ -249,26 +301,28 @@ public class addProducto extends JDialog {
 
 	    if (alergenos.equalsIgnoreCase(""))
 		alergenos = "Ninguno";
-	    System.out.println(alergenos);
 
 	    // Poner bien el precio
-	    String precioS = String.valueOf(spPrecio.getValue()) + "€";
+	    DecimalFormat dc = new DecimalFormat("0.00");//Para evitar el error de que muestre demasiados decimales
+	    String precioS = String.valueOf(dc.format(spPrecio.getValue())) + "€";
 
 	    // Crear Nuevo producto y añadirlo al array de Productos
 	    Producto newProd = new Producto(categorias[cmbCat.getSelectedIndex()], tipoComida, txtNombre.getText(),
 		    txtrDesc.getText(), precioS, alergenos);
-	    newPr[newPr.length - 1] = newProd;
 
-	    System.out.println(newProd.toString());
-	    
-	    //Si todo esta bien, se añade. Si no, se muestra un popUp de error
-	    if (ut.stringValida(newProd.toString()) && !cmbTipo.getSelectedItem().toString().equalsIgnoreCase("") && !txtNombre.getText().equals("") && !txtrDesc.getText().equals("")) {
-		ag.escribirProds(newPr);
+	    // Si todo esta bien, se añade. Si no, se muestra un popUp de error
+	    if (ut.stringValida(newProd.toString()) && !cmbTipo.getSelectedItem().toString().equalsIgnoreCase("")
+		    && !txtNombre.getText().equals("") && !txtrDesc.getText().equals("")) {
+		if (btnBorrar.isVisible()) {
+		    ag.elimProds(producAct);
+		    ag.escribirProds(newProd);
+		} else {
+		    ag.escribirProds(newProd);
+		}
 		dispose();
 	    } else {
 		JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
 	    }
-
 	}
     }
 
@@ -321,10 +375,10 @@ public class addProducto extends JDialog {
 	}
     }
 
-    private class CmbTipoItemListener implements ItemListener {
-	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-	    repaint();
+    private class BtnBorrarActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+	    ag.elimProds(producAct);
+	    dispose();
 	}
     }
 }

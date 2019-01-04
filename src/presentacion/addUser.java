@@ -172,15 +172,9 @@ public class addUser extends JDialog {
 	public void actionPerformed(ActionEvent e) {
 
 	    Agente ag = new Agente();
-	    Usuario[] oldUs = ag.leerUsuarios();
-	    Usuario[] newUs = new Usuario[oldUs.length + 1];
-	    for (int i = 0; i < oldUs.length; i++) {
-		newUs[i] = oldUs[i];
-	    }
 	    Usuario newUser = new Usuario(txtUser.getText(), txtPass.getText(), txtNom.getText(),
 		    "Era mi primerito dia :D");
-	    newUs[newUs.length - 1] = newUser;
-	    ag.escribirUsuarios(newUs);
+	    ag.escribirUsuarios(newUser);
 	    gestUsuarios gest = new gestUsuarios();
 	    dispose();
 	    gest.setVisible(true);
