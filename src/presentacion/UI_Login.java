@@ -62,13 +62,7 @@ public class UI_Login extends JFrame {
 	setTitle("Restaurante La Josefina - Acceso a Personal");
 	setMaximumSize(new Dimension(1050, 750));
 	setMinimumSize(new Dimension(880, 630));
-	// ---------- CAMBIAR LOOK AND FEEL ----------
-	try {
-	    // Set cross-platform Java L&F (also called "Metal")
-	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
-	} catch (Exception e) {
-	    System.out.println("ERROR en L&F");
-	}
+
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 990, 689);
 	contentPane = new JPanel();

@@ -1,6 +1,8 @@
 package dominio;
 
-import presentacion.UI_Login;
+import javax.swing.UIManager;
+
+import presentacion.splashJosefi;
 
 public class PrincipalJosefina {
 
@@ -8,10 +10,14 @@ public class PrincipalJosefina {
 	System.out.println("Inicio del restaurante...");
 
 	// Cargar datos
-
-	UI_Login log = new UI_Login();
-	log.setVisible(true);
-	log.setLocationRelativeTo(null);
-
+	// ---------- CAMBIAR LOOK AND FEEL ----------
+	try {
+	    // Set cross-platform Java L&F (also called "Metal")
+	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
+	} catch (Exception e) {
+	    System.out.println("ERROR en L&F");
+	}
+	splashJosefi spl = new splashJosefi();
+	spl.setVisible(true);
     }
 }
