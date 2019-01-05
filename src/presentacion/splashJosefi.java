@@ -38,7 +38,7 @@ public class splashJosefi extends JFrame implements Runnable {
 	{
 	    lblGif = new JLabel("");
 	    lblGif.setIcon(new ImageIcon(splashJosefi.class.getResource("/recursos/cargando.gif")));
-	    lblGif.setBounds(403, 225, 89, 89);
+	    lblGif.setBounds(387, 225, 89, 89);
 	    contentPane.add(lblGif);
 	}
 	{
