@@ -22,11 +22,13 @@ public class panelGestionProd extends JPanel {
     private JPanel panel;
     private JButton btnAddProd;
     private JComboBox cmbOrdenar;
+    private String categoria;
 
     /**
      * Create the panel.
      */
-    public panelGestionProd(Usuario user) {
+    public panelGestionProd(Usuario user, String cat) {
+	categoria=cat;
 	setBorder(null);
 	setBackground(new Color(38, 38, 38));
 	setMinimumSize(new Dimension(10, 86));
@@ -43,7 +45,7 @@ public class panelGestionProd extends JPanel {
 	    gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 	    panel.setLayout(gbl_panel);
 	    {
-		btnAddProd = new JButton("Añadir Producto");
+		btnAddProd = new JButton("Añadir " + cat);
 		btnAddProd.setForeground(Color.BLACK);
 		btnAddProd.setBackground(Color.white);
 		btnAddProd.setOpaque(false);
@@ -64,8 +66,13 @@ public class panelGestionProd extends JPanel {
 		cmbOrdenar.setBackground(Color.WHITE);
 		cmbOrdenar.setOpaque(false);
 		cmbOrdenar.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		cmbOrdenar.setModel(new DefaultComboBoxModel(
-			new String[] { "Ordenar productos...", "Precio ascendente", "Precio descendente" }));
+		if (cat.equalsIgnoreCase("Producto")) {
+		    cmbOrdenar.setModel(new DefaultComboBoxModel(
+			    new String[] { "Ordenar productos...", "Precio ascendente", "Precio descendente" }));
+		} else {
+		    cmbOrdenar.setModel(new DefaultComboBoxModel(new String[] { "Ordenar clientes...",
+			    "Puntos ascendente", "Puntos descendente", "VIP primero" }));
+		}
 		GridBagConstraints gbc_cmbOrdenar = new GridBagConstraints();
 		gbc_cmbOrdenar.gridwidth = 2;
 		gbc_cmbOrdenar.insets = new Insets(0, 0, 5, 5);
@@ -82,12 +89,21 @@ public class panelGestionProd extends JPanel {
 	}
 
     }
+
     private class BtnNewButtonActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
+	    if(categoria.equals("Producto")) {
 	    addProducto addPr = new addProducto();
 	    addPr.setVisible(true);
 	    addPr.setLocationRelativeTo(null);
+	    addPr.setAlwaysOnTop(true);
+	    }else {
+		addCliente addCl= new addCliente();
+		addCl.setVisible(true);
+		addCl.setLocationRelativeTo(null);
+		addCl.setAlwaysOnTop(true);
+	    }
 	}
     }
 }

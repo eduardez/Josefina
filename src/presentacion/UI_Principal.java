@@ -27,6 +27,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import dominio.Cliente;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
@@ -207,8 +208,14 @@ public class UI_Principal {
 	pnlGest = new JPanel();
 	pnlGest.setBackground(Color.WHITE);
 	pnlProductos.removeAll();// Quitar todos los paneles y volver a meterlos. Es muy basto, pero funciona.
+	
+	// ------------- CLIENTES ------------------
+	Cliente [] cli=ag.leerCliente();
+	pnlProductos.add(new panelProductos(cli, user, ut),"Listado de Clientes");
 
+	// ------------- PRODUCTOS ------------------
 	Producto[] prods = ag.leerProducto();
+	
 	// ------------- CARTA ------------------
 	System.out.println("1  " + user.toString());
 

@@ -19,6 +19,7 @@ import dominio.util;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class panelProdReut extends JPanel {
     private JLabel lblNombre;
@@ -100,6 +101,7 @@ public class panelProdReut extends JPanel {
 	}
 	{
 	    btnAdd = new JButton("A\u00F1adir al pedido");
+	    btnAdd.setBackground(Color.WHITE);
 	    btnAdd.addActionListener(new BtnAddActionListener());
 	    btnAdd.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_btnAdd = new GridBagConstraints();
@@ -111,6 +113,7 @@ public class panelProdReut extends JPanel {
 	}
 	{
 	    btnEditar = new JButton("Editar");
+	    btnEditar.setBackground(Color.WHITE);
 	    btnEditar.addActionListener(new BtnEditarActionListener());
 	    btnEditar.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_btnEditar = new GridBagConstraints();

@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
@@ -19,6 +21,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import dominio.Cliente;
+import dominio.Producto;
 import persistencia.Agente;
 
 import javax.swing.UIManager;
@@ -33,12 +36,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import java.awt.ComponentOrientation;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.sql.Date;
+import javax.swing.JTextArea;
+import java.awt.Toolkit;
 
 public class addCliente extends JFrame {
 
@@ -67,38 +73,47 @@ public class addCliente extends JFrame {
     private JButton btnCancelar;
     private JPanel pnlPuntos;
     private JCheckBox chckbxVip;
-    private Agente ag=new Agente();
+    private Agente ag = new Agente();
+    private JTextArea txtrAnot;
+    private JButton btnBorrar;
+    private Cliente cl;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-	    public void run() {
-		try {
-		    addCliente frame = new addCliente();
-		    frame.setVisible(true);
-		    try {
-			// Set cross-platform Java L&F (also called "Metal")
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");// O este otro javax.swing.plaf.metal.MetalLookAndFeel
-		    } catch (Exception e) {
-			System.out.println("ERROR en L&F");
-		    }
-
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	});
+    public addCliente() {
+	setIconImage(Toolkit.getDefaultToolkit().getImage(addCliente.class.getResource("/recursos/logo.png")));
+	setTitle("A\u00F1adir Cliente");
+	inicializar();
     }
 
-    /**
-     * Create the frame.
-     */
-    public addCliente() {
+    public addCliente(Cliente c) {
+	cl = c;
+	inicializar();
+	editarCli(c);
+    }
+
+    private void editarCli(Cliente c) {
+	txtNom.setText(c.getNombre());
+	chckbxVip.setSelected(c.isVip());
+	txtNcli.setText(c.getNumCliente());
+	txtNumtel.setText(String.valueOf(c.getNumTel()));
+	txtCorreo.setText(c.getCorreo());
+	txtDireccion.setText(c.getDireccion());
+	txtPuntac.setValue(c.getpActuales());
+	txtPuntca.setValue(c.getpCanjeados());
+	datePicker.getModel().setDate(c.getpCaducidad().getYear() + 1900, c.getpCaducidad().getMonth(),
+		c.getpCaducidad().getDay());
+	datePicker.getJFormattedTextField().setText(c.getpCaducidad().toString());
+	;
+	txtrAnot.setText(c.getDescripcion());
+
+	setTitle("Modificar Cliente");
+	btnAceptar.setText("Modificar");
+	btnBorrar.setVisible(true);
+    }
+
+    private void inicializar() {
 	setResizable(false);
 	setBackground(Color.WHITE);
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	setBounds(100, 100, 617, 628);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -352,6 +367,14 @@ public class addCliente extends JFrame {
 		gbc_pnlAnotaciones.gridx = 1;
 		gbc_pnlAnotaciones.gridy = 9;
 		pnlInfo.add(pnlAnotaciones, gbc_pnlAnotaciones);
+		pnlAnotaciones.setLayout(new BorderLayout(0, 0));
+		{
+		    txtrAnot = new JTextArea();
+		    txtrAnot.setWrapStyleWord(true);
+		    txtrAnot.setLineWrap(true);
+		    txtrAnot.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		    pnlAnotaciones.add(txtrAnot, BorderLayout.CENTER);
+		}
 	    }
 	}
 	{
@@ -359,30 +382,43 @@ public class addCliente extends JFrame {
 	    pnlOpt.setBackground(new Color(38, 38, 38));
 	    contentPane.add(pnlOpt, BorderLayout.SOUTH);
 	    GridBagLayout gbl_pnlOpt = new GridBagLayout();
-	    gbl_pnlOpt.columnWidths = new int[] { 36, 100, 0, 100, 0, 0 };
+	    gbl_pnlOpt.columnWidths = new int[] { 0, 36, 0, 100, 0, 100, 0, 0 };
 	    gbl_pnlOpt.rowHeights = new int[] { 28, 0 };
-	    gbl_pnlOpt.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+	    gbl_pnlOpt.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 	    gbl_pnlOpt.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 	    pnlOpt.setLayout(gbl_pnlOpt);
 	    {
 		btnAceptar = new JButton("A\u00F1adir");
+		btnAceptar.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		btnAceptar.addActionListener(new BtnAceptarActionListener());
+		{
+		    btnBorrar = new JButton("Borrar");
+		    btnBorrar.addActionListener(new BtnBorrarActionListener());
+		    btnBorrar.setVisible(false);
+		    btnBorrar.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		    GridBagConstraints gbc_btnBorrar = new GridBagConstraints();
+		    gbc_btnBorrar.insets = new Insets(0, 0, 0, 5);
+		    gbc_btnBorrar.gridx = 1;
+		    gbc_btnBorrar.gridy = 0;
+		    pnlOpt.add(btnBorrar, gbc_btnBorrar);
+		}
 		btnAceptar.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.fill = GridBagConstraints.BOTH;
 		gbc_btnAceptar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnAceptar.gridx = 1;
+		gbc_btnAceptar.gridx = 3;
 		gbc_btnAceptar.gridy = 0;
 		pnlOpt.add(btnAceptar, gbc_btnAceptar);
 	    }
 	    {
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		btnCancelar.setBackground(Color.WHITE);
 		btnCancelar.addActionListener(new BtnCancelarActionListener());
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCancelar.fill = GridBagConstraints.BOTH;
-		gbc_btnCancelar.gridx = 3;
+		gbc_btnCancelar.gridx = 5;
 		gbc_btnCancelar.gridy = 0;
 		pnlOpt.add(btnCancelar, gbc_btnCancelar);
 	    }
@@ -411,11 +447,10 @@ public class addCliente extends JFrame {
 	c.setpActuales(Integer.valueOf(txtPuntac.getText()));
 	c.setpCanjeados(Integer.valueOf(txtPuntca.getText()));
 	c.setpCaducidad(Date.valueOf(datePicker.getJFormattedTextField().getText()));
-	
-	
-	c.setDescripcion("asdjfhoa");
+	c.setDescripcion(txtrAnot.getText());
+
 	ag.escribirClientes(c);
-	
+
     }
 
     private void calendario() {
@@ -469,8 +504,32 @@ public class addCliente extends JFrame {
 
     private class BtnAceptarActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
-	    anadirCliente();
+	    if (btnAceptar.getText().equalsIgnoreCase("Modificar")) {
+		ag.EliminarCliente(cl);
+		anadirCliente();
+		dispose();
+	    } else {
+		anadirCliente();
+		dispose();
+	    }
 	}
     }
 
+    private class BtnBorrarActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent arg0) {
+	    setAlwaysOnTop(false);
+	    int dialogoBorrar = 0;
+	    dialogoBorrar = JOptionPane.showConfirmDialog(null, "¿Seguro que desea borrar a " + cl.getNombre() + " ?",
+		    "Atención", dialogoBorrar);
+
+	    if (dialogoBorrar == JOptionPane.YES_OPTION) {
+		ag.EliminarCliente(cl);
+		dispose();
+	    } else {
+		setAlwaysOnTop(true);
+
+	    }
+	}
+
+    }
 }

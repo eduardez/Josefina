@@ -182,41 +182,44 @@ public class Agente {
      * @return
      */
 
-    /*
-     * public Cliente[] leerCliente() {
-     * Cliente[] clientes;
-     * 
-     * try {
-     * String sql = "SELECT * FROM clientes ";
-     * Connection conn = DriverManager.getConnection(url);
-     * Statement stm = conn.createStatement();
-     * ResultSet res = stm.executeQuery(sql);
-     * 
-     * ArrayList<Usuario> arrUsers = new ArrayList<>();
-     * while (res.next()) {
-     * 
-     * String user = res.getString("user1");
-     * String pass = res.getString("pass");
-     * String nom = res.getString("nom");
-     * String ult = res.getString("ult");
-     * arrUsers.add(new Usuario(user, pass, nom, ult));
-     * }
-     * conn.commit();
-     * stm.close();
-     * conn.close();
-     * users = arrUsers.toArray(new Usuario[arrUsers.size()]);
-     * return users;
-     * } catch (Exception e) {
-     * e.printStackTrace();
-     * users = null;
-     * }
-     * return users;
-     * 
-     * }
-     * 
-     * 
-     */
+    public Cliente[] leerCliente() {
+	Cliente[] clientes;
 
+	try {
+	    String sql = "SELECT * FROM clientes ";
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+	    ResultSet res = stm.executeQuery(sql);
+
+	    ArrayList<Cliente> arrCli = new ArrayList<>();
+	    while (res.next()) {
+
+		Cliente c = new Cliente();
+		c.setNombre(res.getString("nom"));
+		c.setVip(res.getBoolean("vip"));
+		c.setNumCliente(res.getString("nClien"));
+		c.setNumTel(res.getInt("nTel"));
+		c.setCorreo(res.getString("correo"));
+		c.setDireccion(res.getString("direc"));
+		c.setpActuales(res.getInt("pAct"));
+		c.setpCanjeados(res.getInt("pCan"));
+		c.setpCaducidad(res.getDate("fCad"));
+		c.setDescripcion(res.getString("desc"));
+		
+		arrCli.add(c);
+	    }
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	    clientes = arrCli.toArray(new Cliente[arrCli.size()]);
+	    return clientes;
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    clientes = null;
+	}
+	return clientes;
+
+    }
 
     public void EliminarCliente(Cliente c) {
 	try {
@@ -241,13 +244,12 @@ public class Agente {
 	    Date fech = c.getpCaducidad();
 
 	    @SuppressWarnings("deprecation")
-		Object fechaIni = new java.sql.Timestamp((fech.getYear()), fech.getMonth(), fech.getDate(),
-				0, 0, 0, 0);
-	    
+	    Object fechaIni = new java.sql.Timestamp((fech.getYear()), fech.getMonth(), fech.getDate(), 0, 0, 0, 0);
+
 	    String sql = "INSERT INTO clientes VALUES(1,'" + c.getNombre() + "','" + c.getNumCliente() + "','"
 		    + c.getNumTel() + "','" + c.getCorreo() + "','" + c.getDireccion() + "','" + c.getpActuales()
-		    + "','" + c.getpCanjeados() + "','" + fechaIni + "','" + c.getDescripcion() + "','"
-		    + c.getPedidos() + "','" + c.isVip() + "')";
+		    + "','" + c.getpCanjeados() + "','" + fechaIni + "','" + c.getDescripcion() + "','" + c.getPedidos()
+		    + "','" + c.isVip() + "')";
 	    stm.executeUpdate(sql);
 
 	    conn.commit();
@@ -260,6 +262,6 @@ public class Agente {
 
     public void actualizarUsuario(Cliente c) {
 	EliminarCliente(c);
-	//escribirCliente(c);
+	// escribirCliente(c);
     }
 }
