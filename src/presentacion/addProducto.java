@@ -80,7 +80,7 @@ public class addProducto extends JDialog {
 		break;
 	    }
 	}
-	
+
 	for (int i = 0; i < cmbTipo.getItemCount(); i++) {
 	    if (cmbTipo.getItemAt(i).toString().equalsIgnoreCase(p.getTipo())) {
 		cmbTipo.setSelectedIndex(i);
@@ -131,7 +131,7 @@ public class addProducto extends JDialog {
 	    cmbCat = new JComboBox();
 	    cmbCat.addItemListener(new CmbCatItemListener());
 	    cmbCat.setModel(new DefaultComboBoxModel<String>(
-		    new String[] { "Menú", "Plato Individual", "Bebida", "Postre", "Oferta" }));
+		    new String[] { "MenÃº", "Plato Individual", "Bebida", "Postre", "Oferta" }));
 	    cmbCat.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	    GridBagConstraints gbc_cmbCat = new GridBagConstraints();
 	    gbc_cmbCat.gridwidth = 2;
@@ -220,7 +220,7 @@ public class addProducto extends JDialog {
 
 	    for (int i = 0; i < alerg.length; i++)
 		pnlAlerg.add(alerg[i]);
-	    // Se añaden todos los alergenos al panel
+	    // Se aï¿½aden todos los alergenos al panel
 
 	}
 	{
@@ -303,16 +303,16 @@ public class addProducto extends JDialog {
 		alergenos = "Ninguno";
 
 	    // Poner bien el precio
-	    DecimalFormat dc = new DecimalFormat("0.00");//Para evitar el error de que muestre demasiados decimales
-	    String precioS = String.valueOf(dc.format(spPrecio.getValue())) + "€";
+	    DecimalFormat dc = new DecimalFormat("0.00");// Para evitar el error de que muestre demasiados decimales
+	    String precioS = String.valueOf(dc.format(spPrecio.getValue())) + "â‚¬";
 
-	    // Crear Nuevo producto y añadirlo al array de Productos
+	    // Crear Nuevo producto y aÃ±adirlo al array de Productos
 	    Producto newProd = new Producto(categorias[cmbCat.getSelectedIndex()], tipoComida, txtNombre.getText(),
 		    txtrDesc.getText(), precioS, alergenos);
 
-	    // Si todo esta bien, se añade. Si no, se muestra un popUp de error
-	    if (ut.stringValida(newProd.toString()) && !cmbTipo.getSelectedItem().toString().equalsIgnoreCase("")
-		    && !txtNombre.getText().equals("") && !txtrDesc.getText().equals("")) {
+	    // Si todo esta bien, se aï¿½ade. Si no, se muestra un popUp de error
+	    if (!cmbTipo.getSelectedItem().toString().equalsIgnoreCase("") && !txtNombre.getText().equals("")
+		    && !txtrDesc.getText().equals("")) {
 		if (btnBorrar.isVisible()) {
 		    ag.elimProds(producAct);
 		    ag.escribirProds(newProd);
@@ -362,13 +362,8 @@ public class addProducto extends JDialog {
 	    if (cmbTipo.getSelectedItem().toString().equalsIgnoreCase("+ Nuevo tipo")) {
 
 		tipoComida = JOptionPane.showInputDialog("Introducir tipo nuevo");
-		if (ut.stringValida(tipoComida)) {
-		    actualizarTipos(true, tipoComida);
-		} else {
-		    JOptionPane.showMessageDialog(null, "Error en la entrada. \nNota: No usar guiones ( - )");
-		    dispose();
-		}
-
+		actualizarTipos(true, tipoComida);
+		cmbTipo.setSelectedIndex(cmbTipo.getItemCount()-2);
 	    } else {
 		tipoComida = cmbTipo.getSelectedItem().toString();
 	    }

@@ -30,9 +30,14 @@ import javax.swing.tree.TreeSelectionModel;
 import dominio.Cliente;
 import dominio.Producto;
 import dominio.Usuario;
+import dominio.tablaCellRender;
 import dominio.util;
 import persistencia.Agente;
 import javax.swing.table.DefaultTableModel;
+import java.awt.GridLayout;
+import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UI_Principal {
 
@@ -51,6 +56,9 @@ public class UI_Principal {
     private JTextArea textArea;
     private JPanel pnlTabla;
     Agente ag = new Agente();
+    private JPanel splitPaneTabla;
+    private JButton btnLimpiarPedido;
+    private JButton btnRealizarPedido;
 
     public UI_Principal(Usuario us) {
 	user = us;
@@ -191,9 +199,27 @@ public class UI_Principal {
     }
 
     private void anadirTabla() {
-	String columnas[] = { "Producto", "Tipo", "Precio", "Cantidad" }; // Que se va a poner en cada columna
-	DefaultTableModel modelo_tabla = new DefaultTableModel(columnas, 0);
-	JTable tabla = new JTable(modelo_tabla); // Crear tabla
+	String columnas[] = { "Producto", "Precio", "Cantidad", "" }; // Que se va a poner en cada columna
+	
+	DefaultTableModel modelo_tabla = new DefaultTableModel(columnas, 0) {//Solo se podra editar la 4º columna ya que es donde esta el panel
+	    @Override
+	    public boolean isCellEditable(int row, int column) {
+		if (column < 3) {
+		    return false;
+		} else {
+		    return true;
+		}
+	    }
+	};
+	
+	JTable tabla = new JTable(modelo_tabla);
+	
+	tablaCellRender tabProd = new tablaCellRender("productos",ut);
+	tabla.getColumnModel().getColumn(3).setCellRenderer(tabProd.getRender());//Añadimos un renderer y un editor especial para poder pulsar los botones
+	tabla.getColumnModel().getColumn(3).setCellEditor(tabProd.getEditor());
+	
+	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	tabla.setOpaque(false);
 	tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	tabla.setFont(new Font("SansSerif", Font.PLAIN, 17));
 	JScrollPane scrollpan = new JScrollPane(tabla);
@@ -201,6 +227,21 @@ public class UI_Principal {
 	pnlTabla.add(scrollpan);
 	pnlTabla.add(tabla.getTableHeader(), BorderLayout.NORTH);
 	ut.setTabla(tabla);
+	{
+	    splitPaneTabla = new JPanel();
+	    splitPaneTabla.setOpaque(false);
+	    pnlTabla.add(splitPaneTabla, BorderLayout.SOUTH);
+	    splitPaneTabla.setLayout(new GridLayout(1, 0, 0, 0));
+	    {
+		btnLimpiarPedido = new JButton("Limpiar Pedido");
+		splitPaneTabla.add(btnLimpiarPedido);
+	    }
+	    {
+		btnRealizarPedido = new JButton("Realizar Pedido");
+		btnRealizarPedido.addActionListener(new BtnRealizarPedidoActionListener());
+		splitPaneTabla.add(btnRealizarPedido);
+	    }
+	}
 	ut.setPnlUser(panUser);
     }
 
@@ -208,14 +249,14 @@ public class UI_Principal {
 	pnlGest = new JPanel();
 	pnlGest.setBackground(Color.WHITE);
 	pnlProductos.removeAll();// Quitar todos los paneles y volver a meterlos. Es muy basto, pero funciona.
-	
+
 	// ------------- CLIENTES ------------------
-	Cliente [] cli=ag.leerCliente();
-	pnlProductos.add(new panelProductos(cli, user, ut),"Listado de Clientes");
+	Cliente[] cli = ag.leerCliente();
+	pnlProductos.add(new panelProductos(cli, user, ut), "Listado de Clientes");
 
 	// ------------- PRODUCTOS ------------------
 	Producto[] prods = ag.leerProducto();
-	
+
 	// ------------- CARTA ------------------
 	System.out.println("1  " + user.toString());
 
@@ -273,6 +314,11 @@ public class UI_Principal {
 
 	}
 
+    }
+    private class BtnRealizarPedidoActionListener implements ActionListener {
+    	public void actionPerformed(ActionEvent arg0) {
+    	    ut.guardarPedido();
+    	}
     }
 
 }

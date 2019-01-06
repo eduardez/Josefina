@@ -1,6 +1,5 @@
 package dominio;
 
-import java.text.DecimalFormat;
 
 public class Producto {
     private String categoria;

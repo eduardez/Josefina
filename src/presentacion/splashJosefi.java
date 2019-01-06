@@ -1,7 +1,5 @@
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -54,7 +52,7 @@ public class splashJosefi extends JFrame implements Runnable {
 	try {
 	    File f = new File("datos.accdb");
 	    //Pasan 5 segundos y se inicia el login
-	    Thread.sleep(4300);
+	    Thread.sleep(3300);
 	    //Comprobar si existe una base de datos
 	    
 	    if(f.exists()) {
