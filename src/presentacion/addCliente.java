@@ -77,6 +77,7 @@ public class addCliente extends JFrame {
     private JTextArea txtrAnot;
     private JButton btnBorrar;
     private Cliente cl;
+    private boolean VolverElecc = false;
 
     public addCliente() {
 	setIconImage(Toolkit.getDefaultToolkit().getImage(addCliente.class.getResource("/recursos/logo.png")));
@@ -499,6 +500,10 @@ public class addCliente extends JFrame {
     private class BtnCancelarActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 	    dispose();
+	    if (VolverElecc) {
+		elegirCliente eleg = new elegirCliente(null);
+		eleg.setVisible(true);
+	    }
 	}
     }
 
@@ -511,6 +516,10 @@ public class addCliente extends JFrame {
 	    } else {
 		anadirCliente();
 		dispose();
+		if (VolverElecc) {
+		    elegirCliente eleg = new elegirCliente(null);
+		    eleg.setVisible(true);
+		}
 	    }
 	}
     }
@@ -531,5 +540,9 @@ public class addCliente extends JFrame {
 	    }
 	}
 
+    }
+
+    public void setVolverElecc(boolean b) {
+	VolverElecc=true;
     }
 }

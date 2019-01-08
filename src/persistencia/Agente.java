@@ -1,5 +1,13 @@
 package persistencia;
 
+/**
+ * 
+ * A ver, se que lo de crear un ArrayList con los diferentes objetos y luego pasarlo a 
+ * array normal es increiblemente estupido, por lo de poder usar 
+ * streams y tal, pero pfffffftttt es un agente reutilizado de el año pasado
+ * 
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,12 +18,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import dominio.Cliente;
+import dominio.Pedido;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.util;
 
 public class Agente {
-    private util ut = new util();
     private final String url = "jdbc:ucanaccess://.//datos.accdb";
 
     public Agente() {
@@ -114,7 +122,7 @@ public class Agente {
 	    Statement stm = conn.createStatement();
 	    ResultSet res = stm.executeQuery(sql);
 
-	    ArrayList<Usuario> arrUsers = new ArrayList<>();
+	    ArrayList<Usuario> arrUsers = new ArrayList<Usuario>();
 	    while (res.next()) {
 
 		String user = res.getString("user1");
@@ -191,7 +199,7 @@ public class Agente {
 	    Statement stm = conn.createStatement();
 	    ResultSet res = stm.executeQuery(sql);
 
-	    ArrayList<Cliente> arrCli = new ArrayList<>();
+	    ArrayList<Cliente> arrCli = new ArrayList<Cliente>();
 	    while (res.next()) {
 
 		Cliente c = new Cliente();
@@ -205,7 +213,7 @@ public class Agente {
 		c.setpCanjeados(res.getInt("pCan"));
 		c.setpCaducidad(res.getDate("fCad"));
 		c.setDescripcion(res.getString("desc"));
-		
+
 		arrCli.add(c);
 	    }
 	    conn.commit();
@@ -263,5 +271,81 @@ public class Agente {
     public void actualizarUsuario(Cliente c) {
 	EliminarCliente(c);
 	// escribirCliente(c);
+    }
+
+    /**
+     * 
+     * 
+     * --------------------------- PEDIDOS -------------------------------------
+     * 
+     * @param ped
+     * 
+     * 
+     * @return
+     */
+    public void escribirPedido(Pedido p) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+
+	    String sql = "INSERT INTO pedidos VALUES(1,'" + p.getnClient() + "','" + p.getnPedido() + "','"
+		    + p.getProductos() + "','" + p.getTotal().toString() + "','" + p.getTipo() + "','" + p.getEstado()
+		    + "')";
+	    stm.executeUpdate(sql);
+
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public void eliminarPedido(Pedido p) {
+	try {
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+
+	    stm.executeUpdate("DELETE FROM pedidos WHERE numPed='" + p.getnPedido() + "' ; ");
+
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public Pedido[] leerPedidos() {
+	Pedido[] pedidos;
+
+	try {
+	    String sql = "SELECT * FROM pedidos ";
+	    Connection conn = DriverManager.getConnection(url);
+	    Statement stm = conn.createStatement();
+	    ResultSet res = stm.executeQuery(sql);
+
+	    ArrayList<Pedido> arrPed = new ArrayList<Pedido>();
+	    while (res.next()) {
+
+		Pedido p = new Pedido();
+		p.setnClient(res.getString("clien"));
+		p.setnPedido(res.getString("numPed"));
+		p.setProductos(res.getString("productos"));
+		p.setTotal(res.getDouble("total"));
+		p.setTipo(res.getString("tipoPed"));
+		p.setEstado(res.getString("estado"));
+
+		arrPed.add(p);
+	    }
+	    conn.commit();
+	    stm.close();
+	    conn.close();
+	    pedidos = arrPed.toArray(new Pedido[arrPed.size()]);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    pedidos = null;
+	}
+	return pedidos;
     }
 }

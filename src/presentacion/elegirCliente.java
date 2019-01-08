@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import dominio.Cliente;
+import dominio.util;
+import javafx.scene.control.ComboBox;
 import persistencia.Agente;
 
 import javax.swing.JList;
@@ -22,7 +24,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
+/**
+ * Bugs conocidos:
+ * Si se le da a nuevo cliente, luego de que
+ * se cree el cliente y se vuelva a abrir este dialog, no se podran obtener
+ * la lista de pedido ya que, como despues de crear el cliente, abrimos este dialog con un
+ * util=null, ese objeto no tene la jtable necesaria y es como si no hubiese elementos.
+ * Bueno es que en verdad no los hay.
+
+ * 
+ * @author Eduardez
+ *
+ */
 public class elegirCliente extends JDialog {
 
     private final JPanel contentPanel = new JPanel();
@@ -31,28 +47,21 @@ public class elegirCliente extends JDialog {
     private Cliente cli;
     private JList lstClientes;
     private JButton okButton;
-    private JScrollPane scrollPane;
+    private boolean cancelado;
+    private util ut;
+    private String [] tipPedidos= {"domicilio", "recoger", "mesa"};
+    private JComboBox cmbTipos;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-	try {
-	    elegirCliente dialog = new elegirCliente();
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	    dialog.setVisible(true);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
-
-    public elegirCliente() {
+    public elegirCliente(util ut1) {
+	ut = ut1;
 	ag = new Agente();
 	clientes = ag.leerCliente();
 	inicializar();
     }
 
     private void inicializar() {
+	setLocationRelativeTo(null);
+	this.cancelado = true;
 	setResizable(false);
 	getContentPane().setBackground(new Color(38, 38, 38));
 	setBackground(Color.WHITE);
@@ -69,13 +78,26 @@ public class elegirCliente extends JDialog {
 	getContentPane().add(contentPanel, BorderLayout.CENTER);
 	contentPanel.setLayout(new BorderLayout(0, 0));
 	{
-	    scrollPane = new JScrollPane();
+	    JScrollPane scrollPane = new JScrollPane();
 	    scrollPane.setOpaque(false);
 	    contentPanel.add(scrollPane, BorderLayout.CENTER);
 	    {
+		lstClientes = new JList();
 		updateList();
-		
+		lstClientes.setSelectedIndex(0);
+		lstClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lstClientes.setFont(new Font("SansSerif", Font.BOLD, 20));
+		lstClientes.setBackground(new Color(0, 180, 188));
+		scrollPane.setViewportView(lstClientes);
 	    }
+	}
+	{
+		cmbTipos = new JComboBox();
+		cmbTipos.setModel(new DefaultComboBoxModel(new String[] { "Pedido a domicilio", "Recogida en local", "Servir en mesa"}));
+		cmbTipos.setToolTipText("Seleccionar el tipo de pedido que se quiere realizar");
+		cmbTipos.setSelectedIndex(0);
+		cmbTipos.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		contentPanel.add(cmbTipos, BorderLayout.SOUTH);
 	}
 	{
 	    JPanel buttonPane = new JPanel();
@@ -83,21 +105,13 @@ public class elegirCliente extends JDialog {
 	    buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    getContentPane().add(buttonPane, BorderLayout.SOUTH);
 	    {
-		okButton = new JButton("Seleccionar Cliente");
+		okButton = new JButton("Completar pedido");
 		okButton.setFont(new Font("SansSerif", Font.PLAIN, 17));
 		okButton.setBackground(Color.WHITE);
 		okButton.addActionListener(new OkButtonActionListener());
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		{
-		    JButton btnNuevoCliente = new JButton("Nuevo Cliente");
-		    btnNuevoCliente.addActionListener(new BtnNuevoClienteActionListener());
-		    btnNuevoCliente.setBackground(Color.WHITE);
-		    btnNuevoCliente.setEnabled(true);
-		    btnNuevoCliente.setFont(new Font("SansSerif", Font.PLAIN, 17));
-		    buttonPane.add(btnNuevoCliente);
-		}
 	    }
 	    {
 		JButton cancelButton = new JButton("Cancelar");
@@ -117,44 +131,25 @@ public class elegirCliente extends JDialog {
 	    clients[i] = clientes[i].getNombre() + " | NºCliente: " + clientes[i].getNumCliente();
 	}
 	lstClientes = new JList(clients);
-	
-	lstClientes.setSelectedIndex(0);
-	lstClientes.addListSelectionListener(new LstClientesListSelectionListener());
-	lstClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	lstClientes.setFont(new Font("SansSerif", Font.BOLD, 20));
-	lstClientes.setBackground(new Color(0, 180, 188));
-	
-	scrollPane.setViewportView(lstClientes);
-	
 	repaint();
-	revalidate();
+    }
+
+    public boolean isCancelado() {
+	return this.cancelado;
     }
 
     private class OkButtonActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    lstClientes.getSelectedIndex();
-
-	}
-    }
-
-    private class LstClientesListSelectionListener implements ListSelectionListener {
-	public void valueChanged(ListSelectionEvent arg0) {
-	    cli = clientes[lstClientes.getSelectedIndex()];
+	    ut.setCliente(clientes[lstClientes.getSelectedIndex()]);
+	    ut.setTipoPedido(tipPedidos[cmbTipos.getSelectedIndex()]);
+	    ut.guardarPedido();
+	    dispose();
 	}
     }
 
     private class CancelButtonActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    dispose();
-	}
-    }
-
-    private class BtnNuevoClienteActionListener implements ActionListener {
-	public void actionPerformed(ActionEvent e) {
-	    addCliente add = new addCliente();
-	    add.setVisible(true);
-	    updateList();
-
 	}
     }
 }

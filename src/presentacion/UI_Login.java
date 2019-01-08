@@ -17,8 +17,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
@@ -89,6 +91,7 @@ public class UI_Login extends JFrame {
 	    {
 		lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(UI_Login.class.getResource("/recursos/logo.png")));
+		lblLogo.addMouseListener(new lblMouseListener());
 		panIcon.add(lblLogo, renderObjeto(0, 0, GridBagConstraints.SOUTH, new int[] { 0, 0, 5, 0 }, -1, -2));
 
 	    }
@@ -201,6 +204,15 @@ public class UI_Login extends JFrame {
 		lblRecuperar.setFont(new Font("SansSerif", Font.ITALIC, 16));
 		panAccesi.add(lblRecuperar, renderObjeto(2, 0, GridBagConstraints.EAST, null, -1, -2));
 	    }
+	}
+    }
+
+    private class lblMouseListener extends MouseAdapter {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+	    // Mostrar copirigth
+	    JOptionPane.showMessageDialog(null, "Eduardo Garcia Aparicio \nAna Valero Monedero", "Programadores",
+		    JOptionPane.WARNING_MESSAGE);
 	}
     }
 

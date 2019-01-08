@@ -9,14 +9,21 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
 public class tablaCellRender {
     private prodsCellRender render;
     private ButtonEditor btnEditor;
+    //private estadoEditor listEditor;
     private util ut;
     private int fila;
+    private String[] estados = { "En preparacion", "Preparado", "Completado" };
+    private Pedido ped;
 
     public prodsCellRender getRender() {
 	return render;
@@ -26,8 +33,14 @@ public class tablaCellRender {
 	return btnEditor;
     }
 
-    public tablaCellRender(String tipo, util uti) {
+    /*
+     * public estadoEditor getEditorList() {
+     * return listEditor;
+     * }
+     */
+    public tablaCellRender(String tipo, util uti, Pedido p) {
 	this.ut = uti;
+	this.ped = p;
 	if (tipo.equalsIgnoreCase("productos")) {
 	    initProd();
 	} else {
@@ -58,7 +71,7 @@ public class tablaCellRender {
 		setForeground(table.getForeground());
 		setBackground(Color.WHITE);
 	    }
-	    setText((value == null) ? "" : value.toString());
+	    setText((value == null) ? "Borrar" : value.toString());
 	    return this;
 
 	}
@@ -125,5 +138,4 @@ public class tablaCellRender {
     public int getRow() {
 	return fila;
     }
-
 }

@@ -1,6 +1,7 @@
 package dominio;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -16,21 +17,46 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Locale.Category;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
+import persistencia.Agente;
 import presentacion.*;
 
 public class util {
     private String[] dias = { "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab" };
     private JTable tabla;
     private panelUser pnlUser;
+    private Cliente client;
+    private String tipoPed;
+    private Agente ag = new Agente();
+    private String[] estados = { "En preparacion", "completado", "entregado" };
+    private JTextArea debugArea;
 
     public util() {
+    }
+
+    public void setDebugArea(JTextArea db) {
+	this.debugArea = db;
+    }
+
+    public void printText(String cadena) {
+	if (this.debugArea != null) {
+	    this.debugArea.append("\n" + cadena);
+	}
     }
 
     /**
@@ -198,6 +224,7 @@ public class util {
 	    model.addRow(new Object[] { prod.getNombre(), prod.getPrecio(), "1" });
 	    model.addRow(new Object[] { "", "Total: ", String.format("%.2f", total) + "€", null });// añadir y actualizar precio total
 	}
+	printText(prod.getNombre() + " añadido al pedido");
 
     }
 
@@ -213,15 +240,16 @@ public class util {
 	}
 
 	this.pnlUser.setNumProd(this.pnlUser.getNumProd() - 1);
+
 	if (this.pnlUser.getNumProd() == 0) {
 	    this.pnlUser.setPrecioTot(0);
-	    tabla.setValueAt(0, model.getRowCount() - 1, 2);
+	    tabla.setValueAt(String.format("%.2f", 0.00) + "€", model.getRowCount() - 1, 2);
 	} else {
 	    this.pnlUser.setPrecioTot(nuevoTotal);
-	    tabla.setValueAt(nuevoTotal, model.getRowCount() - 1, 2);
+	    tabla.setValueAt(String.format("%.2f", nuevoTotal) + "€", model.getRowCount() - 1, 2);
 	}
+	  printText("Borrada una unidad del producto");
 	reajustarTabla();
-
     }
 
     /**
@@ -268,14 +296,166 @@ public class util {
 	    tabla.setRowHeight(fila, tamFila);
 	}
     }
+
+    public void limpiarTabla() {
+	if (tabla.getRowCount() > 0) {
+	    ((DefaultTableModel) tabla.getModel()).setNumRows(1);
+	    this.pnlUser.setNumProd(0);
+	    this.pnlUser.setPrecioTot(0);
+	    tabla.setValueAt(String.format("%.2f", 0.00) + "€", 0, 2);
+	    tabla.setValueAt("Total: ", 0, 1);
+	    tabla.setValueAt("", 0, 0);
+	    printText("Lista de productos limpiada");
+	}
+    }
+
     /**
-     * 
+     * Metodos para guardar el pedido
      * 
      */
-    public void guardarPedido() {
-	elegirCliente eleg=new elegirCliente();
+    public void elegCliente() {
+	elegirCliente eleg = new elegirCliente(this);
 	eleg.setVisible(true);
-	
+	printText("Pedido realizado por el cliente '" + this.client.getNombre() + "'");
+
+    }
+
+    public void guardarPedido() {
+	if (pnlUser.getPrecioTot() > 0) {
+	    String client = this.client.getNombre();
+	    String allProductos = genProds();
+	    double total = pnlUser.getPrecioTot();
+	    String tipo = this.tipoPed;
+	    Pedido ped = new Pedido(client, allProductos, total, tipo);
+	    Agente ag = new Agente();
+	    ag.escribirPedido(ped);
+	    limpiarTabla();
+	    printText("Guardado pedido numero: " + ped.getnPedido());
+	}
+
+    }
+
+    /**
+     * Genera un string con todos los productos elegidos y su cantidad
+     * 
+     * @return
+     */
+    private String genProds() {
+	String pro = "";
+	int filas = tabla.getRowCount() - 1;
+	for (int i = 0; i < filas; i++) {
+	    pro += tabla.getValueAt(i, 0) + "x" + tabla.getValueAt(i, 2) + "-";
+	}
+	return pro;
+    }
+
+    public void setTipoPedido(String tipo) {
+	this.tipoPed = tipo;
+
+    }
+
+    public void setCliente(Cliente cliente) {
+	this.client = cliente;
+    }
+
+    /**
+     * 
+     * Metodos para mostrar todos los pedidos en las tablas de la pestaña de gestion de pedidos
+     * 
+     */
+
+    public JTable generarTabla(String tipo) {
+
+	JTable tabla = crearModelo(tipo);
+	((DefaultTableModel) tabla.getModel()).removeRow(0);
+	ponerPedidos(tabla, leerPedTipo(tipo));
+
+	return tabla;
+    }
+
+    private void ponerPedidos(JTable tab, Pedido[] pedis) {
+	Cliente[] cli = ag.leerCliente();
+	boolean caliente, pagado;
+	ponerColEstado(tab, tab.getColumnModel().getColumn(9));// Generar la columna de JComboBox de estados
+	for (int i = 0; i < cli.length; i++) {
+	    for (int j = 0; j < pedis.length; j++) {
+
+		if (pedis[j].getnClient().equals(cli[i].getNombre())) {
+
+		    int hora = (int) ((Math.random() * 24));
+		    int aleat = (int) ((Math.random() * 50) + 1);
+		    if (aleat > 25) {
+			caliente = false;
+			pagado = false;
+
+		    } else {
+			caliente = true;
+			pagado = true;
+		    }
+		    String horaAleat = hora + ":" + aleat + " - " + hora + ":" + (aleat + 10);
+		    ((DefaultTableModel) tab.getModel())
+			    .addRow(new Object[] { pedis[j].getnPedido(), cli[i].getDireccion(), cli[i].getNombre(),
+				    pedis[j].getProductos(), String.format("%.2f", pedis[j].getTotal()) + "€",
+				    horaAleat, caliente, cli[i].isVip(), pagado, pedis[j].getEstado() });
+		}
+	    }
+	}
+	ponerColEstado(tab, tab.getColumnModel().getColumn(9));// Generar la columna de JComboBox de estados
+	printText("Añadiendo tablas de pedidos...");
+    }
+
+    private void ponerColEstado(JTable table, TableColumn col) {
+	// Editor
+	JComboBox comboBox = new JComboBox(estados);
+	col.setCellEditor(new DefaultCellEditor(comboBox));
+
+	// tooltip
+	DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+	renderer.setToolTipText("Seleccionar estado del pedido");
+	col.setCellRenderer(renderer);
+
+	// seleccionar estado
+
+    }
+
+    private JTable crearModelo(String tipo) {
+	JTable modelo = new JTable();
+	modelo.setModel(new DefaultTableModel(
+		new Object[][] { { null, null, null, null, null, null, null, null, null, null }, },
+		new String[] { "NºPedido", "Direccion", "Cliente", "Pedido", "Total", "Hora de Entrega", "Caliente",
+			"VIP", "Pagado", "Estado" }) {
+	    Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
+		    String.class, Boolean.class, Boolean.class, Boolean.class, Component.class };
+
+	    public Class getColumnClass(int columnIndex) {
+		return columnTypes[columnIndex];
+	    }
+	});
+
+	modelo.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+	modelo.setFont(new Font("SansSerif", Font.PLAIN, 15));
+	modelo.setSurrendersFocusOnKeystroke(false);
+	modelo.setShowVerticalLines(true);
+	modelo.setShowHorizontalLines(true);
+	modelo.setRowSelectionAllowed(true);
+	modelo.setEnabled(true);
+	modelo.setFillsViewportHeight(false);
+	modelo.setColumnSelectionAllowed(false);
+	modelo.setCellSelectionEnabled(false);
+	modelo.setRowHeight(28);
+
+	return modelo;
+    }
+
+    private Pedido[] leerPedTipo(String tipoPed) {
+	Pedido[] peds = ag.leerPedidos();
+	ArrayList<Pedido> arrPeds = new ArrayList<Pedido>();
+	for (int i = 0; i < peds.length; i++) {
+	    if (peds[i].getTipo().equalsIgnoreCase(tipoPed)) {
+		arrPeds.add(peds[i]);
+	    }
+	}
+	return arrPeds.toArray(new Pedido[arrPeds.size()]);
     }
 
 }

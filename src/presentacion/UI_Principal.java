@@ -28,6 +28,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import dominio.Cliente;
+import dominio.Pedido;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.tablaCellRender;
@@ -38,6 +39,7 @@ import java.awt.GridLayout;
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class UI_Principal {
 
@@ -163,7 +165,7 @@ public class UI_Principal {
 			pnlComida.add(pnlInfo, gbc_pnlInfo);
 			GridBagLayout gbl_pnlInfo = new GridBagLayout();
 			gbl_pnlInfo.columnWidths = new int[] { 0, 0 };
-			gbl_pnlInfo.rowHeights = new int[] { 373, 386, 0 };
+			gbl_pnlInfo.rowHeights = new int[] { 373, 387, 0 };
 			gbl_pnlInfo.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 			gbl_pnlInfo.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 			pnlInfo.setBackground(new Color(255, 255, 255));
@@ -179,18 +181,25 @@ public class UI_Principal {
 			    pnlInfo.add(pnlTabla, gbc_pnlTabla);
 			    pnlTabla.setLayout(new BorderLayout(0, 0));
 
-			    // Añadir tabla ----------
-			    anadirTabla();
 			}
 			{
 			    textArea = new JTextArea();
-			    textArea.setText("info");
+			    textArea.setLineWrap(true);
+			    ut.setDebugArea(textArea);
+			    JScrollPane scrollArea = new JScrollPane(textArea);
+			    scrollArea.setMaximumSize(new Dimension(32767, 389));
+			    scrollArea.setPreferredSize(new Dimension(106, 389));
+			    scrollArea.setOpaque(false);
+			    scrollArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
 			    GridBagConstraints gbc_textArea = new GridBagConstraints();
 			    gbc_textArea.fill = GridBagConstraints.BOTH;
 			    gbc_textArea.gridx = 0;
 			    gbc_textArea.gridy = 1;
-			    pnlInfo.add(textArea, gbc_textArea);
+			    pnlInfo.add(scrollArea, gbc_textArea);
 			}
+			// Añadir tabla ----------
+			anadirTabla();
 		    }
 		}
 	    }
@@ -200,8 +209,8 @@ public class UI_Principal {
 
     private void anadirTabla() {
 	String columnas[] = { "Producto", "Precio", "Cantidad", "" }; // Que se va a poner en cada columna
-	
-	DefaultTableModel modelo_tabla = new DefaultTableModel(columnas, 0) {//Solo se podra editar la 4º columna ya que es donde esta el panel
+
+	DefaultTableModel modelo_tabla = new DefaultTableModel(columnas, 0) {// Solo se podra editar la 4º columna ya que es donde esta el panel
 	    @Override
 	    public boolean isCellEditable(int row, int column) {
 		if (column < 3) {
@@ -211,13 +220,13 @@ public class UI_Principal {
 		}
 	    }
 	};
-	
+
 	JTable tabla = new JTable(modelo_tabla);
-	
-	tablaCellRender tabProd = new tablaCellRender("productos",ut);
-	tabla.getColumnModel().getColumn(3).setCellRenderer(tabProd.getRender());//Añadimos un renderer y un editor especial para poder pulsar los botones
+
+	tablaCellRender tabProd = new tablaCellRender("productos", ut, null);
+	tabla.getColumnModel().getColumn(3).setCellRenderer(tabProd.getRender());// Añadimos un renderer y un editor especial para poder pulsar los botones
 	tabla.getColumnModel().getColumn(3).setCellEditor(tabProd.getEditor());
-	
+
 	tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	tabla.setOpaque(false);
 	tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -234,6 +243,7 @@ public class UI_Principal {
 	    splitPaneTabla.setLayout(new GridLayout(1, 0, 0, 0));
 	    {
 		btnLimpiarPedido = new JButton("Limpiar Pedido");
+		btnLimpiarPedido.addActionListener(new BtnLimpiarPedidoActionListener());
 		splitPaneTabla.add(btnLimpiarPedido);
 	    }
 	    {
@@ -249,6 +259,10 @@ public class UI_Principal {
 	pnlGest = new JPanel();
 	pnlGest.setBackground(Color.WHITE);
 	pnlProductos.removeAll();// Quitar todos los paneles y volver a meterlos. Es muy basto, pero funciona.
+
+	// ------------- CLIENTES ------------------
+	Pedido[] ped = ag.leerPedidos();
+	pnlProductos.add(new gestPedidos(), "Gestión de Pedidos");
 
 	// ------------- CLIENTES ------------------
 	Cliente[] cli = ag.leerCliente();
@@ -315,10 +329,17 @@ public class UI_Principal {
 	}
 
     }
+
     private class BtnRealizarPedidoActionListener implements ActionListener {
-    	public void actionPerformed(ActionEvent arg0) {
-    	    ut.guardarPedido();
-    	}
+	public void actionPerformed(ActionEvent arg0) {
+	    ut.elegCliente();
+	}
+    }
+
+    private class BtnLimpiarPedidoActionListener implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+	    ut.limpiarTabla();
+	}
     }
 
 }
