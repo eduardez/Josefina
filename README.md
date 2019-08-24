@@ -1,7 +1,7 @@
 <center>
 <p> 
   <img src="https://raw.githubusercontent.com/eduardez/Josefina/master/screenshots/logo.png" alt="La Josefina en su esplendor" height="250" width="250">
-  <h1>El Restaurande de la Josefina</h1>
+  <h1>El Restaurante de la Josefina</h1>
 </p>
 </center>
 
