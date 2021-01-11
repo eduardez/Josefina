@@ -12,15 +12,8 @@ ______
 
 ### Trabajando con Josefina
 
-Para empezar a trabajar bla bla bla
-
-### Requisitos Previos
-
-install blah blah blah
-
-### Instalacion
-
-pues eso blah blah blah
+USER: admin
+PASS: admin
 
 ### Screenshots
 
